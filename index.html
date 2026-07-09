@@ -2,152 +2,466 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تست مسابقه Z.ROOYAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏆 مسابقه ادیت Z.ROOYAL</title>
+
+    <!-- ===== کتابخانه Neon ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@neondatabase/serverless@0.10.3/index.min.js">
+    </script>
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0a0a0a;
-            color: #fff;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             direction: rtl;
         }
-        .box {
-            background: #1a1a1a;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 450px;
+
+        .container {
+            max-width: 500px;
             width: 100%;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 30px;
+            padding: 30px 20px;
             border: 2px solid #d4af37;
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.08);
+        }
+
+        .logo {
             text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding-bottom: 20px;
         }
-        .gold {
+
+        .logo img {
+            max-width: 130px;
+            border-radius: 20px;
+            border: 2px solid #d4af37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .logo h1 {
             color: #d4af37;
+            font-size: 24px;
+            margin-top: 12px;
+            letter-spacing: 1px;
+            font-weight: 900;
         }
+
+        .logo h1 span {
+            color: #ffffff;
+        }
+
+        .logo p {
+            color: #888;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .logo .sub {
+            color: #666;
+            font-size: 12px;
+            margin-top: 8px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            padding-top: 10px;
+        }
+
+        .logo .sub .maker {
+            color: #d4af37;
+            font-weight: 700;
+        }
+
         .btn {
-            background: linear-gradient(135deg, #d4af37, #b8860b);
-            color: #0a0a0a;
+            width: 100%;
+            padding: 16px;
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
+            border-radius: 60px;
             font-size: 18px;
             font-weight: 900;
             cursor: pointer;
-            width: 100%;
-            margin: 10px 0;
+            transition: all 0.2s ease;
             touch-action: manipulation;
+            margin: 8px 0;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #0a0a0a;
+            letter-spacing: 0.5px;
         }
+
         .btn:active {
             transform: scale(0.95);
         }
-        .log {
-            background: #111;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #0f0;
-            text-align: left;
-            max-height: 250px;
-            overflow-y: auto;
-            border: 1px solid #333;
+
+        .btn:disabled {
+            opacity: 0.4;
+            transform: none !important;
+            cursor: not-allowed;
         }
-        .log div {
-            padding: 4px 0;
-            border-bottom: 1px solid #222;
-        }
-        .red {
-            color: #ff4444;
-        }
-        .orange {
-            color: #ffaa00;
-        }
-        .hidden {
-            display: none;
-        }
-        .input-group {
-            margin-bottom: 15px;
-            text-align: right;
-        }
-        .input-group label {
-            color: #d4af37;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .input-group input,
-        .input-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            border: 2px solid #333;
-            background: #222;
-            color: #fff;
-            font-size: 15px;
-            font-family: inherit;
-        }
-        .input-group input:focus,
-        .input-group textarea:focus {
-            border-color: #d4af37;
-            outline: none;
-        }
-        .input-group textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        .input-group input[type="file"] {
-            padding: 10px;
-            border: 2px dashed #d4af37;
-            color: #888;
-        }
-        .input-group input[type="file"]::file-selector-button {
-            background: #d4af37;
-            color: #0a0a0a;
-            border: none;
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .track-code {
-            font-size: 32px;
-            font-weight: 900;
-            color: #d4af37;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 12px 30px;
-            border-radius: 60px;
-            letter-spacing: 3px;
-            border: 2px solid #d4af37;
-            display: inline-block;
-            margin: 10px 0;
-            font-family: monospace;
-        }
+
         .btn-admin {
             position: fixed;
             top: 15px;
             right: 15px;
             padding: 8px 20px;
+            font-size: 13px;
             border-radius: 50px;
             border: none;
-            background: #d4af37;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
             color: #0a0a0a;
             font-weight: 900;
             cursor: pointer;
             z-index: 999;
-            font-size: 13px;
+            touch-action: manipulation;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
         }
+
         .btn-admin:active {
             transform: scale(0.9);
         }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #d4af37;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 6px;
+            padding-right: 10px;
+            border-right: 3px solid #d4af37;
+        }
+
+        .input-group label .hint {
+            font-weight: 400;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            font-size: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgba(255, 255, 255, 0.04);
+            transition: 0.3s;
+            color: #ffffff;
+            direction: rtl;
+        }
+
+        .input-group input::placeholder,
+        .input-group textarea::placeholder {
+            color: #555;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: #d4af37;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.06);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .input-group input[type="file"] {
+            padding: 12px 14px;
+            border: 2px dashed rgba(212, 175, 55, 0.2);
+            cursor: pointer;
+            color: #888;
+            font-size: 14px;
+            direction: ltr;
+        }
+
+        .input-group input[type="file"]::file-selector-button {
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #0a0a0a;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 12px;
+            font-size: 13px;
+        }
+
+        .input-group input[type="file"]::file-selector-button:active {
+            transform: scale(0.95);
+        }
+
+        .file-error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .message-box {
+            display: none;
+            text-align: center;
+            padding: 20px 15px;
+            border-radius: 20px;
+            margin: 15px 0;
+        }
+
+        .message-box .icon {
+            font-size: 45px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .message-box h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .message-box p {
+            font-size: 14px;
+            color: #888;
+            font-weight: 400;
+        }
+
+        .message-error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .message-success {
+            background: rgba(46, 204, 113, 0.1);
+            border: 2px solid rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .message-warning {
+            background: rgba(241, 196, 15, 0.1);
+            border: 2px solid rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+        }
+
+        .message-info {
+            background: rgba(52, 152, 219, 0.1);
+            border: 2px solid rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .tracking-code {
+            font-size: 32px;
+            font-weight: 900;
+            color: #d4af37;
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            padding: 12px 35px;
+            border-radius: 60px;
+            letter-spacing: 3px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            margin: 10px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .admin-panel {
+            display: none;
+            max-width: 800px;
+            width: 100%;
+            margin: 60px auto 20px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 30px;
+            padding: 25px 20px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-panel .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+            gap: 10px;
+        }
+
+        .admin-panel .header h2 {
+            color: #d4af37;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .admin-panel .header .badge {
+            font-size: 13px;
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            padding: 5px 18px;
+            border-radius: 30px;
+            font-weight: 700;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .admin-panel .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .admin-panel .actions button {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            touch-action: manipulation;
+            flex: 1;
+            min-width: 70px;
+        }
+
+        .admin-panel .actions button:active {
+            transform: scale(0.95);
+        }
+
+        .admin-panel .btn-refresh {
+            background: rgba(52, 152, 219, 0.15);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .admin-panel .btn-exit {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .admin-panel .btn-clear {
+            background: rgba(241, 196, 15, 0.15);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.2);
+        }
+
+        .admin-panel .entries {
+            display: grid;
+            gap: 12px;
+        }
+
+        .admin-panel .entry-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 14px 16px;
+            border-right: 4px solid #d4af37;
+        }
+
+        .admin-panel .entry-card .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 4px;
+        }
+
+        .admin-panel .entry-card .name {
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .admin-panel .entry-card .track {
+            font-weight: 700;
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.08);
+            padding: 3px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            font-size: 12px;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .admin-panel .entry-card .detail {
+            color: #aaa;
+            font-size: 13px;
+            margin: 2px 0;
+        }
+
+        .admin-panel .entry-card .detail strong {
+            color: #d4af37;
+        }
+
+        .admin-panel .entry-card .image-box {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-panel .entry-card .image-box img {
+            max-width: 55px;
+            max-height: 55px;
+            border-radius: 10px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            object-fit: cover;
+        }
+
+        .admin-panel .entry-card .time {
+            color: #555;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .admin-panel .empty {
+            text-align: center;
+            padding: 40px 15px;
+            color: #555;
+        }
+
+        .admin-panel .empty .icon {
+            font-size: 50px;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0.3;
+        }
+
+        .admin-panel .empty h3 {
+            color: #666;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -157,23 +471,52 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 9999;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            animation: fadeIn 0.3s ease;
         }
+
         .modal.active {
             display: flex;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .modal-box {
-            background: #1a1a1a;
-            padding: 35px 30px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
             border-radius: 30px;
+            padding: 35px 30px;
             max-width: 400px;
             width: 100%;
-            border: 2px solid #d4af37;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
             position: relative;
         }
+
+        .modal-box h2 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .modal-box h2 span {
+            color: #fff;
+        }
+
         .modal-box .close {
             position: absolute;
             top: 12px;
@@ -181,170 +524,84 @@
             font-size: 28px;
             cursor: pointer;
             color: #666;
+            transition: 0.3s;
             background: none;
             border: none;
+            padding: 5px 10px;
         }
+
         .modal-box .close:active {
-            color: #d4af37;
             transform: rotate(90deg);
+            color: #d4af37;
         }
+
         .modal-box input {
             width: 100%;
             padding: 14px 18px;
             margin-bottom: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            border: 2px solid #333;
-            background: #222;
-            color: #fff;
             font-size: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            color: #fff;
             direction: ltr;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        .modal-box input::placeholder {
+            color: #666;
+        }
+
         .modal-box input:focus {
             border-color: #d4af37;
             outline: none;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+            background: rgba(255, 255, 255, 0.08);
         }
+
         .modal-box .btn-login {
             width: 100%;
             padding: 15px;
-            background: #d4af37;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
             color: #0a0a0a;
             border: none;
             border-radius: 60px;
             font-size: 18px;
             font-weight: 900;
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.2);
+            margin-top: 5px;
+            touch-action: manipulation;
         }
+
         .modal-box .btn-login:active {
-            transform: scale(0.95);
+            transform: scale(0.97);
         }
+
         .modal-box .error-msg {
-            color: #ff4444;
+            color: #e74c3c;
+            font-size: 14px;
             text-align: center;
             margin-top: 12px;
             display: none;
-        }
-        .panel {
-            display: none;
-            max-width: 700px;
-            width: 100%;
-            margin: 60px auto 20px;
-            background: #1a1a1a;
-            padding: 25px 20px;
-            border-radius: 30px;
-            border: 1px solid #d4af37;
-        }
-        .panel.active {
-            display: block;
-        }
-        .panel .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 15px;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-        }
-        .panel .header h2 {
-            color: #d4af37;
-            font-size: 20px;
-        }
-        .panel .badge {
-            background: rgba(212, 175, 55, 0.1);
-            color: #d4af37;
-            padding: 5px 18px;
-            border-radius: 30px;
             font-weight: 700;
-            border: 1px solid #d4af37;
-            font-size: 13px;
         }
-        .panel .actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 18px;
+
+        .hidden {
+            display: none !important;
         }
-        .panel .actions button {
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            border: none;
-            flex: 1;
-            min-width: 70px;
-        }
-        .panel .actions button:active {
-            transform: scale(0.95);
-        }
-        .panel .btn-refresh {
-            background: rgba(52, 152, 219, 0.15);
-            color: #3498db;
-            border: 1px solid #3498db;
-        }
-        .panel .btn-exit {
-            background: rgba(231, 76, 60, 0.15);
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
-        }
-        .panel .btn-clear {
-            background: rgba(241, 196, 15, 0.15);
-            color: #f1c40f;
-            border: 1px solid #f1c40f;
-        }
-        .panel .entry-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #333;
-            border-radius: 16px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            border-right: 4px solid #d4af37;
-        }
-        .panel .entry-card .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .panel .entry-card .name {
-            font-size: 16px;
-            font-weight: 900;
-            color: #fff;
-        }
-        .panel .entry-card .track {
-            color: #d4af37;
-            background: rgba(212, 175, 55, 0.08);
-            padding: 3px 14px;
-            border-radius: 30px;
-            border: 1px solid #d4af37;
-            font-size: 12px;
-            font-family: monospace;
-        }
-        .panel .entry-card .detail {
-            color: #aaa;
-            font-size: 13px;
-            margin: 3px 0;
-        }
-        .panel .entry-card .detail strong {
-            color: #d4af37;
-        }
-        .panel .entry-card .time {
-            color: #555;
-            font-size: 11px;
-        }
-        .panel .empty {
-            text-align: center;
-            padding: 40px 15px;
-            color: #555;
-        }
-        .panel .empty .icon {
-            font-size: 50px;
-            display: block;
-            opacity: 0.3;
-        }
+
         @media (max-width: 480px) {
-            .box {
+            .container {
                 padding: 20px 15px;
+            }
+            .logo h1 {
+                font-size: 20px;
+            }
+            .logo img {
+                max-width: 100px;
             }
             .btn {
                 font-size: 16px;
@@ -359,12 +616,40 @@
             .modal-box {
                 padding: 25px 18px;
             }
-            .panel {
+            .modal-box h2 {
+                font-size: 20px;
+            }
+            .admin-panel {
                 padding: 18px 14px;
             }
-            .track-code {
+            .admin-panel .header h2 {
+                font-size: 17px;
+            }
+            .tracking-code {
                 font-size: 24px;
                 padding: 10px 20px;
+                letter-spacing: 2px;
+            }
+            .input-group input,
+            .input-group textarea {
+                padding: 12px 14px;
+                font-size: 14px;
+            }
+            .admin-panel .entry-card .name {
+                font-size: 14px;
+            }
+        }
+
+        @media (pointer: coarse) {
+            .btn,
+            .btn-admin,
+            .modal-box .btn-login,
+            .admin-panel .actions button {
+                min-height: 48px;
+            }
+            .input-group input,
+            .input-group textarea {
+                font-size: 16px;
             }
         }
     </style>
@@ -372,38 +657,50 @@
 <body>
 
     <!-- ===== دکمه ورود ادمین ===== -->
-    <button class="btn-admin" id="adminBtn">🔐 ورود ادمین</button>
+    <button class="btn-admin" id="adminLoginBtn">🔐 ورود ادمین</button>
 
     <!-- ===== مودال ورود ===== -->
     <div class="modal" id="adminModal">
         <div class="modal-box">
-            <button class="close" id="closeModal">✕</button>
-            <h2 style="color:#d4af37;text-align:center;margin-bottom:25px;">👑 ورود به پنل</h2>
-            <input type="text" id="loginUser" placeholder="نام کاربری">
-            <input type="password" id="loginPass" placeholder="رمز عبور">
-            <button class="btn-login" id="loginBtn">ورود</button>
+            <button class="close" id="closeModalBtn">✕</button>
+            <h2>👑 <span>ورود</span> به پنل</h2>
+            <input type="text" id="adminEmail" placeholder="نام کاربری" autocomplete="username">
+            <input type="password" id="adminPassword" placeholder="رمز عبور" autocomplete="current-password">
+            <button class="btn-login" id="adminLoginSubmit">ورود</button>
             <div class="error-msg" id="loginError">❌ نام کاربری یا رمز عبور اشتباه است!</div>
         </div>
     </div>
 
     <!-- ===== صفحه اصلی ===== -->
-    <div class="box" id="mainPage">
-        <h1 style="color:#d4af37;font-size:24px;">مسابقه ادیت <span style="color:#fff;">Z.ROOYAL</span></h1>
-        <p style="color:#888;font-size:13px;margin:5px 0;">✨ بهترین ادیت‌ها رو برای ما بفرست ✨</p>
-        <p style="color:#666;font-size:12px;border-top:1px solid #333;padding-top:10px;margin-top:10px;">
-            ✦ سازنده : ShKiLLeR ✦
-        </p>
+    <div class="container" id="appContainer">
 
-        <div id="statusBox" style="background:rgba(52,152,219,0.1);border:2px solid #3498db;padding:15px;border-radius:16px;margin:15px 0;color:#3498db;">
-            <span style="font-size:30px;display:block;">⏳</span>
-            <h3 style="font-size:18px;">در حال اتصال به دیتابیس...</h3>
-            <p style="color:#888;font-size:14px;">لطفاً چند لحظه صبر کنید</p>
+        <div class="logo">
+            <img src="https://cdn.imgurl.ir/uploads/d4212_IMG_20260705_145704_411_.png" alt="Z.ROOYAL" loading="lazy">
+            <h1>مسابقه ادیت <span>Z.ROOYAL</span></h1>
+            <p>✨ بهترین ادیت‌ها رو برای ما بفرست ✨</p>
+            <div class="sub">
+                <span class="maker">✦ سازنده : ShKiLLeR ✦</span>
+            </div>
+        </div>
+
+        <!-- ===== وضعیت اتصال ===== -->
+        <div class="message-box message-info" id="connectionStatus">
+            <span class="icon">⏳</span>
+            <h3>در حال اتصال به دیتابیس...</h3>
+            <p>لطفاً چند لحظه صبر کنید</p>
+        </div>
+
+        <!-- ===== پیام تکمیل ظرفیت ===== -->
+        <div class="message-box message-warning" id="fullCapacityMessage">
+            <span class="icon">🚫</span>
+            <h3>ظرفیت مسابقه تکمیل شد!</h3>
+            <p>متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است.</p>
         </div>
 
         <button class="btn" id="enterBtn">✦ ورود به مسابقه ✦</button>
 
         <div class="hidden" id="formSection">
-            <form id="contestForm">
+            <form id="contestForm" novalidate>
                 <div class="input-group">
                     <label>👤 نام و فامیل</label>
                     <input type="text" id="fullName" placeholder="مثال: علی رضایی" required>
@@ -413,247 +710,447 @@
                     <input type="text" id="rubikaId" placeholder="مثال: @Ali_Rezaei" required>
                 </div>
                 <div class="input-group">
-                    <label>🖼️ عکس ادیت <span style="color:#666;font-weight:400;font-size:12px;">(حداکثر ۵ مگابایت)</span></label>
+                    <label>🖼️ عکس ادیت <span class="hint">(حداکثر ۵ مگابایت)</span></label>
                     <input type="file" id="editImage" accept="image/*" required>
-                    <div id="fileError" style="color:#ff4444;font-size:12px;display:none;margin-top:5px;">❌ حجم فایل بیشتر از ۵ مگابایت است!</div>
+                    <div class="file-error" id="fileError">❌ حجم فایل بیشتر از ۵ مگابایت است!</div>
                 </div>
                 <div class="input-group">
                     <label>📝 توضیحات ادیت</label>
-                    <textarea id="editDesc" placeholder="درباره ادیت خود توضیح دهید..." required></textarea>
+                    <textarea id="editDescription" placeholder="درباره ادیت خود توضیح دهید..." required></textarea>
                 </div>
+
+                <div class="message-box message-error" id="timeoutMessage">
+                    <span class="icon">⏰</span>
+                    <h3>زمان ثبت‌نام به پایان رسیده!</h3>
+                    <p>جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب</p>
+                </div>
+
                 <button type="submit" class="btn" id="submitBtn">✦ ارسال ادیت ✦</button>
             </form>
         </div>
 
-        <div class="hidden" id="trackSection">
-            <div style="background:rgba(46,204,113,0.1);border:2px solid #2ecc71;padding:20px;border-radius:16px;margin:15px 0;">
-                <span style="font-size:45px;display:block;">✅</span>
-                <h3 style="color:#2ecc71;font-size:20px;">ادیت شما با موفقیت ثبت شد</h3>
-                <div class="track-code" id="trackCode">RT-8247</div>
-                <p><strong style="color:#d4af37;">تا شنبه</strong> نتیجه اعلام می‌شود 🏆</p>
+        <div class="hidden" id="trackingSection">
+            <div class="message-box message-success" style="display:block;">
+                <span class="icon">✅</span>
+                <h3>ادیت شما با موفقیت ثبت شد</h3>
+                <div class="tracking-code" id="trackingCode">RT-8247</div>
+                <p><strong>تا شنبه</strong> نتیجه اعلام می‌شود 🏆</p>
                 <p style="color:#666;font-size:13px;margin-top:10px;">✦ کد رهگیری خود را یادداشت کنید ✦</p>
             </div>
         </div>
     </div>
 
     <!-- ===== پنل ادمین ===== -->
-    <div class="panel" id="adminPanel">
+    <div class="admin-panel" id="adminPanel">
         <div class="header">
             <h2>📋 مدیریت مسابقه Z.ROOYAL</h2>
-            <span class="badge" id="countBadge">۰ ثبت</span>
+            <span class="badge" id="entriesCount">۰ ثبت</span>
         </div>
         <div class="actions">
-            <button class="btn-refresh" id="refreshBtn">🔄 بروزرسانی</button>
-            <button class="btn-exit" id="exitBtn">🚪 خروج</button>
-            <button class="btn-clear" id="clearBtn">🗑️ پاک کردن همه</button>
+            <button class="btn-refresh" id="refreshAdminBtn">🔄 بروزرسانی</button>
+            <button class="btn-exit" id="exitAdminBtn">🚪 خروج</button>
+            <button class="btn-clear" id="clearAllBtn">🗑️ پاک کردن همه</button>
         </div>
-        <div id="entriesList">
+        <div id="entriesContainer">
             <div class="empty">
                 <span class="icon">📭</span>
-                <h3 style="color:#666;font-weight:400;font-size:16px;">هنوز هیچ ادیتی ثبت نشده است</h3>
+                <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
             </div>
         </div>
     </div>
 
     <script>
         // ============================================================
-        // ===== این نسخه بدون دیتابیس و کاملاً تست شده =====
+        // ===== تنظیمات دیتابیس Neon (پروژه شما) =====
         // ============================================================
 
-        // ===== اطلاعات ورود ادمین =====
-        const ADMIN_USER = 'ShKiLLeR';
-        const ADMIN_PASS = 'shayan54608189';
+        const DATABASE_URL = 'postgresql://neondb_owner:npg_tEVsukRqmj18@ep-polished-cell-ao0ezznz-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
 
-        // ===== ذخیره‌سازی محلی (LocalStorage) =====
-        function getEntries() {
+        // ============================================================
+        // ===== محدودیت‌ها =====
+        // ============================================================
+        const MAX_CAPACITY = 100;
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        const END_DATE = new Date('2026-07-10T23:59:59');
+
+        // ============================================================
+        // ===== هش (SHA-256 با Salt) =====
+        // ============================================================
+        const SALT = 'Z.Rooyal@2026#ShKiLLeR#Secure';
+
+        function hashWithSalt(input) {
+            return CryptoJS.SHA256(SALT + input).toString();
+        }
+
+        const HASHED_USERNAME = hashWithSalt('ShKiLLeR');
+        const HASHED_PASSWORD = hashWithSalt('shayan54608189');
+
+        // ============================================================
+        // ===== کتابخانه CryptoJS =====
+        // ============================================================
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js';
+        document.head.appendChild(script);
+
+        // ============================================================
+        // ===== راه‌اندازی Neon =====
+        // ============================================================
+        let sql = null;
+        let isDbConnected = false;
+
+        function waitForCryptoJS() {
+            return new Promise((resolve) => {
+                if (typeof CryptoJS !== 'undefined') {
+                    resolve();
+                } else {
+                    const check = setInterval(() => {
+                        if (typeof CryptoJS !== 'undefined') {
+                            clearInterval(check);
+                            resolve();
+                        }
+                    }, 100);
+                }
+            });
+        }
+
+        async function connectToDatabase() {
             try {
-                return JSON.parse(localStorage.getItem('zrooyal_entries')) || [];
-            } catch {
-                return [];
+                const statusDiv = document.getElementById('connectionStatus');
+                statusDiv.style.display = 'block';
+                statusDiv.className = 'message-box message-info';
+                statusDiv.querySelector('.icon').textContent = '⏳';
+                statusDiv.querySelector('h3').textContent = 'در حال اتصال به دیتابیس Neon...';
+                statusDiv.querySelector('p').textContent = 'لطفاً چند لحظه صبر کنید';
+
+                sql = neon(DATABASE_URL);
+
+                const result = await sql`SELECT NOW() as current_time;`;
+
+                if (result && result.length > 0) {
+                    isDbConnected = true;
+                    statusDiv.className = 'message-box message-success';
+                    statusDiv.querySelector('.icon').textContent = '✅';
+                    statusDiv.querySelector('h3').textContent = 'اتصال به دیتابیس برقرار است!';
+                    statusDiv.querySelector('p').textContent = 'همه چیز آماده است. می‌توانید ثبت‌نام کنید.';
+
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 3000);
+
+                    return true;
+                }
+                throw new Error('پاسخی از دیتابیس دریافت نشد.');
+            } catch (error) {
+                isDbConnected = false;
+                const statusDiv = document.getElementById('connectionStatus');
+                statusDiv.className = 'message-box message-error';
+                statusDiv.querySelector('.icon').textContent = '❌';
+                statusDiv.querySelector('h3').textContent = 'خطا در اتصال به دیتابیس!';
+                statusDiv.querySelector('p').textContent = 'مشکل: ' + error.message;
+                console.error('Neon Connection Error:', error);
+                return false;
             }
         }
 
-        function saveEntries(entries) {
-            localStorage.setItem('zrooyal_entries', JSON.stringify(entries));
+        // ============================================================
+        // ===== عناصر =====
+        // ============================================================
+        const $ = id => document.getElementById(id);
+
+        const adminLoginBtn = $('adminLoginBtn');
+        const adminModal = $('adminModal');
+        const closeModalBtn = $('closeModalBtn');
+        const adminLoginSubmit = $('adminLoginSubmit');
+        const adminEmail = $('adminEmail');
+        const adminPassword = $('adminPassword');
+        const loginError = $('loginError');
+
+        const adminPanel = $('adminPanel');
+        const entriesContainer = $('entriesContainer');
+        const entriesCount = $('entriesCount');
+        const refreshAdminBtn = $('refreshAdminBtn');
+        const exitAdminBtn = $('exitAdminBtn');
+        const clearAllBtn = $('clearAllBtn');
+
+        const enterBtn = $('enterBtn');
+        const formSection = $('formSection');
+        const form = $('contestForm');
+        const submitBtn = $('submitBtn');
+        const timeoutMessage = $('timeoutMessage');
+        const trackingSection = $('trackingSection');
+        const trackingCodeEl = $('trackingCode');
+        const appContainer = $('appContainer');
+
+        const fullCapacityMessage = $('fullCapacityMessage');
+        const fileInput = $('editImage');
+        const fileError = $('fileError');
+
+        // ============================================================
+        // ===== توابع =====
+        // ============================================================
+        function isContestExpired() {
+            return new Date() > END_DATE;
         }
 
         function generateTracking() {
             return 'RT-' + Math.floor(100000 + Math.random() * 900000);
         }
 
-        // ===== عناصر =====
-        const $ = id => document.getElementById(id);
-        const mainPage = $('mainPage');
-        const adminPanel = $('adminPanel');
-        const adminBtn = $('adminBtn');
-        const adminModal = $('adminModal');
-        const closeModal = $('closeModal');
-        const loginBtn = $('loginBtn');
-        const loginUser = $('loginUser');
-        const loginPass = $('loginPass');
-        const loginError = $('loginError');
-        const enterBtn = $('enterBtn');
-        const formSection = $('formSection');
-        const contestForm = $('contestForm');
-        const submitBtn = $('submitBtn');
-        const fullName = $('fullName');
-        const rubikaId = $('rubikaId');
-        const editImage = $('editImage');
-        const editDesc = $('editDesc');
-        const fileError = $('fileError');
-        const trackSection = $('trackSection');
-        const trackCode = $('trackCode');
-        const entriesList = $('entriesList');
-        const countBadge = $('countBadge');
-        const refreshBtn = $('refreshBtn');
-        const exitBtn = $('exitBtn');
-        const clearBtn = $('clearBtn');
-        const statusBox = $('statusBox');
+        async function getEntriesCount() {
+            try {
+                if (!sql) throw new Error('Neon client not initialized');
+                const result = await sql`SELECT COUNT(*) as count FROM entries;`;
+                return parseInt(result[0]?.count || 0);
+            } catch (e) {
+                console.error('Error getting count:', e);
+                return 0;
+            }
+        }
+
+        async function getEntries() {
+            try {
+                if (!sql) throw new Error('Neon client not initialized');
+                const result = await sql`
+                    SELECT * FROM entries 
+                    ORDER BY submitted_at DESC;
+                `;
+                return result || [];
+            } catch (e) {
+                console.error('Error getting entries:', e);
+                return [];
+            }
+        }
+
+        async function saveEntry(data) {
+            try {
+                if (!sql) throw new Error('Neon client not initialized');
+                const result = await sql`
+                    INSERT INTO entries (full_name, rubika_id, description, tracking_code, image_data, file_name, submitted_at)
+                    VALUES (${data.fullName}, ${data.rubikaId}, ${data.description}, ${data.trackingCode}, ${data.imageData}, ${data.fileName}, ${data.submittedAt})
+                    RETURNING tracking_code;
+                `;
+                return result.length > 0;
+            } catch (e) {
+                console.error('Error saving entry:', e);
+                return false;
+            }
+        }
+
+        async function clearAll() {
+            try {
+                if (!sql) throw new Error('Neon client not initialized');
+                await sql`DELETE FROM entries;`;
+                return true;
+            } catch (e) {
+                console.error('Error clearing:', e);
+                return false;
+            }
+        }
 
         // ============================================================
-        // ===== نمایش وضعیت =====
+        // ===== بروزرسانی صفحه =====
         // ============================================================
-        function showStatus(type, title, msg) {
-            statusBox.style.display = 'block';
-            if (type === 'success') {
-                statusBox.style.background = 'rgba(46,204,113,0.1)';
-                statusBox.style.borderColor = '#2ecc71';
-                statusBox.style.color = '#2ecc71';
-                statusBox.querySelector('span').textContent = '✅';
-            } else if (type === 'error') {
-                statusBox.style.background = 'rgba(231,76,60,0.1)';
-                statusBox.style.borderColor = '#e74c3c';
-                statusBox.style.color = '#e74c3c';
-                statusBox.querySelector('span').textContent = '❌';
+        async function updatePage() {
+            const count = await getEntriesCount();
+            const isFull = count >= MAX_CAPACITY;
+            const isExpired = isContestExpired();
+
+            if (isFull) {
+                fullCapacityMessage.style.display = 'block';
+                enterBtn.classList.add('hidden');
+                formSection.classList.add('hidden');
+                submitBtn.disabled = true;
+                submitBtn.textContent = '🚫 ظرفیت تکمیل شد';
             } else {
-                statusBox.style.background = 'rgba(52,152,219,0.1)';
-                statusBox.style.borderColor = '#3498db';
-                statusBox.style.color = '#3498db';
-                statusBox.querySelector('span').textContent = '⏳';
+                fullCapacityMessage.style.display = 'none';
+                enterBtn.classList.remove('hidden');
             }
-            statusBox.querySelector('h3').textContent = title;
-            statusBox.querySelector('p').textContent = msg;
-        }
 
-        function hideStatus() {
-            statusBox.style.display = 'none';
+            if (isExpired && !isFull) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏰ زمان ثبت‌نام به پایان رسیده';
+                timeoutMessage.style.display = 'block';
+            } else if (!isFull && !isExpired) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✦ ارسال ادیت ✦';
+                timeoutMessage.style.display = 'none';
+            }
+
+            if (adminPanel.classList.contains('active')) {
+                await renderAdmin();
+            }
         }
 
         // ============================================================
-        // ===== رندر پنل ادمین =====
+        // ===== پنل ادمین =====
         // ============================================================
-        function renderAdmin() {
-            const entries = getEntries();
+        async function renderAdmin() {
+            try {
+                entriesContainer.innerHTML =
+                    `<div style="text-align:center;padding:30px;color:#888;">⏳ در حال بارگذاری...</div>`;
 
-            if (entries.length === 0) {
-                entriesList.innerHTML = `
-                    <div class="empty">
-                        <span class="icon">📭</span>
-                        <h3 style="color:#666;font-weight:400;font-size:16px;">هنوز هیچ ادیتی ثبت نشده است</h3>
-                    </div>
-                `;
-                countBadge.textContent = '۰ ثبت';
-                return;
-            }
+                const entries = await getEntries();
 
-            countBadge.textContent = entries.length + ' ثبت';
-
-            let html = '';
-            const reversed = [...entries].reverse();
-            reversed.forEach(e => {
-                html += `
-                    <div class="entry-card">
-                        <div class="top">
-                            <span class="name">👤 ${e.fullName || 'نامشخص'}</span>
-                            <span class="track">${e.tracking || 'بدون کد'}</span>
+                if (!entries || entries.length === 0) {
+                    entriesContainer.innerHTML = `
+                        <div class="empty">
+                            <span class="icon">📭</span>
+                            <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
                         </div>
-                        <div class="detail"><strong>🆔 آیدی:</strong> ${e.rubikaId || 'ندارد'}</div>
-                        <div class="detail"><strong>📝 توضیحات:</strong> ${e.desc || 'بدون توضیح'}</div>
-                        ${e.imageData ? `<div style="margin-top:8px;padding:8px 12px;background:rgba(0,0,0,0.3);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:#888;font-size:12px;">
-                            <span>🖼️ فایل: 📄 ${e.fileName || 'عکس'}</span>
-                            <img src="${e.imageData}" style="max-width:50px;max-height:50px;border-radius:8px;border:2px solid #d4af37;object-fit:cover;">
-                        </div>` : ''}
-                        <div class="time">⏱ ${e.time || 'نامشخص'}</div>
+                    `;
+                    entriesCount.textContent = '۰ ثبت';
+                    return;
+                }
+
+                entriesCount.textContent = `${entries.length} / ${MAX_CAPACITY} ثبت`;
+
+                let html = '<div class="entries">';
+                entries.forEach(e => {
+                    html += `
+                        <div class="entry-card">
+                            <div class="top">
+                                <span class="name">👤 ${e.full_name || 'نامشخص'}</span>
+                                <span class="track">${e.tracking_code || 'بدون کد'}</span>
+                            </div>
+                            <div class="detail"><strong>🆔 آیدی:</strong> ${e.rubika_id || 'ندارد'}</div>
+                            <div class="detail"><strong>📝 توضیحات:</strong> ${e.description || 'بدون توضیح'}</div>
+                            <div class="image-box">
+                                <span>🖼️ فایل:</span>
+                                ${e.file_name ? `📄 ${e.file_name}` : 'فایلی انتخاب نشده'}
+                                ${e.image_data ? `<img src="${e.image_data}" alt="ادیت" loading="lazy">` : ''}
+                            </div>
+                            <div class="time">⏱ ${e.submitted_at || 'نامشخص'}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                entriesContainer.innerHTML = html;
+
+            } catch (e) {
+                console.error('Render error:', e);
+                entriesContainer.innerHTML = `
+                    <div class="empty">
+                        <span class="icon">⚠️</span>
+                        <h3>خطا در بارگذاری</h3>
                     </div>
                 `;
-            });
-            entriesList.innerHTML = html;
+            }
         }
 
         // ============================================================
-        // ===== مودال ورود =====
+        // ===== مودال =====
         // ============================================================
         function openModal() {
             adminModal.classList.add('active');
             loginError.style.display = 'none';
-            loginUser.value = '';
-            loginPass.value = '';
-            setTimeout(() => loginUser.focus(), 300);
+            adminEmail.value = '';
+            adminPassword.value = '';
+            setTimeout(() => adminEmail.focus(), 300);
         }
 
-        function closeModalFn() {
+        function closeModal() {
             adminModal.classList.remove('active');
         }
 
-        adminBtn.addEventListener('click', openModal);
-        closeModal.addEventListener('click', closeModalFn);
-        adminModal.addEventListener('click', e => { if (e.target === adminModal) closeModalFn(); });
+        adminLoginBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        adminModal.addEventListener('click', e => { if (e.target === adminModal) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && adminModal.classList.contains('active'))
+            closeModal(); });
 
         // ============================================================
         // ===== لاگین =====
         // ============================================================
-        loginBtn.addEventListener('click', function() {
-            const user = loginUser.value.trim();
-            const pass = loginPass.value.trim();
+        adminLoginSubmit.addEventListener('click', function() {
+            const email = adminEmail.value.trim();
+            const password = adminPassword.value.trim();
 
-            if (user === ADMIN_USER && pass === ADMIN_PASS) {
-                closeModalFn();
-                mainPage.style.display = 'none';
+            if (!email || !password) {
+                loginError.textContent = '❌ لطفاً همه فیلدها را پر کنید!';
+                loginError.style.display = 'block';
+                setTimeout(() => loginError.style.display = 'none', 3000);
+                return;
+            }
+
+            if (hashWithSalt(email) === HASHED_USERNAME &&
+                hashWithSalt(password) === HASHED_PASSWORD) {
+                closeModal();
                 adminPanel.classList.add('active');
+                appContainer.style.display = 'none';
                 renderAdmin();
             } else {
+                loginError.textContent = '❌ نام کاربری یا رمز عبور اشتباه است!';
                 loginError.style.display = 'block';
                 setTimeout(() => loginError.style.display = 'none', 3000);
             }
         });
 
-        loginUser.addEventListener('keypress', e => { if (e.key === 'Enter') loginBtn.click(); });
-        loginPass.addEventListener('keypress', e => { if (e.key === 'Enter') loginBtn.click(); });
+        adminEmail.addEventListener('keypress', e => { if (e.key === 'Enter') adminLoginSubmit.click(); });
+        adminPassword.addEventListener('keypress', e => { if (e.key === 'Enter') adminLoginSubmit.click(); });
 
         // ============================================================
         // ===== دکمه‌های پنل =====
         // ============================================================
-        exitBtn.addEventListener('click', function() {
+        exitAdminBtn.addEventListener('click', function() {
             adminPanel.classList.remove('active');
-            mainPage.style.display = 'block';
+            appContainer.style.display = 'block';
+            updatePage();
         });
 
-        refreshBtn.addEventListener('click', renderAdmin);
+        refreshAdminBtn.addEventListener('click', renderAdmin);
 
-        clearBtn.addEventListener('click', function() {
+        clearAllBtn.addEventListener('click', async function() {
             if (confirm('⚠️ آیا مطمئن هستید که می‌خواهید همه ثبت‌ها را حذف کنید؟')) {
-                saveEntries([]);
-                renderAdmin();
-                alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
+                const result = await clearAll();
+                if (result) {
+                    await renderAdmin();
+                    await updatePage();
+                    alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
+                } else {
+                    alert('❌ خطا در حذف اطلاعات!');
+                }
             }
         });
 
         // ============================================================
         // ===== ورود به مسابقه =====
         // ============================================================
-        enterBtn.addEventListener('click', function() {
+        enterBtn.addEventListener('click', async function() {
+            if (!isDbConnected) {
+                const connected = await connectToDatabase();
+                if (!connected) {
+                    alert('❌ اتصال به دیتابیس برقرار نیست!');
+                    return;
+                }
+            }
+
+            const count = await getEntriesCount();
+
+            if (count >= MAX_CAPACITY) {
+                alert('🚫 متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است!');
+                await updatePage();
+                return;
+            }
+
+            if (isContestExpired()) {
+                alert('⏰ متاسفانه زمان ثبت‌نام به پایان رسیده است!');
+                await updatePage();
+                return;
+            }
+
             enterBtn.classList.add('hidden');
             formSection.classList.remove('hidden');
+            await updatePage();
             formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
         // ============================================================
         // ===== حجم فایل =====
         // ============================================================
-        editImage.addEventListener('change', function() {
+        fileInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                if (file.size > 5 * 1024 * 1024) {
+                if (file.size > MAX_FILE_SIZE) {
                     fileError.style.display = 'block';
                     this.value = '';
                     submitBtn.disabled = true;
@@ -667,73 +1164,124 @@
         // ============================================================
         // ===== ارسال فرم =====
         // ============================================================
-        contestForm.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const name = fullName.value.trim();
-            const rubika = rubikaId.value.trim();
-            const desc = editDesc.value.trim();
+            try {
+                if (!isDbConnected) {
+                    const connected = await connectToDatabase();
+                    if (!connected) {
+                        alert('❌ اتصال به دیتابیس برقرار نیست!');
+                        return;
+                    }
+                }
 
-            if (!name || !rubika || !desc || editImage.files.length === 0) {
-                alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.');
-                return;
-            }
+                const count = await getEntriesCount();
+                if (count >= MAX_CAPACITY) {
+                    alert('🚫 متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است!');
+                    await updatePage();
+                    return;
+                }
 
-            if (editImage.files[0].size > 5 * 1024 * 1024) {
-                alert('❌ حجم فایل بیشتر از ۵ مگابایت است!');
-                return;
-            }
+                if (isContestExpired()) {
+                    alert('⏰ متاسفانه زمان ثبت‌نام به پایان رسیده است!');
+                    await updatePage();
+                    return;
+                }
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ در حال ارسال...';
+                const fullName = $('fullName').value.trim();
+                const rubikaId = $('rubikaId').value.trim();
+                const description = $('editDescription').value.trim();
 
-            const tracking = generateTracking();
-            trackCode.textContent = tracking;
+                if (!fullName || !rubikaId || !description || fileInput.files.length === 0) {
+                    alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.');
+                    return;
+                }
 
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const entry = {
-                    fullName: name,
-                    rubikaId: rubika,
-                    desc: desc,
-                    tracking: tracking,
-                    fileName: editImage.files[0].name,
-                    imageData: event.target.result,
-                    time: new Date().toLocaleString('fa-IR')
+                if (fileInput.files[0].size > MAX_FILE_SIZE) {
+                    alert('❌ حجم فایل بیشتر از ۵ مگابایت است!');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏳ در حال ارسال...';
+
+                const tracking = generateTracking();
+                trackingCodeEl.textContent = tracking;
+
+                const reader = new FileReader();
+                reader.onload = async function(event) {
+                    try {
+                        const entryData = {
+                            fullName: fullName,
+                            rubikaId: rubikaId,
+                            description: description,
+                            trackingCode: tracking,
+                            fileName: fileInput.files[0].name,
+                            imageData: event.target.result,
+                            submittedAt: new Date().toLocaleString('fa-IR')
+                        };
+
+                        const saved = await saveEntry(entryData);
+
+                        if (saved) {
+                            formSection.classList.add('hidden');
+                            trackingSection.classList.remove('hidden');
+                            trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            form.reset();
+                            fileError.style.display = 'none';
+                            await updatePage();
+                        } else {
+                            alert('❌ خطا در ثبت اطلاعات! لطفاً دوباره تلاش کنید.');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('❌ خطا در ثبت اطلاعات!');
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '✦ ارسال ادیت ✦';
+                    }
                 };
 
-                const entries = getEntries();
-                entries.push(entry);
-                saveEntries(entries);
+                reader.readAsDataURL(fileInput.files[0]);
 
-                formSection.classList.add('hidden');
-                trackSection.classList.remove('hidden');
-                trackSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                contestForm.reset();
-                fileError.style.display = 'none';
-
+            } catch (err) {
+                console.error(err);
+                alert('⚠️ خطا در ارتباط با سرور!');
                 submitBtn.disabled = false;
                 submitBtn.textContent = '✦ ارسال ادیت ✦';
-
-                showStatus('success', 'ادیت شما با موفقیت ثبت شد!', 'کد رهگیری: ' + tracking);
-                setTimeout(hideStatus, 5000);
-            };
-
-            reader.readAsDataURL(editImage.files[0]);
+            }
         });
 
         // ============================================================
         // ===== اجرای اولیه =====
         // ============================================================
-        showStatus('info', 'در حال اتصال به دیتابیس...', 'لطفاً چند لحظه صبر کنید');
-        setTimeout(() => {
-            hideStatus();
-        }, 2000);
+        document.addEventListener('DOMContentLoaded', async function() {
+            await waitForCryptoJS();
+            await connectToDatabase();
+            await updatePage();
 
-        console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
-        console.log('✅ مسابقه Z.ROOYAL بدون دیتابیس آماده است!');
-        console.log('📋 ثبت‌ها در LocalStorage ذخیره میشن');
+            console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
+            console.log('👥 ظرفیت: ۱۰۰ نفر');
+            console.log('⏰ زمان پایان: جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب');
+            console.log('✅ مسابقه Z.ROOYAL با Neon آماده است!');
+            console.log('🗄️ پروژه: shy-cherry-28045862');
+        });
+
+        // ============================================================
+        // ===== خطایاب =====
+        // ============================================================
+        window.onerror = function(msg, url, line, col, error) {
+            console.error('❌ خطا:', msg, url, line);
+            alert('⚠️ خطا: ' + msg + '\nسطر: ' + line);
+            return true;
+        };
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('❌ خطای Promise:', e.reason);
+            alert('⚠️ خطا: ' + e.reason);
+        });
     </script>
 
 </body>
-</html>
+    </html>
