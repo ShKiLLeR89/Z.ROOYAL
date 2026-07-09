@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+    <!-- ===== شتاب‌دهنده‌های اتصال (برای رفع کندی اولیه) ===== -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://htlrmoghpvqvfdxeqhep.supabase.co">
+    <link rel="preconnect" href="https://htlrmoghpvqvfdxeqhep.supabase.co" crossorigin>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🏆 مسابقه ادیت Z.ROOYAL</title>
@@ -417,14 +422,8 @@
             display: flex;
         }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
         .modal-box {
             background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
@@ -443,9 +442,7 @@
             font-size: 24px;
             font-weight: 900;
         }
-        .modal-box h2 span {
-            color: #fff;
-        }
+        .modal-box h2 span { color: #fff; }
         .modal-box .close {
             position: absolute;
             top: 12px;
@@ -475,9 +472,7 @@
             direction: ltr;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .modal-box input::placeholder {
-            color: #666;
-        }
+        .modal-box input::placeholder { color: #666; }
         .modal-box input:focus {
             border-color: #d4af37;
             outline: none;
@@ -499,9 +494,7 @@
             margin-top: 5px;
             touch-action: manipulation;
         }
-        .modal-box .btn-login:active {
-            transform: scale(0.97);
-        }
+        .modal-box .btn-login:active { transform: scale(0.97); }
         .modal-box .error-msg {
             color: #e74c3c;
             font-size: 14px;
@@ -510,75 +503,32 @@
             display: none;
             font-weight: 700;
         }
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
+        
         @media (max-width: 480px) {
-            .container {
-                padding: 20px 15px;
-            }
-            .logo h1 {
-                font-size: 20px;
-            }
-            .logo img {
-                max-width: 100px;
-            }
-            .btn {
-                font-size: 16px;
-                padding: 14px;
-            }
-            .btn-admin {
-                padding: 6px 14px;
-                font-size: 12px;
-                top: 10px;
-                right: 10px;
-            }
-            .modal-box {
-                padding: 25px 18px;
-            }
-            .modal-box h2 {
-                font-size: 20px;
-            }
-            .admin-panel {
-                padding: 18px 14px;
-            }
-            .admin-panel .header h2 {
-                font-size: 17px;
-            }
-            .tracking-code {
-                font-size: 24px;
-                padding: 10px 20px;
-                letter-spacing: 2px;
-            }
-            .input-group input,
-            .input-group textarea {
-                padding: 12px 14px;
-                font-size: 14px;
-            }
-            .admin-panel .entry-card .name {
-                font-size: 14px;
-            }
+            .container { padding: 20px 15px; }
+            .logo h1 { font-size: 20px; }
+            .logo img { max-width: 100px; }
+            .btn { font-size: 16px; padding: 14px; }
+            .btn-admin { padding: 6px 14px; font-size: 12px; top: 10px; right: 10px; }
+            .modal-box { padding: 25px 18px; }
+            .modal-box h2 { font-size: 20px; }
+            .admin-panel { padding: 18px 14px; }
+            .admin-panel .header h2 { font-size: 17px; }
+            .tracking-code { font-size: 24px; padding: 10px 20px; letter-spacing: 2px; }
+            .input-group input, .input-group textarea { padding: 12px 14px; font-size: 14px; }
+            .admin-panel .entry-card .name { font-size: 14px; }
         }
         @media (pointer: coarse) {
-            .btn,
-            .btn-admin,
-            .modal-box .btn-login,
-            .admin-panel .actions button {
-                min-height: 48px;
-            }
-            .input-group input,
-            .input-group textarea {
-                font-size: 16px;
-            }
+            .btn, .btn-admin, .modal-box .btn-login, .admin-panel .actions button { min-height: 48px; }
+            .input-group input, .input-group textarea { font-size: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== دکمه ورود ادمین ===== -->
     <button class="btn-admin" id="adminLoginBtn">🔐 ورود ادمین</button>
 
-    <!-- ===== مودال ورود ===== -->
     <div class="modal" id="adminModal">
         <div class="modal-box">
             <button class="close" id="closeModalBtn">✕</button>
@@ -590,9 +540,7 @@
         </div>
     </div>
 
-    <!-- ===== صفحه اصلی ===== -->
     <div class="container" id="appContainer">
-
         <div class="logo">
             <img src="https://cdn.imgurl.ir/uploads/d4212_IMG_20260705_145704_411_.png" alt="Z.ROOYAL" loading="lazy">
             <h1>مسابقه ادیت <span>Z.ROOYAL</span></h1>
@@ -602,10 +550,11 @@
             </div>
         </div>
 
+        <!-- باکس وضعیت (فقط در صورت خطا نشان داده میشه) -->
         <div class="message-box message-info" id="statusBox">
             <span class="icon">⏳</span>
-            <h3>در حال اتصال به دیتابیس...</h3>
-            <p>لطفاً چند لحظه صبر کنید</p>
+            <h3>در حال اتصال...</h3>
+            <p>لطفاً صبر کنید</p>
         </div>
 
         <button class="btn" id="enterBtn">✦ ورود به مسابقه ✦</button>
@@ -644,7 +593,6 @@
         </div>
     </div>
 
-    <!-- ===== پنل ادمین ===== -->
     <div class="admin-panel" id="adminPanel">
         <div class="header">
             <h2>📋 مدیریت مسابقه Z.ROOYAL</h2>
@@ -665,15 +613,10 @@
 
     <script>
         // ============================================================
-        // ===== تنظیمات Supabase (اصلاح شده) =====
+        // ===== تنظیمات Supabase =====
         // ============================================================
-
         const SUPABASE_URL = 'https://htlrmoghpvqvfdxeqhep.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0bHJtb2docHZxdmZkeGVxaGVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MDExNDksImV4cCI6MjA5OTE3NzE0OX0.nFZyZuEZ7Yyy5LXc3FkZVdHkb78mGXIt7s-JVkS4xnA';
-
-        // ============================================================
-        // ===== راه‌اندازی Supabase (رفع باگ ReferenceError) =====
-        // ============================================================
 
         const { createClient } = window.supabase;
         const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -711,14 +654,8 @@
 
         let isDbConnected = false;
 
-        // ============================================================
-        // ===== توابع کمکی =====
-        // ============================================================
-
-        function generateTracking() {
-            return 'RT-' + Math.floor(100000 + Math.random() * 900000);
-        }
-
+        function generateTracking() { return 'RT-' + Math.floor(100000 + Math.random() * 900000); }
+        
         function showStatus(icon, title, msg, type) {
             statusBox.style.display = 'block';
             statusBox.className = 'message-box';
@@ -728,124 +665,78 @@
             statusBox.querySelector('p').textContent = msg;
         }
 
-        function hideStatus() {
-            statusBox.style.display = 'none';
-        }
-
         // ============================================================
-        // ===== اتصال به Supabase =====
+        // ===== اتصال سریع و مخفیانه =====
         // ============================================================
-
         async function connectToSupabase() {
             try {
-                showStatus('⏳', 'در حال اتصال به دیتابیس...', 'لطفاً چند لحظه صبر کنید', 'message-info');
-
-                const { data, error } = await db
-                    .from('entries')
-                    .select('*')
-                    .limit(1);
+                console.log('⏳ Checking DB...');
+                const { error } = await db.from('entries').select('*').limit(1);
 
                 if (error) {
                     if (error.message.includes('relation "entries" does not exist')) {
                         showStatus('❌', 'جدول entries وجود ندارد!', 'لطفاً جدول را در SQL Editor بسازید', 'message-warning');
-                        isDbConnected = false;
-                        return false;
                     }
                     throw error;
                 }
-
                 isDbConnected = true;
-                showStatus('✅', 'اتصال به دیتابیس برقرار است!', 'همه چیز آماده است', 'message-success');
-                setTimeout(hideStatus, 3000);
-                return true;
-
+                console.log('✅ DB Connected.');
             } catch (error) {
                 isDbConnected = false;
-                let errorMsg = error.message;
-                if (errorMsg.includes('permission denied') || errorMsg.includes('PGRST')) {
-                    errorMsg = 'خطا در دسترسی! کدهای SQL (RLS) را در دیتابیس اجرا کنید.';
-                } else if (errorMsg.includes('Invalid API key') || errorMsg.includes('401')) {
-                    errorMsg = 'کلید API اشتباه است!';
-                } else if (errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError')) {
-                    errorMsg = 'مشکل در اتصال به اینترنت!';
+                console.error('❌ DB Error:', error.message);
+                if (error.message.includes('permission denied') || error.message.includes('PGRST')) {
+                    showStatus('❌', 'خطا در دسترسی!', 'کدهای SQL (RLS) را در دیتابیس اجرا کنید.', 'message-warning');
+                } else if (error.message.includes('Failed to fetch')) {
+                    showStatus('❌', 'مشکل در اینترنت!', 'اتصال خود را بررسی کنید.', 'message-warning');
                 }
-                showStatus('❌', 'خطا در اتصال به دیتابیس!', errorMsg, 'message-warning');
-                console.error('Supabase connection error:', error);
-                return false;
             }
         }
 
         // ============================================================
         // ===== توابع دیتابیس =====
         // ============================================================
-
         async function getEntries() {
             try {
-                const { data, error } = await db
-                    .from('entries')
-                    .select('*')
-                    .order('submitted_at', { ascending: false });
-
+                const { data, error } = await db.from('entries').select('*').order('submitted_at', { ascending: false });
                 if (error) throw error;
                 return data || [];
-            } catch (error) {
-                console.error('Error getting entries:', error);
-                return [];
-            }
+            } catch (error) { console.error('Error getting entries:', error); return []; }
         }
 
         async function saveEntry(entryData) {
             try {
-                const { data, error } = await db
-                    .from('entries')
-                    .insert([{
-                        full_name: entryData.fullName,
-                        rubika_id: entryData.rubikaId,
-                        description: entryData.description,
-                        tracking_code: entryData.trackingCode,
-                        image_data: entryData.imageData,
-                        file_name: entryData.fileName,
-                        submitted_at: entryData.submittedAt
-                    }]);
-
+                const { error } = await db.from('entries').insert([{
+                    full_name: entryData.fullName,
+                    rubika_id: entryData.rubikaId,
+                    description: entryData.description,
+                    tracking_code: entryData.trackingCode,
+                    image_data: entryData.imageData,
+                    file_name: entryData.fileName,
+                    submitted_at: entryData.submittedAt
+                }]);
                 if (error) throw error;
                 return true;
-            } catch (error) {
-                console.error('Error saving entry:', error);
-                return false;
-            }
+            } catch (error) { console.error('Error saving entry:', error); return false; }
         }
 
         async function clearAllEntries() {
             try {
-                const { error } = await db
-                    .from('entries')
-                    .delete()
-                    .neq('id', 0);
-
+                const { error } = await db.from('entries').delete().neq('id', 0);
                 if (error) throw error;
                 return true;
-            } catch (error) {
-                console.error('Error clearing entries:', error);
-                return false;
-            }
+            } catch (error) { console.error('Error clearing entries:', error); return false; }
         }
 
         // ============================================================
         // ===== پنل ادمین =====
         // ============================================================
-
         async function renderAdmin() {
             try {
                 entriesContainer.innerHTML = `<div style="text-align:center;padding:30px;color:#888;">⏳ در حال بارگذاری...</div>`;
                 const entries = await getEntries();
 
                 if (!entries || entries.length === 0) {
-                    entriesContainer.innerHTML = `
-                        <div class="empty">
-                            <span class="icon">📭</span>
-                            <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
-                        </div>`;
+                    entriesContainer.innerHTML = `<div class="empty"><span class="icon">📭</span><h3>هنوز هیچ ادیتی ثبت نشده است</h3></div>`;
                     entriesCount.textContent = '۰ ثبت';
                     return;
                 }
@@ -870,190 +761,140 @@
                 });
                 html += '</div>';
                 entriesContainer.innerHTML = html;
-
             } catch (error) {
-                console.error('Error:', error);
                 entriesContainer.innerHTML = `<div class="empty"><span class="icon">⚠️</span><h3>خطا در بارگذاری</h3></div>`;
             }
         }
 
         // ============================================================
-        // ===== مودال =====
+        // ===== مودال و لاگین =====
         // ============================================================
-
         function openModal() {
-            adminModal.classList.add('active');
-            loginError.style.display = 'none';
-            adminEmail.value = '';
-            adminPassword.value = '';
+            adminModal.classList.add('active'); loginError.style.display = 'none';
+            adminEmail.value = ''; adminPassword.value = '';
             setTimeout(() => adminEmail.focus(), 300);
         }
-
-        function closeModalFn() {
-            adminModal.classList.remove('active');
-        }
+        function closeModalFn() { adminModal.classList.remove('active'); }
 
         adminLoginBtn.addEventListener('click', openModal);
         closeModalBtn.addEventListener('click', closeModalFn);
         adminModal.addEventListener('click', e => { if (e.target === adminModal) closeModalFn(); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape' && adminModal.classList.contains('active')) closeModalFn(); });
 
-        // ============================================================
-        // ===== لاگین =====
-        // ============================================================
-
         adminLoginSubmit.addEventListener('click', function() {
             const user = adminEmail.value.trim();
             const pass = adminPassword.value.trim();
-
             if (user === 'ShKiLLeR' && pass === 'shayan54608189') {
-                closeModalFn();
-                adminPanel.classList.add('active');
-                appContainer.style.display = 'none';
-                renderAdmin();
+                closeModalFn(); adminPanel.classList.add('active'); appContainer.style.display = 'none'; renderAdmin();
             } else {
                 loginError.textContent = '❌ نام کاربری یا رمز عبور اشتباه است!';
                 loginError.style.display = 'block';
                 setTimeout(() => loginError.style.display = 'none', 3000);
             }
         });
-
         adminEmail.addEventListener('keypress', e => { if (e.key === 'Enter') adminLoginSubmit.click(); });
         adminPassword.addEventListener('keypress', e => { if (e.key === 'Enter') adminLoginSubmit.click(); });
 
         // ============================================================
         // ===== دکمه‌های پنل =====
         // ============================================================
-
-        exitAdminBtn.addEventListener('click', function() {
-            adminPanel.classList.remove('active');
-            appContainer.style.display = 'block';
-        });
-
+        exitAdminBtn.addEventListener('click', function() { adminPanel.classList.remove('active'); appContainer.style.display = 'block'; });
         refreshAdminBtn.addEventListener('click', renderAdmin);
-
+        
         clearAllBtn.addEventListener('click', async function() {
             if (confirm('⚠️ آیا مطمئن هستید که می‌خواهید همه ثبت‌ها را حذف کنید؟')) {
                 const result = await clearAllEntries();
-                if (result) {
-                    renderAdmin();
-                    alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
-                } else {
-                    alert('❌ خطا در حذف اطلاعات!');
-                }
+                if (result) { renderAdmin(); alert('✅ همه ثبت‌ها با موفقیت حذف شدند!'); }
+                else { alert('❌ خطا در حذف اطلاعات!'); }
             }
         });
 
         // ============================================================
         // ===== ورود به مسابقه =====
         // ============================================================
-
         enterBtn.addEventListener('click', function() {
-            if (!isDbConnected) {
-                alert('⚠️ اتصال به دیتابیس برقرار نیست!');
-                return;
-            }
+            if (!isDbConnected) { alert('⚠️ اتصال به دیتابیس برقرار نیست!'); return; }
             enterBtn.classList.add('hidden');
             formSection.classList.remove('hidden');
             formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        // ============================================================
-        // ===== حجم فایل =====
-        // ============================================================
-
         fileInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                if (file.size > 5 * 1024 * 1024) {
-                    fileError.style.display = 'block';
-                    this.value = '';
-                    submitBtn.disabled = true;
-                } else {
-                    fileError.style.display = 'none';
-                    submitBtn.disabled = false;
-                }
+                if (file.size > 5 * 1024 * 1024) { fileError.style.display = 'block'; this.value = ''; submitBtn.disabled = true; }
+                else { fileError.style.display = 'none'; submitBtn.disabled = false; }
             }
         });
 
         // ============================================================
-        // ===== ارسال فرم =====
+        // ===== ارسال فرم (نسخه بسیار سریع با Storage) =====
         // ============================================================
-
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            if (!isDbConnected) {
-                alert('⚠️ اتصال به دیتابیس برقرار نیست!');
-                return;
-            }
+            if (!isDbConnected) { alert('⚠️ اتصال به دیتابیس برقرار نیست!'); return; }
 
             const name = $('fullName').value.trim();
             const rubika = $('rubikaId').value.trim();
             const desc = $('editDescription').value.trim();
 
-            if (!name || !rubika || !desc || fileInput.files.length === 0) {
-                alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.');
-                return;
-            }
-
-            if (fileInput.files[0].size > 5 * 1024 * 1024) {
-                alert('❌ حجم فایل بیشتر از ۵ مگابایت است!');
-                return;
-            }
+            if (!name || !rubika || !desc || fileInput.files.length === 0) { alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.'); return; }
+            if (fileInput.files[0].size > 5 * 1024 * 1024) { alert('❌ حجم فایل بیشتر از ۵ مگابایت است!'); return; }
 
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ در حال ارسال...';
+            submitBtn.textContent = '⏳ در حال آپلود عکس...';
 
             const tracking = generateTracking();
             trackingCodeEl.textContent = tracking;
+            const file = fileInput.files[0];
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${tracking}_${Date.now()}.${fileExt}`;
 
-            const reader = new FileReader();
-            reader.onload = async function(event) {
-                try {
-                    const entryData = {
-                        fullName: name,
-                        rubikaId: rubika,
-                        description: desc,
-                        trackingCode: tracking,
-                        fileName: fileInput.files[0].name,
-                        imageData: event.target.result,
-                        submittedAt: new Date().toLocaleString('fa-IR')
-                    };
+            try {
+                // 1. آپلود سریع عکس به فضای ابری
+                const { error: uploadError } = await db.storage.from('contest-images').upload(fileName, file);
+                if (uploadError) throw uploadError;
 
-                    const saved = await saveEntry(entryData);
+                // 2. گرفتن لینک عکس
+                const { data: urlData } = db.storage.from('contest-images').getPublicUrl(fileName);
+                const imageUrl = urlData.publicUrl;
 
-                    if (saved) {
-                        formSection.classList.add('hidden');
-                        trackingSection.classList.remove('hidden');
-                        trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        form.reset();
-                        fileError.style.display = 'none';
-                    } else {
-                        alert('❌ خطا در ثبت اطلاعات! (احتمالا حجم دیتابیس پر شده یا دسترسی RLS بسته است)');
-                    }
+                submitBtn.textContent = '⏳ در حال ثبت اطلاعات...';
 
-                } catch (error) {
-                    console.error('Error:', error);
+                // 3. ذخیره در دیتابیس
+                const saved = await saveEntry({
+                    fullName: name,
+                    rubikaId: rubika,
+                    description: desc,
+                    trackingCode: tracking,
+                    fileName: file.name,
+                    imageData: imageUrl, // فقط لینک ذخیره میشه
+                    submittedAt: new Date().toLocaleString('fa-IR')
+                });
+
+                if (saved) {
+                    formSection.classList.add('hidden');
+                    trackingSection.classList.remove('hidden');
+                    trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    form.reset(); fileError.style.display = 'none';
+                } else {
                     alert('❌ خطا در ثبت اطلاعات!');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = '✦ ارسال ادیت ✦';
                 }
-            };
-
-            reader.readAsDataURL(fileInput.files[0]);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ خطا در آپلود عکس! آیا در سوپابیس پوشه contest-images را ساخته‌اید؟');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✦ ارسال ادیت ✦';
+            }
         });
 
         // ============================================================
         // ===== اجرای اولیه =====
         // ============================================================
-
         document.addEventListener('DOMContentLoaded', async function() {
             await connectToSupabase();
-            console.log('✅ مسابقه Z.ROOYAL با موفقیت لود شد.');
         });
     </script>
-
 </body>
-    </html>
+                        </html>
