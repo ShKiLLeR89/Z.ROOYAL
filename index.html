@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🏆 مسابقه ادیت Z.ROOYAL</title>
+
+    <!-- ===== کتابخانه‌ها ===== -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js">
     </script>
+
     <style>
+        /* ===== ریست کامل ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0a0a0a;
@@ -25,6 +30,7 @@
             padding: 15px;
             direction: rtl;
         }
+
         .container {
             max-width: 500px;
             width: 100%;
@@ -42,12 +48,14 @@
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             padding-bottom: 20px;
         }
+
         .logo img {
             max-width: 130px;
             border-radius: 20px;
             border: 2px solid #d4af37;
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
         }
+
         .logo h1 {
             color: #d4af37;
             font-size: 24px;
@@ -55,14 +63,17 @@
             letter-spacing: 1px;
             font-weight: 900;
         }
+
         .logo h1 span {
             color: #ffffff;
         }
+
         .logo p {
             color: #888;
             font-size: 13px;
             margin-top: 5px;
         }
+
         .logo .sub {
             color: #666;
             font-size: 12px;
@@ -70,6 +81,7 @@
             border-top: 1px solid rgba(212, 175, 55, 0.1);
             padding-top: 10px;
         }
+
         .logo .sub .maker {
             color: #d4af37;
             font-weight: 700;
@@ -91,9 +103,11 @@
             color: #0a0a0a;
             letter-spacing: 0.5px;
         }
+
         .btn:active {
             transform: scale(0.95);
         }
+
         .btn:disabled {
             opacity: 0.4;
             transform: none !important;
@@ -117,6 +131,7 @@
             touch-action: manipulation;
             box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
         }
+
         .btn-admin:active {
             transform: scale(0.9);
         }
@@ -125,6 +140,7 @@
         .input-group {
             margin-bottom: 15px;
         }
+
         .input-group label {
             display: block;
             color: #d4af37;
@@ -134,11 +150,13 @@
             padding-right: 10px;
             border-right: 3px solid #d4af37;
         }
+
         .input-group label .hint {
             font-weight: 400;
             color: #666;
             font-size: 12px;
         }
+
         .input-group input,
         .input-group textarea {
             width: 100%;
@@ -152,10 +170,12 @@
             color: #ffffff;
             direction: rtl;
         }
+
         .input-group input::placeholder,
         .input-group textarea::placeholder {
             color: #555;
         }
+
         .input-group input:focus,
         .input-group textarea:focus {
             border-color: #d4af37;
@@ -163,10 +183,12 @@
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.06);
             background: rgba(255, 255, 255, 0.06);
         }
+
         .input-group textarea {
             resize: vertical;
             min-height: 80px;
         }
+
         .input-group input[type="file"] {
             padding: 12px 14px;
             border: 2px dashed rgba(212, 175, 55, 0.2);
@@ -175,6 +197,7 @@
             font-size: 14px;
             direction: ltr;
         }
+
         .input-group input[type="file"]::file-selector-button {
             background: linear-gradient(135deg, #d4af37, #b8860b);
             color: #0a0a0a;
@@ -187,9 +210,11 @@
             margin-left: 12px;
             font-size: 13px;
         }
+
         .input-group input[type="file"]::file-selector-button:active {
             transform: scale(0.95);
         }
+
         .file-error {
             color: #e74c3c;
             font-size: 12px;
@@ -205,15 +230,18 @@
             border-radius: 20px;
             margin: 15px 0;
         }
+
         .message-box .icon {
             font-size: 45px;
             display: block;
             margin-bottom: 8px;
         }
+
         .message-box h3 {
             font-size: 18px;
             margin-bottom: 5px;
         }
+
         .message-box p {
             font-size: 14px;
             color: #888;
@@ -225,15 +253,23 @@
             border: 2px solid rgba(231, 76, 60, 0.2);
             color: #e74c3c;
         }
+
         .message-success {
             background: rgba(46, 204, 113, 0.1);
             border: 2px solid rgba(46, 204, 113, 0.2);
             color: #2ecc71;
         }
+
         .message-warning {
             background: rgba(241, 196, 15, 0.1);
             border: 2px solid rgba(241, 196, 15, 0.2);
             color: #f1c40f;
+        }
+
+        .message-info {
+            background: rgba(52, 152, 219, 0.1);
+            border: 2px solid rgba(52, 152, 219, 0.2);
+            color: #3498db;
         }
 
         /* ===== کد رهگیری ===== */
@@ -265,9 +301,11 @@
             border: 1px solid rgba(212, 175, 55, 0.15);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
         }
+
         .admin-panel.active {
             display: block;
         }
+
         .admin-panel .header {
             display: flex;
             justify-content: space-between;
@@ -278,11 +316,13 @@
             margin-bottom: 18px;
             gap: 10px;
         }
+
         .admin-panel .header h2 {
             color: #d4af37;
             font-size: 20px;
             font-weight: 900;
         }
+
         .admin-panel .header .badge {
             font-size: 13px;
             background: rgba(212, 175, 55, 0.1);
@@ -292,12 +332,14 @@
             font-weight: 700;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
+
         .admin-panel .actions {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
             margin-bottom: 18px;
         }
+
         .admin-panel .actions button {
             padding: 8px 20px;
             border-radius: 50px;
@@ -310,28 +352,34 @@
             flex: 1;
             min-width: 70px;
         }
+
         .admin-panel .actions button:active {
             transform: scale(0.95);
         }
+
         .admin-panel .btn-refresh {
             background: rgba(52, 152, 219, 0.15);
             color: #3498db;
             border: 1px solid rgba(52, 152, 219, 0.2);
         }
+
         .admin-panel .btn-exit {
             background: rgba(231, 76, 60, 0.15);
             color: #e74c3c;
             border: 1px solid rgba(231, 76, 60, 0.2);
         }
+
         .admin-panel .btn-clear {
             background: rgba(241, 196, 15, 0.15);
             color: #f1c40f;
             border: 1px solid rgba(241, 196, 15, 0.2);
         }
+
         .admin-panel .entries {
             display: grid;
             gap: 12px;
         }
+
         .admin-panel .entry-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -339,6 +387,7 @@
             padding: 14px 16px;
             border-right: 4px solid #d4af37;
         }
+
         .admin-panel .entry-card .top {
             display: flex;
             justify-content: space-between;
@@ -347,11 +396,13 @@
             gap: 5px;
             margin-bottom: 4px;
         }
+
         .admin-panel .entry-card .name {
             font-size: 16px;
             font-weight: 900;
             color: #ffffff;
         }
+
         .admin-panel .entry-card .track {
             font-weight: 700;
             color: #d4af37;
@@ -363,14 +414,17 @@
             font-family: monospace;
             letter-spacing: 1px;
         }
+
         .admin-panel .entry-card .detail {
             color: #aaa;
             font-size: 13px;
             margin: 2px 0;
         }
+
         .admin-panel .entry-card .detail strong {
             color: #d4af37;
         }
+
         .admin-panel .entry-card .image-box {
             margin-top: 8px;
             padding: 8px 12px;
@@ -384,6 +438,7 @@
             gap: 10px;
             flex-wrap: wrap;
         }
+
         .admin-panel .entry-card .image-box img {
             max-width: 55px;
             max-height: 55px;
@@ -391,22 +446,26 @@
             border: 2px solid rgba(212, 175, 55, 0.2);
             object-fit: cover;
         }
+
         .admin-panel .entry-card .time {
             color: #555;
             font-size: 11px;
             margin-top: 4px;
         }
+
         .admin-panel .empty {
             text-align: center;
             padding: 40px 15px;
             color: #555;
         }
+
         .admin-panel .empty .icon {
             font-size: 50px;
             display: block;
             margin-bottom: 10px;
             opacity: 0.3;
         }
+
         .admin-panel .empty h3 {
             color: #666;
             font-weight: 400;
@@ -430,9 +489,11 @@
             padding: 20px;
             animation: fadeIn 0.3s ease;
         }
+
         .modal.active {
             display: flex;
         }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -443,6 +504,7 @@
                 transform: scale(1);
             }
         }
+
         .modal-box {
             background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
             border-radius: 30px;
@@ -453,6 +515,7 @@
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
             position: relative;
         }
+
         .modal-box h2 {
             color: #d4af37;
             text-align: center;
@@ -460,9 +523,11 @@
             font-size: 24px;
             font-weight: 900;
         }
+
         .modal-box h2 span {
             color: #fff;
         }
+
         .modal-box .close {
             position: absolute;
             top: 12px;
@@ -475,10 +540,12 @@
             border: none;
             padding: 5px 10px;
         }
+
         .modal-box .close:active {
             transform: rotate(90deg);
             color: #d4af37;
         }
+
         .modal-box input {
             width: 100%;
             padding: 14px 18px;
@@ -492,15 +559,18 @@
             direction: ltr;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .modal-box input::placeholder {
             color: #666;
         }
+
         .modal-box input:focus {
             border-color: #d4af37;
             outline: none;
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
             background: rgba(255, 255, 255, 0.08);
         }
+
         .modal-box .btn-login {
             width: 100%;
             padding: 15px;
@@ -516,9 +586,11 @@
             margin-top: 5px;
             touch-action: manipulation;
         }
+
         .modal-box .btn-login:active {
             transform: scale(0.97);
         }
+
         .modal-box .error-msg {
             color: #e74c3c;
             font-size: 14px;
@@ -623,6 +695,13 @@
             </div>
         </div>
 
+        <!-- ===== وضعیت اتصال به دیتابیس ===== -->
+        <div class="message-box message-info" id="connectionStatus">
+            <span class="icon">⏳</span>
+            <h3>در حال اتصال به دیتابیس...</h3>
+            <p>لطفاً چند لحظه صبر کنید</p>
+        </div>
+
         <!-- ===== پیام تکمیل ظرفیت ===== -->
         <div class="message-box message-warning" id="fullCapacityMessage">
             <span class="icon">🚫</span>
@@ -723,10 +802,18 @@
         // ============================================================
         // ===== راه‌اندازی Supabase =====
         // ============================================================
-        const supabase = supabase.createClient(
-            SUPABASE_CONFIG.URL,
-            SUPABASE_CONFIG.ANON_KEY
-        );
+        let supabaseClient = null;
+        let isDbConnected = false;
+
+        try {
+            supabaseClient = supabase.createClient(
+                SUPABASE_CONFIG.URL,
+                SUPABASE_CONFIG.ANON_KEY
+            );
+            console.log('✅ Supabase client created');
+        } catch (e) {
+            console.error('❌ Error creating Supabase client:', e);
+        }
 
         // ============================================================
         // ===== عناصر =====
@@ -760,6 +847,7 @@
         const fullCapacityMessage = $('fullCapacityMessage');
         const fileInput = $('editImage');
         const fileError = $('fileError');
+        const connectionStatus = $('connectionStatus');
 
         // ============================================================
         // ===== توابع =====
@@ -772,36 +860,52 @@
             return 'RT-' + Math.floor(100000 + Math.random() * 900000);
         }
 
+        function showStatus(icon, title, message, type) {
+            connectionStatus.style.display = 'block';
+            connectionStatus.className = 'message-box';
+            if (type) connectionStatus.classList.add(type);
+            connectionStatus.querySelector('.icon').textContent = icon;
+            connectionStatus.querySelector('h3').textContent = title;
+            connectionStatus.querySelector('p').textContent = message;
+        }
+
+        function hideStatus() {
+            connectionStatus.style.display = 'none';
+        }
+
         async function getEntriesCount() {
             try {
-                const { count, error } = await supabase
+                if (!supabaseClient) throw new Error('Supabase client not initialized');
+                const { count, error } = await supabaseClient
                     .from('entries')
                     .select('*', { count: 'exact', head: true });
                 if (error) throw error;
                 return count || 0;
             } catch (e) {
-                console.error(e);
+                console.error('Error getting count:', e);
                 return 0;
             }
         }
 
         async function getEntries() {
             try {
-                const { data, error } = await supabase
+                if (!supabaseClient) throw new Error('Supabase client not initialized');
+                const { data, error } = await supabaseClient
                     .from('entries')
                     .select('*')
                     .order('submitted_at', { ascending: false });
                 if (error) throw error;
                 return data || [];
             } catch (e) {
-                console.error(e);
+                console.error('Error getting entries:', e);
                 return [];
             }
         }
 
         async function saveEntry(data) {
             try {
-                const { error } = await supabase
+                if (!supabaseClient) throw new Error('Supabase client not initialized');
+                const { error } = await supabaseClient
                     .from('entries')
                     .insert([{
                         full_name: data.fullName,
@@ -815,21 +919,53 @@
                 if (error) throw error;
                 return true;
             } catch (e) {
-                console.error(e);
+                console.error('Error saving entry:', e);
                 return false;
             }
         }
 
         async function clearAll() {
             try {
-                const { error } = await supabase
+                if (!supabaseClient) throw new Error('Supabase client not initialized');
+                const { error } = await supabaseClient
                     .from('entries')
                     .delete()
                     .neq('id', 0);
                 if (error) throw error;
                 return true;
             } catch (e) {
-                console.error(e);
+                console.error('Error clearing:', e);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // ===== تست اتصال =====
+        // ============================================================
+        async function testConnection() {
+            try {
+                if (!supabaseClient) throw new Error('Supabase client not initialized');
+                const { data, error } = await supabaseClient
+                    .from('entries')
+                    .select('*')
+                    .limit(1);
+
+                if (error) throw error;
+
+                isDbConnected = true;
+                showStatus('✅', 'اتصال به دیتابیس برقرار است!',
+                    'همه چیز آماده است. می‌توانید ثبت‌نام کنید.',
+                    'message-success');
+
+                setTimeout(hideStatus, 3000);
+                return true;
+
+            } catch (e) {
+                isDbConnected = false;
+                showStatus('❌', 'خطا در اتصال به دیتابیس!',
+                    'مشکل: ' + e.message + '. لطفاً تنظیمات CORS را چک کنید.',
+                    'message-error');
+                console.error('Connection test failed:', e);
                 return false;
             }
         }
@@ -914,7 +1050,7 @@
                 entriesContainer.innerHTML = html;
 
             } catch (e) {
-                console.error(e);
+                console.error('Render error:', e);
                 entriesContainer.innerHTML = `
                     <div class="empty">
                         <span class="icon">⚠️</span>
@@ -1003,6 +1139,15 @@
         // ===== ورود به مسابقه =====
         // ============================================================
         enterBtn.addEventListener('click', async function() {
+            if (!isDbConnected) {
+                alert('⚠️ در حال اتصال به دیتابیس... لطفاً صبر کنید.');
+                const connected = await testConnection();
+                if (!connected) {
+                    alert('❌ اتصال به دیتابیس برقرار نیست! لطفاً تنظیمات CORS را چک کنید.');
+                    return;
+                }
+            }
+
             const count = await getEntriesCount();
 
             if (count >= MAX_CAPACITY) {
@@ -1047,6 +1192,15 @@
             e.preventDefault();
 
             try {
+                if (!isDbConnected) {
+                    alert('⚠️ در حال اتصال به دیتابیس... لطفاً صبر کنید.');
+                    const connected = await testConnection();
+                    if (!connected) {
+                        alert('❌ اتصال به دیتابیس برقرار نیست!');
+                        return;
+                    }
+                }
+
                 const count = await getEntriesCount();
                 if (count >= MAX_CAPACITY) {
                     alert('🚫 متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است!');
@@ -1127,12 +1281,18 @@
         // ============================================================
         // ===== اجرای اولیه =====
         // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            updatePage();
+        document.addEventListener('DOMContentLoaded', async function() {
+            // #تست اتصال به دیتابیس
+            await testConnection();
+
+            // #بروزرسانی صفحه
+            await updatePage();
+
             console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
             console.log('👥 ظرفیت: ۱۰۰ نفر');
             console.log('⏰ زمان پایان: جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب');
             console.log('✅ مسابقه Z.ROOYAL آماده است! 🚀');
+            console.log('📡 وضعیت دیتابیس:', isDbConnected ? '✅ متصل' : '❌ قطع');
         });
 
         // ============================================================
@@ -1151,4 +1311,4 @@
     </script>
 
 </body>
-</html>
+    </html>
