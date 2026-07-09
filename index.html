@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🏆 مسابقه ادیت Z.ROOYAL</title>
-
-    <!-- ===== کتابخانه Neon ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/@neondatabase/serverless@0.10.3/index.min.js">
-    </script>
-
     <style>
         * {
             margin: 0;
@@ -16,7 +11,6 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0a0a0a;
@@ -27,7 +21,6 @@
             padding: 15px;
             direction: rtl;
         }
-
         .container {
             max-width: 500px;
             width: 100%;
@@ -37,21 +30,18 @@
             border: 2px solid #d4af37;
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.08);
         }
-
         .logo {
             text-align: center;
             margin-bottom: 25px;
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             padding-bottom: 20px;
         }
-
         .logo img {
             max-width: 130px;
             border-radius: 20px;
             border: 2px solid #d4af37;
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
         }
-
         .logo h1 {
             color: #d4af37;
             font-size: 24px;
@@ -59,17 +49,14 @@
             letter-spacing: 1px;
             font-weight: 900;
         }
-
         .logo h1 span {
             color: #ffffff;
         }
-
         .logo p {
             color: #888;
             font-size: 13px;
             margin-top: 5px;
         }
-
         .logo .sub {
             color: #666;
             font-size: 12px;
@@ -77,12 +64,10 @@
             border-top: 1px solid rgba(212, 175, 55, 0.1);
             padding-top: 10px;
         }
-
         .logo .sub .maker {
             color: #d4af37;
             font-weight: 700;
         }
-
         .btn {
             width: 100%;
             padding: 16px;
@@ -98,17 +83,14 @@
             color: #0a0a0a;
             letter-spacing: 0.5px;
         }
-
         .btn:active {
             transform: scale(0.95);
         }
-
         .btn:disabled {
             opacity: 0.4;
             transform: none !important;
             cursor: not-allowed;
         }
-
         .btn-admin {
             position: fixed;
             top: 15px;
@@ -125,15 +107,12 @@
             touch-action: manipulation;
             box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
         }
-
         .btn-admin:active {
             transform: scale(0.9);
         }
-
         .input-group {
             margin-bottom: 15px;
         }
-
         .input-group label {
             display: block;
             color: #d4af37;
@@ -143,13 +122,11 @@
             padding-right: 10px;
             border-right: 3px solid #d4af37;
         }
-
         .input-group label .hint {
             font-weight: 400;
             color: #666;
             font-size: 12px;
         }
-
         .input-group input,
         .input-group textarea {
             width: 100%;
@@ -163,12 +140,10 @@
             color: #ffffff;
             direction: rtl;
         }
-
         .input-group input::placeholder,
         .input-group textarea::placeholder {
             color: #555;
         }
-
         .input-group input:focus,
         .input-group textarea:focus {
             border-color: #d4af37;
@@ -176,12 +151,10 @@
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.06);
             background: rgba(255, 255, 255, 0.06);
         }
-
         .input-group textarea {
             resize: vertical;
             min-height: 80px;
         }
-
         .input-group input[type="file"] {
             padding: 12px 14px;
             border: 2px dashed rgba(212, 175, 55, 0.2);
@@ -190,7 +163,6 @@
             font-size: 14px;
             direction: ltr;
         }
-
         .input-group input[type="file"]::file-selector-button {
             background: linear-gradient(135deg, #d4af37, #b8860b);
             color: #0a0a0a;
@@ -203,18 +175,15 @@
             margin-left: 12px;
             font-size: 13px;
         }
-
         .input-group input[type="file"]::file-selector-button:active {
             transform: scale(0.95);
         }
-
         .file-error {
             color: #e74c3c;
             font-size: 12px;
             margin-top: 5px;
             display: none;
         }
-
         .message-box {
             display: none;
             text-align: center;
@@ -222,48 +191,35 @@
             border-radius: 20px;
             margin: 15px 0;
         }
-
         .message-box .icon {
             font-size: 45px;
             display: block;
             margin-bottom: 8px;
         }
-
         .message-box h3 {
             font-size: 18px;
             margin-bottom: 5px;
         }
-
         .message-box p {
             font-size: 14px;
             color: #888;
             font-weight: 400;
         }
-
-        .message-error {
-            background: rgba(231, 76, 60, 0.1);
-            border: 2px solid rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-        }
-
         .message-success {
             background: rgba(46, 204, 113, 0.1);
             border: 2px solid rgba(46, 204, 113, 0.2);
             color: #2ecc71;
         }
-
         .message-warning {
             background: rgba(241, 196, 15, 0.1);
             border: 2px solid rgba(241, 196, 15, 0.2);
             color: #f1c40f;
         }
-
         .message-info {
             background: rgba(52, 152, 219, 0.1);
             border: 2px solid rgba(52, 152, 219, 0.2);
             color: #3498db;
         }
-
         .tracking-code {
             font-size: 32px;
             font-weight: 900;
@@ -279,7 +235,6 @@
             font-family: monospace;
             word-break: break-all;
         }
-
         .admin-panel {
             display: none;
             max-width: 800px;
@@ -291,11 +246,9 @@
             border: 1px solid rgba(212, 175, 55, 0.15);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
         }
-
         .admin-panel.active {
             display: block;
         }
-
         .admin-panel .header {
             display: flex;
             justify-content: space-between;
@@ -306,13 +259,11 @@
             margin-bottom: 18px;
             gap: 10px;
         }
-
         .admin-panel .header h2 {
             color: #d4af37;
             font-size: 20px;
             font-weight: 900;
         }
-
         .admin-panel .header .badge {
             font-size: 13px;
             background: rgba(212, 175, 55, 0.1);
@@ -322,14 +273,12 @@
             font-weight: 700;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
-
         .admin-panel .actions {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
             margin-bottom: 18px;
         }
-
         .admin-panel .actions button {
             padding: 8px 20px;
             border-radius: 50px;
@@ -342,34 +291,28 @@
             flex: 1;
             min-width: 70px;
         }
-
         .admin-panel .actions button:active {
             transform: scale(0.95);
         }
-
         .admin-panel .btn-refresh {
             background: rgba(52, 152, 219, 0.15);
             color: #3498db;
             border: 1px solid rgba(52, 152, 219, 0.2);
         }
-
         .admin-panel .btn-exit {
             background: rgba(231, 76, 60, 0.15);
             color: #e74c3c;
             border: 1px solid rgba(231, 76, 60, 0.2);
         }
-
         .admin-panel .btn-clear {
             background: rgba(241, 196, 15, 0.15);
             color: #f1c40f;
             border: 1px solid rgba(241, 196, 15, 0.2);
         }
-
         .admin-panel .entries {
             display: grid;
             gap: 12px;
         }
-
         .admin-panel .entry-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -377,7 +320,6 @@
             padding: 14px 16px;
             border-right: 4px solid #d4af37;
         }
-
         .admin-panel .entry-card .top {
             display: flex;
             justify-content: space-between;
@@ -386,13 +328,11 @@
             gap: 5px;
             margin-bottom: 4px;
         }
-
         .admin-panel .entry-card .name {
             font-size: 16px;
             font-weight: 900;
             color: #ffffff;
         }
-
         .admin-panel .entry-card .track {
             font-weight: 700;
             color: #d4af37;
@@ -404,17 +344,14 @@
             font-family: monospace;
             letter-spacing: 1px;
         }
-
         .admin-panel .entry-card .detail {
             color: #aaa;
             font-size: 13px;
             margin: 2px 0;
         }
-
         .admin-panel .entry-card .detail strong {
             color: #d4af37;
         }
-
         .admin-panel .entry-card .image-box {
             margin-top: 8px;
             padding: 8px 12px;
@@ -428,7 +365,6 @@
             gap: 10px;
             flex-wrap: wrap;
         }
-
         .admin-panel .entry-card .image-box img {
             max-width: 55px;
             max-height: 55px;
@@ -436,32 +372,27 @@
             border: 2px solid rgba(212, 175, 55, 0.2);
             object-fit: cover;
         }
-
         .admin-panel .entry-card .time {
             color: #555;
             font-size: 11px;
             margin-top: 4px;
         }
-
         .admin-panel .empty {
             text-align: center;
             padding: 40px 15px;
             color: #555;
         }
-
         .admin-panel .empty .icon {
             font-size: 50px;
             display: block;
             margin-bottom: 10px;
             opacity: 0.3;
         }
-
         .admin-panel .empty h3 {
             color: #666;
             font-weight: 400;
             font-size: 16px;
         }
-
         .modal {
             display: none;
             position: fixed;
@@ -478,11 +409,9 @@
             padding: 20px;
             animation: fadeIn 0.3s ease;
         }
-
         .modal.active {
             display: flex;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -493,7 +422,6 @@
                 transform: scale(1);
             }
         }
-
         .modal-box {
             background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
             border-radius: 30px;
@@ -504,7 +432,6 @@
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
             position: relative;
         }
-
         .modal-box h2 {
             color: #d4af37;
             text-align: center;
@@ -512,11 +439,9 @@
             font-size: 24px;
             font-weight: 900;
         }
-
         .modal-box h2 span {
             color: #fff;
         }
-
         .modal-box .close {
             position: absolute;
             top: 12px;
@@ -529,12 +454,10 @@
             border: none;
             padding: 5px 10px;
         }
-
         .modal-box .close:active {
             transform: rotate(90deg);
             color: #d4af37;
         }
-
         .modal-box input {
             width: 100%;
             padding: 14px 18px;
@@ -548,18 +471,15 @@
             direction: ltr;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         .modal-box input::placeholder {
             color: #666;
         }
-
         .modal-box input:focus {
             border-color: #d4af37;
             outline: none;
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
             background: rgba(255, 255, 255, 0.08);
         }
-
         .modal-box .btn-login {
             width: 100%;
             padding: 15px;
@@ -575,11 +495,9 @@
             margin-top: 5px;
             touch-action: manipulation;
         }
-
         .modal-box .btn-login:active {
             transform: scale(0.97);
         }
-
         .modal-box .error-msg {
             color: #e74c3c;
             font-size: 14px;
@@ -588,11 +506,9 @@
             display: none;
             font-weight: 700;
         }
-
         .hidden {
             display: none !important;
         }
-
         @media (max-width: 480px) {
             .container {
                 padding: 20px 15px;
@@ -639,7 +555,6 @@
                 font-size: 14px;
             }
         }
-
         @media (pointer: coarse) {
             .btn,
             .btn-admin,
@@ -664,8 +579,8 @@
         <div class="modal-box">
             <button class="close" id="closeModalBtn">✕</button>
             <h2>👑 <span>ورود</span> به پنل</h2>
-            <input type="text" id="adminEmail" placeholder="نام کاربری" autocomplete="username">
-            <input type="password" id="adminPassword" placeholder="رمز عبور" autocomplete="current-password">
+            <input type="text" id="adminEmail" placeholder="نام کاربری">
+            <input type="password" id="adminPassword" placeholder="رمز عبور">
             <button class="btn-login" id="adminLoginSubmit">ورود</button>
             <div class="error-msg" id="loginError">❌ نام کاربری یا رمز عبور اشتباه است!</div>
         </div>
@@ -683,18 +598,10 @@
             </div>
         </div>
 
-        <!-- ===== وضعیت اتصال ===== -->
-        <div class="message-box message-info" id="connectionStatus">
+        <div class="message-box message-info" id="statusBox">
             <span class="icon">⏳</span>
-            <h3>در حال اتصال به دیتابیس...</h3>
+            <h3>در حال آماده‌سازی...</h3>
             <p>لطفاً چند لحظه صبر کنید</p>
-        </div>
-
-        <!-- ===== پیام تکمیل ظرفیت ===== -->
-        <div class="message-box message-warning" id="fullCapacityMessage">
-            <span class="icon">🚫</span>
-            <h3>ظرفیت مسابقه تکمیل شد!</h3>
-            <p>متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است.</p>
         </div>
 
         <button class="btn" id="enterBtn">✦ ورود به مسابقه ✦</button>
@@ -718,13 +625,6 @@
                     <label>📝 توضیحات ادیت</label>
                     <textarea id="editDescription" placeholder="درباره ادیت خود توضیح دهید..." required></textarea>
                 </div>
-
-                <div class="message-box message-error" id="timeoutMessage">
-                    <span class="icon">⏰</span>
-                    <h3>زمان ثبت‌نام به پایان رسیده!</h3>
-                    <p>جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب</p>
-                </div>
-
                 <button type="submit" class="btn" id="submitBtn">✦ ارسال ادیت ✦</button>
             </form>
         </div>
@@ -759,97 +659,18 @@
         </div>
     </div>
 
+    <!-- ===== بارگذاری فایل config.js (توکن‌ها اینجاست) ===== -->
+    <script src="config.js"></script>
+
     <script>
         // ============================================================
-        // ===== تنظیمات دیتابیس Neon (پروژه شما) =====
+        // ===== حالا از TELEGRAM_CONFIG استفاده میکنیم =====
         // ============================================================
 
-        const DATABASE_URL = 'postgresql://neondb_owner:npg_tEVsukRqmj18@ep-polished-cell-ao0ezznz-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
-
-        // ============================================================
-        // ===== محدودیت‌ها =====
-        // ============================================================
-        const MAX_CAPACITY = 100;
-        const MAX_FILE_SIZE = 5 * 1024 * 1024;
-        const END_DATE = new Date('2026-07-10T23:59:59');
-
-        // ============================================================
-        // ===== هش (SHA-256 با Salt) =====
-        // ============================================================
-        const SALT = 'Z.Rooyal@2026#ShKiLLeR#Secure';
-
-        function hashWithSalt(input) {
-            return CryptoJS.SHA256(SALT + input).toString();
-        }
-
-        const HASHED_USERNAME = hashWithSalt('ShKiLLeR');
-        const HASHED_PASSWORD = hashWithSalt('shayan54608189');
-
-        // ============================================================
-        // ===== کتابخانه CryptoJS =====
-        // ============================================================
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js';
-        document.head.appendChild(script);
-
-        // ============================================================
-        // ===== راه‌اندازی Neon =====
-        // ============================================================
-        let sql = null;
-        let isDbConnected = false;
-
-        function waitForCryptoJS() {
-            return new Promise((resolve) => {
-                if (typeof CryptoJS !== 'undefined') {
-                    resolve();
-                } else {
-                    const check = setInterval(() => {
-                        if (typeof CryptoJS !== 'undefined') {
-                            clearInterval(check);
-                            resolve();
-                        }
-                    }, 100);
-                }
-            });
-        }
-
-        async function connectToDatabase() {
-            try {
-                const statusDiv = document.getElementById('connectionStatus');
-                statusDiv.style.display = 'block';
-                statusDiv.className = 'message-box message-info';
-                statusDiv.querySelector('.icon').textContent = '⏳';
-                statusDiv.querySelector('h3').textContent = 'در حال اتصال به دیتابیس Neon...';
-                statusDiv.querySelector('p').textContent = 'لطفاً چند لحظه صبر کنید';
-
-                sql = neon(DATABASE_URL);
-
-                const result = await sql`SELECT NOW() as current_time;`;
-
-                if (result && result.length > 0) {
-                    isDbConnected = true;
-                    statusDiv.className = 'message-box message-success';
-                    statusDiv.querySelector('.icon').textContent = '✅';
-                    statusDiv.querySelector('h3').textContent = 'اتصال به دیتابیس برقرار است!';
-                    statusDiv.querySelector('p').textContent = 'همه چیز آماده است. می‌توانید ثبت‌نام کنید.';
-
-                    setTimeout(() => {
-                        statusDiv.style.display = 'none';
-                    }, 3000);
-
-                    return true;
-                }
-                throw new Error('پاسخی از دیتابیس دریافت نشد.');
-            } catch (error) {
-                isDbConnected = false;
-                const statusDiv = document.getElementById('connectionStatus');
-                statusDiv.className = 'message-box message-error';
-                statusDiv.querySelector('.icon').textContent = '❌';
-                statusDiv.querySelector('h3').textContent = 'خطا در اتصال به دیتابیس!';
-                statusDiv.querySelector('p').textContent = 'مشکل: ' + error.message;
-                console.error('Neon Connection Error:', error);
-                return false;
-            }
+        // #چک میکنیم که config.js لود شده یا نه
+        if (typeof TELEGRAM_CONFIG === 'undefined') {
+            console.error('❌ فایل config.js پیدا نشد!');
+            alert('⚠️ خطا: فایل تنظیمات پیدا نشد! لطفاً با ادمین تماس بگیرید.');
         }
 
         // ============================================================
@@ -876,165 +697,120 @@
         const formSection = $('formSection');
         const form = $('contestForm');
         const submitBtn = $('submitBtn');
-        const timeoutMessage = $('timeoutMessage');
         const trackingSection = $('trackingSection');
         const trackingCodeEl = $('trackingCode');
         const appContainer = $('appContainer');
-
-        const fullCapacityMessage = $('fullCapacityMessage');
         const fileInput = $('editImage');
         const fileError = $('fileError');
+        const statusBox = $('statusBox');
 
         // ============================================================
-        // ===== توابع =====
+        // ===== ذخیره‌سازی محلی (LocalStorage) =====
         // ============================================================
-        function isContestExpired() {
-            return new Date() > END_DATE;
+        function getEntries() {
+            try {
+                return JSON.parse(localStorage.getItem('zrooyal_entries')) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveEntries(entries) {
+            localStorage.setItem('zrooyal_entries', JSON.stringify(entries));
         }
 
         function generateTracking() {
             return 'RT-' + Math.floor(100000 + Math.random() * 900000);
         }
 
-        async function getEntriesCount() {
+        // ============================================================
+        // ===== تابع ارسال به تلگرام =====
+        // ============================================================
+        async function sendToTelegram(entryData) {
             try {
-                if (!sql) throw new Error('Neon client not initialized');
-                const result = await sql`SELECT COUNT(*) as count FROM entries;`;
-                return parseInt(result[0]?.count || 0);
-            } catch (e) {
-                console.error('Error getting count:', e);
-                return 0;
-            }
-        }
+                // #چک میکنیم که TELEGRAM_CONFIG وجود داره
+                if (typeof TELEGRAM_CONFIG === 'undefined' || !TELEGRAM_CONFIG.BOT_TOKEN) {
+                    console.error('❌ تلگرام تنظیم نشده!');
+                    return false;
+                }
 
-        async function getEntries() {
-            try {
-                if (!sql) throw new Error('Neon client not initialized');
-                const result = await sql`
-                    SELECT * FROM entries 
-                    ORDER BY submitted_at DESC;
-                `;
-                return result || [];
-            } catch (e) {
-                console.error('Error getting entries:', e);
-                return [];
-            }
-        }
+                const message =
+                    `📝 **ثبت‌نام جدید در مسابقه Z.ROOYAL**\n\n` +
+                    `👤 **نام:** ${entryData.fullName}\n` +
+                    `🆔 **آیدی روبیکا:** ${entryData.rubikaId}\n` +
+                    `📝 **توضیحات:** ${entryData.description || 'بدون توضیح'}\n` +
+                    `🔑 **کد رهگیری:** ${entryData.trackingCode}\n` +
+                    `📎 **فایل:** ${entryData.fileName}\n` +
+                    `📅 **زمان:** ${entryData.submittedAt}\n\n` +
+                    `✅ ثبت با موفقیت انجام شد.`;
 
-        async function saveEntry(data) {
-            try {
-                if (!sql) throw new Error('Neon client not initialized');
-                const result = await sql`
-                    INSERT INTO entries (full_name, rubika_id, description, tracking_code, image_data, file_name, submitted_at)
-                    VALUES (${data.fullName}, ${data.rubikaId}, ${data.description}, ${data.trackingCode}, ${data.imageData}, ${data.fileName}, ${data.submittedAt})
-                    RETURNING tracking_code;
-                `;
-                return result.length > 0;
-            } catch (e) {
-                console.error('Error saving entry:', e);
-                return false;
-            }
-        }
+                const url =
+                    `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
 
-        async function clearAll() {
-            try {
-                if (!sql) throw new Error('Neon client not initialized');
-                await sql`DELETE FROM entries;`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CONFIG.CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                const result = await response.json();
+                if (!result.ok) {
+                    console.error('Telegram error:', result);
+                    return false;
+                }
                 return true;
-            } catch (e) {
-                console.error('Error clearing:', e);
+            } catch (error) {
+                console.error('Error sending to Telegram:', error);
                 return false;
-            }
-        }
-
-        // ============================================================
-        // ===== بروزرسانی صفحه =====
-        // ============================================================
-        async function updatePage() {
-            const count = await getEntriesCount();
-            const isFull = count >= MAX_CAPACITY;
-            const isExpired = isContestExpired();
-
-            if (isFull) {
-                fullCapacityMessage.style.display = 'block';
-                enterBtn.classList.add('hidden');
-                formSection.classList.add('hidden');
-                submitBtn.disabled = true;
-                submitBtn.textContent = '🚫 ظرفیت تکمیل شد';
-            } else {
-                fullCapacityMessage.style.display = 'none';
-                enterBtn.classList.remove('hidden');
-            }
-
-            if (isExpired && !isFull) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = '⏰ زمان ثبت‌نام به پایان رسیده';
-                timeoutMessage.style.display = 'block';
-            } else if (!isFull && !isExpired) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = '✦ ارسال ادیت ✦';
-                timeoutMessage.style.display = 'none';
-            }
-
-            if (adminPanel.classList.contains('active')) {
-                await renderAdmin();
             }
         }
 
         // ============================================================
         // ===== پنل ادمین =====
         // ============================================================
-        async function renderAdmin() {
-            try {
-                entriesContainer.innerHTML =
-                    `<div style="text-align:center;padding:30px;color:#888;">⏳ در حال بارگذاری...</div>`;
+        function renderAdmin() {
+            const entries = getEntries();
 
-                const entries = await getEntries();
-
-                if (!entries || entries.length === 0) {
-                    entriesContainer.innerHTML = `
-                        <div class="empty">
-                            <span class="icon">📭</span>
-                            <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
-                        </div>
-                    `;
-                    entriesCount.textContent = '۰ ثبت';
-                    return;
-                }
-
-                entriesCount.textContent = `${entries.length} / ${MAX_CAPACITY} ثبت`;
-
-                let html = '<div class="entries">';
-                entries.forEach(e => {
-                    html += `
-                        <div class="entry-card">
-                            <div class="top">
-                                <span class="name">👤 ${e.full_name || 'نامشخص'}</span>
-                                <span class="track">${e.tracking_code || 'بدون کد'}</span>
-                            </div>
-                            <div class="detail"><strong>🆔 آیدی:</strong> ${e.rubika_id || 'ندارد'}</div>
-                            <div class="detail"><strong>📝 توضیحات:</strong> ${e.description || 'بدون توضیح'}</div>
-                            <div class="image-box">
-                                <span>🖼️ فایل:</span>
-                                ${e.file_name ? `📄 ${e.file_name}` : 'فایلی انتخاب نشده'}
-                                ${e.image_data ? `<img src="${e.image_data}" alt="ادیت" loading="lazy">` : ''}
-                            </div>
-                            <div class="time">⏱ ${e.submitted_at || 'نامشخص'}</div>
-                        </div>
-                    `;
-                });
-                html += '</div>';
-                entriesContainer.innerHTML = html;
-
-            } catch (e) {
-                console.error('Render error:', e);
+            if (entries.length === 0) {
                 entriesContainer.innerHTML = `
                     <div class="empty">
-                        <span class="icon">⚠️</span>
-                        <h3>خطا در بارگذاری</h3>
+                        <span class="icon">📭</span>
+                        <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
                     </div>
                 `;
+                entriesCount.textContent = '۰ ثبت';
+                return;
             }
+
+            entriesCount.textContent = entries.length + ' ثبت';
+
+            let html = '<div class="entries">';
+            const reversed = [...entries].reverse();
+            reversed.forEach(e => {
+                html += `
+                    <div class="entry-card">
+                        <div class="top">
+                            <span class="name">👤 ${e.fullName || 'نامشخص'}</span>
+                            <span class="track">${e.trackingCode || 'بدون کد'}</span>
+                        </div>
+                        <div class="detail"><strong>🆔 آیدی:</strong> ${e.rubikaId || 'ندارد'}</div>
+                        <div class="detail"><strong>📝 توضیحات:</strong> ${e.description || 'بدون توضیح'}</div>
+                        ${e.imageData ? `<div class="image-box">
+                            <span>🖼️ فایل: 📄 ${e.fileName || 'عکس'}</span>
+                            <img src="${e.imageData}" alt="ادیت" loading="lazy">
+                        </div>` : ''}
+                        <div class="time">⏱ ${e.submittedAt || 'نامشخص'}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            entriesContainer.innerHTML = html;
         }
 
         // ============================================================
@@ -1048,33 +824,25 @@
             setTimeout(() => adminEmail.focus(), 300);
         }
 
-        function closeModal() {
+        function closeModalFn() {
             adminModal.classList.remove('active');
         }
 
         adminLoginBtn.addEventListener('click', openModal);
-        closeModalBtn.addEventListener('click', closeModal);
-        adminModal.addEventListener('click', e => { if (e.target === adminModal) closeModal(); });
+        closeModalBtn.addEventListener('click', closeModalFn);
+        adminModal.addEventListener('click', e => { if (e.target === adminModal) closeModalFn(); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape' && adminModal.classList.contains('active'))
-            closeModal(); });
+            closeModalFn(); });
 
         // ============================================================
         // ===== لاگین =====
         // ============================================================
         adminLoginSubmit.addEventListener('click', function() {
-            const email = adminEmail.value.trim();
-            const password = adminPassword.value.trim();
+            const user = adminEmail.value.trim();
+            const pass = adminPassword.value.trim();
 
-            if (!email || !password) {
-                loginError.textContent = '❌ لطفاً همه فیلدها را پر کنید!';
-                loginError.style.display = 'block';
-                setTimeout(() => loginError.style.display = 'none', 3000);
-                return;
-            }
-
-            if (hashWithSalt(email) === HASHED_USERNAME &&
-                hashWithSalt(password) === HASHED_PASSWORD) {
-                closeModal();
+            if (user === 'ShKiLLeR' && pass === 'shayan54608189') {
+                closeModalFn();
                 adminPanel.classList.add('active');
                 appContainer.style.display = 'none';
                 renderAdmin();
@@ -1094,53 +862,24 @@
         exitAdminBtn.addEventListener('click', function() {
             adminPanel.classList.remove('active');
             appContainer.style.display = 'block';
-            updatePage();
         });
 
         refreshAdminBtn.addEventListener('click', renderAdmin);
 
-        clearAllBtn.addEventListener('click', async function() {
+        clearAllBtn.addEventListener('click', function() {
             if (confirm('⚠️ آیا مطمئن هستید که می‌خواهید همه ثبت‌ها را حذف کنید؟')) {
-                const result = await clearAll();
-                if (result) {
-                    await renderAdmin();
-                    await updatePage();
-                    alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
-                } else {
-                    alert('❌ خطا در حذف اطلاعات!');
-                }
+                saveEntries([]);
+                renderAdmin();
+                alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
             }
         });
 
         // ============================================================
         // ===== ورود به مسابقه =====
         // ============================================================
-        enterBtn.addEventListener('click', async function() {
-            if (!isDbConnected) {
-                const connected = await connectToDatabase();
-                if (!connected) {
-                    alert('❌ اتصال به دیتابیس برقرار نیست!');
-                    return;
-                }
-            }
-
-            const count = await getEntriesCount();
-
-            if (count >= MAX_CAPACITY) {
-                alert('🚫 متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است!');
-                await updatePage();
-                return;
-            }
-
-            if (isContestExpired()) {
-                alert('⏰ متاسفانه زمان ثبت‌نام به پایان رسیده است!');
-                await updatePage();
-                return;
-            }
-
+        enterBtn.addEventListener('click', function() {
             enterBtn.classList.add('hidden');
             formSection.classList.remove('hidden');
-            await updatePage();
             formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
@@ -1150,7 +889,7 @@
         fileInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                if (file.size > MAX_FILE_SIZE) {
+                if (file.size > 5 * 1024 * 1024) {
                     fileError.style.display = 'block';
                     this.value = '';
                     submitBtn.disabled = true;
@@ -1167,121 +906,89 @@
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            try {
-                if (!isDbConnected) {
-                    const connected = await connectToDatabase();
-                    if (!connected) {
-                        alert('❌ اتصال به دیتابیس برقرار نیست!');
-                        return;
-                    }
-                }
+            const name = $('fullName').value.trim();
+            const rubika = $('rubikaId').value.trim();
+            const desc = $('editDescription').value.trim();
 
-                const count = await getEntriesCount();
-                if (count >= MAX_CAPACITY) {
-                    alert('🚫 متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است!');
-                    await updatePage();
-                    return;
-                }
-
-                if (isContestExpired()) {
-                    alert('⏰ متاسفانه زمان ثبت‌نام به پایان رسیده است!');
-                    await updatePage();
-                    return;
-                }
-
-                const fullName = $('fullName').value.trim();
-                const rubikaId = $('rubikaId').value.trim();
-                const description = $('editDescription').value.trim();
-
-                if (!fullName || !rubikaId || !description || fileInput.files.length === 0) {
-                    alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.');
-                    return;
-                }
-
-                if (fileInput.files[0].size > MAX_FILE_SIZE) {
-                    alert('❌ حجم فایل بیشتر از ۵ مگابایت است!');
-                    return;
-                }
-
-                submitBtn.disabled = true;
-                submitBtn.textContent = '⏳ در حال ارسال...';
-
-                const tracking = generateTracking();
-                trackingCodeEl.textContent = tracking;
-
-                const reader = new FileReader();
-                reader.onload = async function(event) {
-                    try {
-                        const entryData = {
-                            fullName: fullName,
-                            rubikaId: rubikaId,
-                            description: description,
-                            trackingCode: tracking,
-                            fileName: fileInput.files[0].name,
-                            imageData: event.target.result,
-                            submittedAt: new Date().toLocaleString('fa-IR')
-                        };
-
-                        const saved = await saveEntry(entryData);
-
-                        if (saved) {
-                            formSection.classList.add('hidden');
-                            trackingSection.classList.remove('hidden');
-                            trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            form.reset();
-                            fileError.style.display = 'none';
-                            await updatePage();
-                        } else {
-                            alert('❌ خطا در ثبت اطلاعات! لطفاً دوباره تلاش کنید.');
-                        }
-                    } catch (err) {
-                        console.error(err);
-                        alert('❌ خطا در ثبت اطلاعات!');
-                    } finally {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = '✦ ارسال ادیت ✦';
-                    }
-                };
-
-                reader.readAsDataURL(fileInput.files[0]);
-
-            } catch (err) {
-                console.error(err);
-                alert('⚠️ خطا در ارتباط با سرور!');
-                submitBtn.disabled = false;
-                submitBtn.textContent = '✦ ارسال ادیت ✦';
+            if (!name || !rubika || !desc || fileInput.files.length === 0) {
+                alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.');
+                return;
             }
+
+            if (fileInput.files[0].size > 5 * 1024 * 1024) {
+                alert('❌ حجم فایل بیشتر از ۵ مگابایت است!');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ در حال ارسال...';
+
+            const tracking = generateTracking();
+            trackingCodeEl.textContent = tracking;
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                try {
+                    const entryData = {
+                        fullName: name,
+                        rubikaId: rubika,
+                        description: desc,
+                        trackingCode: tracking,
+                        fileName: fileInput.files[0].name,
+                        imageData: event.target.result,
+                        submittedAt: new Date().toLocaleString('fa-IR')
+                    };
+
+                    // #ذخیره توی LocalStorage
+                    const entries = getEntries();
+                    entries.push(entryData);
+                    saveEntries(entries);
+
+                    // #ارسال به تلگرام
+                    const telegramResult = await sendToTelegram(entryData);
+
+                    if (telegramResult) {
+                        console.log('✅ به تلگرام ارسال شد!');
+                    } else {
+                        console.log('⚠️ ارسال به تلگرام ناموفق بود، ولی اطلاعات ذخیره شد.');
+                    }
+
+                    formSection.classList.add('hidden');
+                    trackingSection.classList.remove('hidden');
+                    trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    form.reset();
+                    fileError.style.display = 'none';
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('❌ خطا در ثبت اطلاعات!');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '✦ ارسال ادیت ✦';
+                }
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
         });
 
         // ============================================================
         // ===== اجرای اولیه =====
         // ============================================================
-        document.addEventListener('DOMContentLoaded', async function() {
-            await waitForCryptoJS();
-            await connectToDatabase();
-            await updatePage();
+        document.addEventListener('DOMContentLoaded', function() {
+            statusBox.style.display = 'none';
 
             console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
-            console.log('👥 ظرفیت: ۱۰۰ نفر');
-            console.log('⏰ زمان پایان: جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب');
-            console.log('✅ مسابقه Z.ROOYAL با Neon آماده است!');
-            console.log('🗄️ پروژه: shy-cherry-28045862');
-        });
-
-        // ============================================================
-        // ===== خطایاب =====
-        // ============================================================
-        window.onerror = function(msg, url, line, col, error) {
-            console.error('❌ خطا:', msg, url, line);
-            alert('⚠️ خطا: ' + msg + '\nسطر: ' + line);
-            return true;
-        };
-
-        window.addEventListener('unhandledrejection', function(e) {
-            console.error('❌ خطای Promise:', e.reason);
-            alert('⚠️ خطا: ' + e.reason);
+            
+            // #چک کردن وضعیت تلگرام
+            if (typeof TELEGRAM_CONFIG !== 'undefined' && TELEGRAM_CONFIG.BOT_TOKEN) {
+                console.log('🤖 تلگرام: ✅ تنظیم شده');
+            } else {
+                console.log('🤖 تلگرام: ❌ تنظیم نشده');
+            }
+            
+            console.log('✅ مسابقه Z.ROOYAL با تلگرام آماده است!');
         });
     </script>
 
 </body>
-    </html>
+</html>
