@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🏆 مسابقه ادیت Z.ROOYAL</title>
 
-    <!-- ===== کتابخانه‌ها ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js">
+    <!-- ===== کتابخانه Neon (برای اتصال به دیتابیس) ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@neondatabase/serverless@0.10.3/index.min.js">
     </script>
 
     <style>
-        /* ===== ریست کامل ===== */
         * {
             margin: 0;
             padding: 0;
@@ -41,7 +38,6 @@
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.08);
         }
 
-        /* ===== لوگو ===== */
         .logo {
             text-align: center;
             margin-bottom: 25px;
@@ -87,7 +83,6 @@
             font-weight: 700;
         }
 
-        /* ===== دکمه‌ها ===== */
         .btn {
             width: 100%;
             padding: 16px;
@@ -114,7 +109,6 @@
             cursor: not-allowed;
         }
 
-        /* ===== دکمه ورود ادمین ===== */
         .btn-admin {
             position: fixed;
             top: 15px;
@@ -136,7 +130,6 @@
             transform: scale(0.9);
         }
 
-        /* ===== فرم ===== */
         .input-group {
             margin-bottom: 15px;
         }
@@ -222,7 +215,6 @@
             display: none;
         }
 
-        /* ===== پیام‌ها ===== */
         .message-box {
             display: none;
             text-align: center;
@@ -272,7 +264,6 @@
             color: #3498db;
         }
 
-        /* ===== کد رهگیری ===== */
         .tracking-code {
             font-size: 32px;
             font-weight: 900;
@@ -289,7 +280,6 @@
             word-break: break-all;
         }
 
-        /* ===== پنل ادمین ===== */
         .admin-panel {
             display: none;
             max-width: 800px;
@@ -472,7 +462,6 @@
             font-size: 16px;
         }
 
-        /* ===== مودال ورود ===== */
         .modal {
             display: none;
             position: fixed;
@@ -604,7 +593,6 @@
             display: none !important;
         }
 
-        /* ===== Responsive ===== */
         @media (max-width: 480px) {
             .container {
                 padding: 20px 15px;
@@ -773,12 +761,10 @@
 
     <script>
         // ============================================================
-        // ===== تنظیمات Supabase =====
+        // ===== تنظیمات دیتابیس Neon =====
         // ============================================================
-        const SUPABASE_CONFIG = {
-            URL: 'https://htlrmoghpvqvfdxeqhep.supabase.co',
-            ANON_KEY: 'sb_publishable_B8JAs-qleUFK94Z_qe5jmQ_Fgr_MzqT'
-        };
+
+        const DATABASE_URL = 'postgresql://neondb_owner:npg_tEVsukRqmj18@ep-polished-cell-ao0ezznz-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
 
         // ============================================================
         // ===== محدودیت‌ها =====
@@ -800,19 +786,70 @@
         const HASHED_PASSWORD = hashWithSalt('shayan54608189');
 
         // ============================================================
-        // ===== راه‌اندازی Supabase =====
+        // ===== کتابخانه CryptoJS =====
         // ============================================================
-        let supabaseClient = null;
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js';
+        document.head.appendChild(script);
+
+        // ============================================================
+        // ===== راه‌اندازی Neon =====
+        // ============================================================
+        let sql = null;
         let isDbConnected = false;
 
-        try {
-            supabaseClient = supabase.createClient(
-                SUPABASE_CONFIG.URL,
-                SUPABASE_CONFIG.ANON_KEY
-            );
-            console.log('✅ Supabase client created');
-        } catch (e) {
-            console.error('❌ Error creating Supabase client:', e);
+        function waitForCryptoJS() {
+            return new Promise((resolve) => {
+                if (typeof CryptoJS !== 'undefined') {
+                    resolve();
+                } else {
+                    const check = setInterval(() => {
+                        if (typeof CryptoJS !== 'undefined') {
+                            clearInterval(check);
+                            resolve();
+                        }
+                    }, 100);
+                }
+            });
+        }
+
+        async function connectToDatabase() {
+            try {
+                const statusDiv = document.getElementById('connectionStatus');
+                statusDiv.style.display = 'block';
+                statusDiv.className = 'message-box message-info';
+                statusDiv.querySelector('.icon').textContent = '⏳';
+                statusDiv.querySelector('h3').textContent = 'در حال اتصال به دیتابیس Neon...';
+                statusDiv.querySelector('p').textContent = 'لطفاً چند لحظه صبر کنید';
+
+                sql = neon(DATABASE_URL);
+
+                const result = await sql`SELECT NOW() as current_time;`;
+
+                if (result && result.length > 0) {
+                    isDbConnected = true;
+                    statusDiv.className = 'message-box message-success';
+                    statusDiv.querySelector('.icon').textContent = '✅';
+                    statusDiv.querySelector('h3').textContent = 'اتصال به دیتابیس برقرار است!';
+                    statusDiv.querySelector('p').textContent = 'همه چیز آماده است. می‌توانید ثبت‌نام کنید.';
+
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 3000);
+
+                    return true;
+                }
+                throw new Error('پاسخی از دیتابیس دریافت نشد.');
+            } catch (error) {
+                isDbConnected = false;
+                const statusDiv = document.getElementById('connectionStatus');
+                statusDiv.className = 'message-box message-error';
+                statusDiv.querySelector('.icon').textContent = '❌';
+                statusDiv.querySelector('h3').textContent = 'خطا در اتصال به دیتابیس!';
+                statusDiv.querySelector('p').textContent = 'مشکل: ' + error.message;
+                console.error('Neon Connection Error:', error);
+                return false;
+            }
         }
 
         // ============================================================
@@ -847,7 +884,6 @@
         const fullCapacityMessage = $('fullCapacityMessage');
         const fileInput = $('editImage');
         const fileError = $('fileError');
-        const connectionStatus = $('connectionStatus');
 
         // ============================================================
         // ===== توابع =====
@@ -860,27 +896,11 @@
             return 'RT-' + Math.floor(100000 + Math.random() * 900000);
         }
 
-        function showStatus(icon, title, message, type) {
-            connectionStatus.style.display = 'block';
-            connectionStatus.className = 'message-box';
-            if (type) connectionStatus.classList.add(type);
-            connectionStatus.querySelector('.icon').textContent = icon;
-            connectionStatus.querySelector('h3').textContent = title;
-            connectionStatus.querySelector('p').textContent = message;
-        }
-
-        function hideStatus() {
-            connectionStatus.style.display = 'none';
-        }
-
         async function getEntriesCount() {
             try {
-                if (!supabaseClient) throw new Error('Supabase client not initialized');
-                const { count, error } = await supabaseClient
-                    .from('entries')
-                    .select('*', { count: 'exact', head: true });
-                if (error) throw error;
-                return count || 0;
+                if (!sql) throw new Error('Neon client not initialized');
+                const result = await sql`SELECT COUNT(*) as count FROM entries;`;
+                return parseInt(result[0]?.count || 0);
             } catch (e) {
                 console.error('Error getting count:', e);
                 return 0;
@@ -889,13 +909,12 @@
 
         async function getEntries() {
             try {
-                if (!supabaseClient) throw new Error('Supabase client not initialized');
-                const { data, error } = await supabaseClient
-                    .from('entries')
-                    .select('*')
-                    .order('submitted_at', { ascending: false });
-                if (error) throw error;
-                return data || [];
+                if (!sql) throw new Error('Neon client not initialized');
+                const result = await sql`
+                    SELECT * FROM entries 
+                    ORDER BY submitted_at DESC;
+                `;
+                return result || [];
             } catch (e) {
                 console.error('Error getting entries:', e);
                 return [];
@@ -904,20 +923,13 @@
 
         async function saveEntry(data) {
             try {
-                if (!supabaseClient) throw new Error('Supabase client not initialized');
-                const { error } = await supabaseClient
-                    .from('entries')
-                    .insert([{
-                        full_name: data.fullName,
-                        rubika_id: data.rubikaId,
-                        description: data.description,
-                        tracking_code: data.trackingCode,
-                        image_data: data.imageData,
-                        file_name: data.fileName,
-                        submitted_at: data.submittedAt
-                    }]);
-                if (error) throw error;
-                return true;
+                if (!sql) throw new Error('Neon client not initialized');
+                const result = await sql`
+                    INSERT INTO entries (full_name, rubika_id, description, tracking_code, image_data, file_name, submitted_at)
+                    VALUES (${data.fullName}, ${data.rubikaId}, ${data.description}, ${data.trackingCode}, ${data.imageData}, ${data.fileName}, ${data.submittedAt})
+                    RETURNING tracking_code;
+                `;
+                return result.length > 0;
             } catch (e) {
                 console.error('Error saving entry:', e);
                 return false;
@@ -926,46 +938,11 @@
 
         async function clearAll() {
             try {
-                if (!supabaseClient) throw new Error('Supabase client not initialized');
-                const { error } = await supabaseClient
-                    .from('entries')
-                    .delete()
-                    .neq('id', 0);
-                if (error) throw error;
+                if (!sql) throw new Error('Neon client not initialized');
+                await sql`DELETE FROM entries;`;
                 return true;
             } catch (e) {
                 console.error('Error clearing:', e);
-                return false;
-            }
-        }
-
-        // ============================================================
-        // ===== تست اتصال =====
-        // ============================================================
-        async function testConnection() {
-            try {
-                if (!supabaseClient) throw new Error('Supabase client not initialized');
-                const { data, error } = await supabaseClient
-                    .from('entries')
-                    .select('*')
-                    .limit(1);
-
-                if (error) throw error;
-
-                isDbConnected = true;
-                showStatus('✅', 'اتصال به دیتابیس برقرار است!',
-                    'همه چیز آماده است. می‌توانید ثبت‌نام کنید.',
-                    'message-success');
-
-                setTimeout(hideStatus, 3000);
-                return true;
-
-            } catch (e) {
-                isDbConnected = false;
-                showStatus('❌', 'خطا در اتصال به دیتابیس!',
-                    'مشکل: ' + e.message + '. لطفاً تنظیمات CORS را چک کنید.',
-                    'message-error');
-                console.error('Connection test failed:', e);
                 return false;
             }
         }
@@ -1140,10 +1117,9 @@
         // ============================================================
         enterBtn.addEventListener('click', async function() {
             if (!isDbConnected) {
-                alert('⚠️ در حال اتصال به دیتابیس... لطفاً صبر کنید.');
-                const connected = await testConnection();
+                const connected = await connectToDatabase();
                 if (!connected) {
-                    alert('❌ اتصال به دیتابیس برقرار نیست! لطفاً تنظیمات CORS را چک کنید.');
+                    alert('❌ اتصال به دیتابیس برقرار نیست!');
                     return;
                 }
             }
@@ -1193,8 +1169,7 @@
 
             try {
                 if (!isDbConnected) {
-                    alert('⚠️ در حال اتصال به دیتابیس... لطفاً صبر کنید.');
-                    const connected = await testConnection();
+                    const connected = await connectToDatabase();
                     if (!connected) {
                         alert('❌ اتصال به دیتابیس برقرار نیست!');
                         return;
@@ -1282,17 +1257,14 @@
         // ===== اجرای اولیه =====
         // ============================================================
         document.addEventListener('DOMContentLoaded', async function() {
-            // #تست اتصال به دیتابیس
-            await testConnection();
-
-            // #بروزرسانی صفحه
+            await waitForCryptoJS();
+            await connectToDatabase();
             await updatePage();
 
             console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
             console.log('👥 ظرفیت: ۱۰۰ نفر');
             console.log('⏰ زمان پایان: جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب');
-            console.log('✅ مسابقه Z.ROOYAL آماده است! 🚀');
-            console.log('📡 وضعیت دیتابیس:', isDbConnected ? '✅ متصل' : '❌ قطع');
+            console.log('✅ مسابقه Z.ROOYAL با Neon آماده است!');
         });
 
         // ============================================================
@@ -1311,4 +1283,4 @@
     </script>
 
 </body>
-    </html>
+</html>
