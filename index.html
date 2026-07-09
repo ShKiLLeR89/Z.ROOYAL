@@ -6,8 +6,7 @@
     <title>🏆 مسابقه ادیت Z.ROOYAL</title>
 
     <!-- ===== کتابخانه Supabase ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         * {
@@ -666,17 +665,18 @@
 
     <script>
         // ============================================================
-        // ===== تنظیمات Supabase (کلیدهای شما) =====
+        // ===== تنظیمات Supabase (اصلاح شده) =====
         // ============================================================
 
         const SUPABASE_URL = 'https://htlrmoghpvqvfdxeqhep.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_B8JAs-qleUFK94Z_qe5jmQ_Fgr_MzqT';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0bHJtb2docHZxdmZkeGVxaGVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MDExNDksImV4cCI6MjA5OTE3NzE0OX0.nFZyZuEZ7Yyy5LXc3FkZVdHkb78mGXIt7s-JVkS4xnA';
 
         // ============================================================
-        // ===== راه‌اندازی Supabase =====
+        // ===== راه‌اندازی Supabase (رفع باگ ReferenceError) =====
         // ============================================================
 
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const { createClient } = window.supabase;
+        const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ============================================================
         // ===== عناصر =====
@@ -712,7 +712,7 @@
         let isDbConnected = false;
 
         // ============================================================
-        // ===== توابع =====
+        // ===== توابع کمکی =====
         // ============================================================
 
         function generateTracking() {
@@ -740,14 +740,14 @@
             try {
                 showStatus('⏳', 'در حال اتصال به دیتابیس...', 'لطفاً چند لحظه صبر کنید', 'message-info');
 
-                const { data, error } = await supabase
+                const { data, error } = await db
                     .from('entries')
                     .select('*')
                     .limit(1);
 
                 if (error) {
                     if (error.message.includes('relation "entries" does not exist')) {
-                        showStatus('❌', 'جدول entries وجود ندارد!', 'لطفاً جدول را در SQL Editor بسازید', 'message-error');
+                        showStatus('❌', 'جدول entries وجود ندارد!', 'لطفاً جدول را در SQL Editor بسازید', 'message-warning');
                         isDbConnected = false;
                         return false;
                     }
@@ -762,14 +762,14 @@
             } catch (error) {
                 isDbConnected = false;
                 let errorMsg = error.message;
-                if (errorMsg.includes('permission denied')) {
-                    errorMsg = 'خطا در دسترسی! Policyها را تنظیم کنید.';
-                } else if (errorMsg.includes('Invalid API key')) {
+                if (errorMsg.includes('permission denied') || errorMsg.includes('PGRST')) {
+                    errorMsg = 'خطا در دسترسی! کدهای SQL (RLS) را در دیتابیس اجرا کنید.';
+                } else if (errorMsg.includes('Invalid API key') || errorMsg.includes('401')) {
                     errorMsg = 'کلید API اشتباه است!';
-                } else if (errorMsg.includes('Failed to fetch')) {
-                    errorMsg = 'مشکل در اتصال به اینترنت یا CORS!';
+                } else if (errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError')) {
+                    errorMsg = 'مشکل در اتصال به اینترنت!';
                 }
-                showStatus('❌', 'خطا در اتصال به دیتابیس!', errorMsg, 'message-error');
+                showStatus('❌', 'خطا در اتصال به دیتابیس!', errorMsg, 'message-warning');
                 console.error('Supabase connection error:', error);
                 return false;
             }
@@ -781,7 +781,7 @@
 
         async function getEntries() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await db
                     .from('entries')
                     .select('*')
                     .order('submitted_at', { ascending: false });
@@ -796,7 +796,7 @@
 
         async function saveEntry(entryData) {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await db
                     .from('entries')
                     .insert([{
                         full_name: entryData.fullName,
@@ -818,7 +818,7 @@
 
         async function clearAllEntries() {
             try {
-                const { error } = await supabase
+                const { error } = await db
                     .from('entries')
                     .delete()
                     .neq('id', 0);
@@ -837,9 +837,7 @@
 
         async function renderAdmin() {
             try {
-                entriesContainer.innerHTML =
-                    `<div style="text-align:center;padding:30px;color:#888;">⏳ در حال بارگذاری...</div>`;
-
+                entriesContainer.innerHTML = `<div style="text-align:center;padding:30px;color:#888;">⏳ در حال بارگذاری...</div>`;
                 const entries = await getEntries();
 
                 if (!entries || entries.length === 0) {
@@ -847,14 +845,12 @@
                         <div class="empty">
                             <span class="icon">📭</span>
                             <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
-                        </div>
-                    `;
+                        </div>`;
                     entriesCount.textContent = '۰ ثبت';
                     return;
                 }
 
                 entriesCount.textContent = entries.length + ' ثبت';
-
                 let html = '<div class="entries">';
                 entries.forEach(e => {
                     html += `
@@ -870,20 +866,14 @@
                                 <img src="${e.image_data}" alt="ادیت" loading="lazy">
                             </div>` : ''}
                             <div class="time">⏱ ${e.submitted_at || 'نامشخص'}</div>
-                        </div>
-                    `;
+                        </div>`;
                 });
                 html += '</div>';
                 entriesContainer.innerHTML = html;
 
             } catch (error) {
                 console.error('Error:', error);
-                entriesContainer.innerHTML = `
-                    <div class="empty">
-                        <span class="icon">⚠️</span>
-                        <h3>خطا در بارگذاری</h3>
-                    </div>
-                `;
+                entriesContainer.innerHTML = `<div class="empty"><span class="icon">⚠️</span><h3>خطا در بارگذاری</h3></div>`;
             }
         }
 
@@ -906,8 +896,7 @@
         adminLoginBtn.addEventListener('click', openModal);
         closeModalBtn.addEventListener('click', closeModalFn);
         adminModal.addEventListener('click', e => { if (e.target === adminModal) closeModalFn(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape' && adminModal.classList.contains('active'))
-            closeModalFn(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && adminModal.classList.contains('active')) closeModalFn(); });
 
         // ============================================================
         // ===== لاگین =====
@@ -1041,7 +1030,7 @@
                         form.reset();
                         fileError.style.display = 'none';
                     } else {
-                        alert('❌ خطا در ثبت اطلاعات!');
+                        alert('❌ خطا در ثبت اطلاعات! (احتمالا حجم دیتابیس پر شده یا دسترسی RLS بسته است)');
                     }
 
                 } catch (error) {
@@ -1062,10 +1051,7 @@
 
         document.addEventListener('DOMContentLoaded', async function() {
             await connectToSupabase();
-
-            console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
-            console.log('📡 وضعیت دیتابیس:', isDbConnected ? '✅ متصل' : '❌ قطع');
-            console.log('✅ مسابقه Z.ROOYAL با Supabase آماده است!');
+            console.log('✅ مسابقه Z.ROOYAL با موفقیت لود شد.');
         });
     </script>
 
