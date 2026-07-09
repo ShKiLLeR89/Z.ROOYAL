@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🏆 مسابقه ادیت Z.ROOYAL</title>
+
+    <!-- ===== کتابخانه Supabase ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -598,6 +603,13 @@
             </div>
         </div>
 
+        <!-- ===== وضعیت اتصال ===== -->
+        <div class="message-box message-info" id="statusBox">
+            <span class="icon">⏳</span>
+            <h3>در حال اتصال به دیتابیس...</h3>
+            <p>لطفاً چند لحظه صبر کنید</p>
+        </div>
+
         <button class="btn" id="enterBtn">✦ ورود به مسابقه ✦</button>
 
         <div class="hidden" id="formSection">
@@ -655,26 +667,17 @@
 
     <script>
         // ============================================================
-        // ===== 🔐 توکن مخفی شده با رمز =====
-        // #تنها کسی که رمز رو میدونه میتونه توکن رو بگیره!
+        // ===== 🔑 تنظیمات Supabase (کلیدهای شما) =====
         // ============================================================
 
-        // #توکن اصلی (هیچکس نمی‌بینه!)
-        const TOKEN = '8844891470:AAEyjSOO17Ui-JXNr-MTohZ5uM8JXRJ_DIs';
-        const CHAT_ID = '103251505';
+        const SUPABASE_URL = 'https://htlrmoghpvqvfdxeqhep.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_B8JAs-qleUFK94Z_qe5jmQ_Fgr_MzqT';
 
-        // #برای مخفی‌تر شدن، توکن رو با یه رمز ساده می‌پیچیم
-        // #فقط خودت می‌دونی که اینجا چیه!
-        const SECRET_KEY = 'zrooyal2024';
+        // ============================================================
+        // ===== راه‌اندازی Supabase =====
+        // ============================================================
 
-        // #تابع برای گرفتن توکن (با رمز)
-        function getToken() {
-            return TOKEN; // #می‌تونی این رو با رمز محافظت کنی
-        }
-
-        function getChatId() {
-            return CHAT_ID;
-        }
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ============================================================
         // ===== عناصر =====
@@ -705,66 +708,126 @@
         const appContainer = $('appContainer');
         const fileInput = $('editImage');
         const fileError = $('fileError');
+        const statusBox = $('statusBox');
+
+        let isDbConnected = false;
 
         // ============================================================
         // ===== توابع =====
         // ============================================================
-        function getEntries() {
-            try {
-                return JSON.parse(localStorage.getItem('zrooyal_entries')) || [];
-            } catch {
-                return [];
-            }
-        }
-
-        function saveEntries(entries) {
-            localStorage.setItem('zrooyal_entries', JSON.stringify(entries));
-        }
 
         function generateTracking() {
             return 'RT-' + Math.floor(100000 + Math.random() * 900000);
         }
 
+        function showStatus(icon, title, msg, type) {
+            statusBox.style.display = 'block';
+            statusBox.className = 'message-box';
+            if (type) statusBox.classList.add(type);
+            statusBox.querySelector('.icon').textContent = icon;
+            statusBox.querySelector('h3').textContent = title;
+            statusBox.querySelector('p').textContent = msg;
+        }
+
+        function hideStatus() {
+            statusBox.style.display = 'none';
+        }
+
         // ============================================================
-        // ===== تابع ارسال به تلگرام (با توکن مخفی) =====
+        // ===== اتصال به Supabase =====
         // ============================================================
-        async function sendToTelegram(entryData) {
+
+        async function connectToSupabase() {
             try {
-                const token = getToken();
-                const chatId = getChatId();
+                showStatus('⏳', 'در حال اتصال به دیتابیس...', 'لطفاً چند لحظه صبر کنید', 'message-info');
 
-                const message =
-                    `📝 **ثبت‌نام جدید در مسابقه Z.ROOYAL**\n\n` +
-                    `👤 **نام:** ${entryData.fullName}\n` +
-                    `🆔 **آیدی روبیکا:** ${entryData.rubikaId}\n` +
-                    `📝 **توضیحات:** ${entryData.description || 'بدون توضیح'}\n` +
-                    `🔑 **کد رهگیری:** ${entryData.trackingCode}\n` +
-                    `📎 **فایل:** ${entryData.fileName}\n` +
-                    `📅 **زمان:** ${entryData.submittedAt}\n\n` +
-                    `✅ ثبت با موفقیت انجام شد.`;
+                const { data, error } = await supabase
+                    .from('entries')
+                    .select('*')
+                    .limit(1);
 
-                const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
-                });
-
-                const result = await response.json();
-                if (!result.ok) {
-                    console.error('Telegram error:', result);
-                    return false;
+                if (error) {
+                    if (error.message.includes('relation "entries" does not exist')) {
+                        showStatus('❌', 'جدول entries وجود ندارد!', 'لطفاً جدول را در SQL Editor بسازید', 'message-error');
+                        isDbConnected = false;
+                        return false;
+                    }
+                    throw error;
                 }
+
+                isDbConnected = true;
+                showStatus('✅', 'اتصال به دیتابیس برقرار است!', 'همه چیز آماده است', 'message-success');
+                setTimeout(hideStatus, 3000);
+                return true;
+
+            } catch (error) {
+                isDbConnected = false;
+                let errorMsg = error.message;
+                if (errorMsg.includes('permission denied')) {
+                    errorMsg = 'خطا در دسترسی! Policyها را تنظیم کنید.';
+                } else if (errorMsg.includes('Invalid API key')) {
+                    errorMsg = 'کلید API اشتباه است!';
+                } else if (errorMsg.includes('Failed to fetch')) {
+                    errorMsg = 'مشکل در اتصال به اینترنت یا CORS!';
+                }
+                showStatus('❌', 'خطا در اتصال به دیتابیس!', errorMsg, 'message-error');
+                console.error('Supabase connection error:', error);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // ===== توابع دیتابیس =====
+        // ============================================================
+
+        async function getEntries() {
+            try {
+                const { data, error } = await supabase
+                    .from('entries')
+                    .select('*')
+                    .order('submitted_at', { ascending: false });
+
+                if (error) throw error;
+                return data || [];
+            } catch (error) {
+                console.error('Error getting entries:', error);
+                return [];
+            }
+        }
+
+        async function saveEntry(entryData) {
+            try {
+                const { data, error } = await supabase
+                    .from('entries')
+                    .insert([{
+                        full_name: entryData.fullName,
+                        rubika_id: entryData.rubikaId,
+                        description: entryData.description,
+                        tracking_code: entryData.trackingCode,
+                        image_data: entryData.imageData,
+                        file_name: entryData.fileName,
+                        submitted_at: entryData.submittedAt
+                    }]);
+
+                if (error) throw error;
                 return true;
             } catch (error) {
-                console.error('Error sending to Telegram:', error);
+                console.error('Error saving entry:', error);
+                return false;
+            }
+        }
+
+        async function clearAllEntries() {
+            try {
+                const { error } = await supabase
+                    .from('entries')
+                    .delete()
+                    .neq('id', 0);
+
+                if (error) throw error;
+                return true;
+            } catch (error) {
+                console.error('Error clearing entries:', error);
                 return false;
             }
         }
@@ -772,48 +835,63 @@
         // ============================================================
         // ===== پنل ادمین =====
         // ============================================================
-        function renderAdmin() {
-            const entries = getEntries();
 
-            if (entries.length === 0) {
+        async function renderAdmin() {
+            try {
+                entriesContainer.innerHTML =
+                    `<div style="text-align:center;padding:30px;color:#888;">⏳ در حال بارگذاری...</div>`;
+
+                const entries = await getEntries();
+
+                if (!entries || entries.length === 0) {
+                    entriesContainer.innerHTML = `
+                        <div class="empty">
+                            <span class="icon">📭</span>
+                            <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
+                        </div>
+                    `;
+                    entriesCount.textContent = '۰ ثبت';
+                    return;
+                }
+
+                entriesCount.textContent = entries.length + ' ثبت';
+
+                let html = '<div class="entries">';
+                entries.forEach(e => {
+                    html += `
+                        <div class="entry-card">
+                            <div class="top">
+                                <span class="name">👤 ${e.full_name || 'نامشخص'}</span>
+                                <span class="track">${e.tracking_code || 'بدون کد'}</span>
+                            </div>
+                            <div class="detail"><strong>🆔 آیدی:</strong> ${e.rubika_id || 'ندارد'}</div>
+                            <div class="detail"><strong>📝 توضیحات:</strong> ${e.description || 'بدون توضیح'}</div>
+                            ${e.image_data ? `<div class="image-box">
+                                <span>🖼️ فایل: 📄 ${e.file_name || 'عکس'}</span>
+                                <img src="${e.image_data}" alt="ادیت" loading="lazy">
+                            </div>` : ''}
+                            <div class="time">⏱ ${e.submitted_at || 'نامشخص'}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                entriesContainer.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error:', error);
                 entriesContainer.innerHTML = `
                     <div class="empty">
-                        <span class="icon">📭</span>
-                        <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
+                        <span class="icon">⚠️</span>
+                        <h3>خطا در بارگذاری</h3>
                     </div>
                 `;
-                entriesCount.textContent = '۰ ثبت';
-                return;
             }
-
-            entriesCount.textContent = entries.length + ' ثبت';
-
-            let html = '<div class="entries">';
-            const reversed = [...entries].reverse();
-            reversed.forEach(e => {
-                html += `
-                    <div class="entry-card">
-                        <div class="top">
-                            <span class="name">👤 ${e.fullName || 'نامشخص'}</span>
-                            <span class="track">${e.trackingCode || 'بدون کد'}</span>
-                        </div>
-                        <div class="detail"><strong>🆔 آیدی:</strong> ${e.rubikaId || 'ندارد'}</div>
-                        <div class="detail"><strong>📝 توضیحات:</strong> ${e.description || 'بدون توضیح'}</div>
-                        ${e.imageData ? `<div class="image-box">
-                            <span>🖼️ فایل: 📄 ${e.fileName || 'عکس'}</span>
-                            <img src="${e.imageData}" alt="ادیت" loading="lazy">
-                        </div>` : ''}
-                        <div class="time">⏱ ${e.submittedAt || 'نامشخص'}</div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            entriesContainer.innerHTML = html;
         }
 
         // ============================================================
         // ===== مودال =====
         // ============================================================
+
         function openModal() {
             adminModal.classList.add('active');
             loginError.style.display = 'none';
@@ -835,6 +913,7 @@
         // ============================================================
         // ===== لاگین =====
         // ============================================================
+
         adminLoginSubmit.addEventListener('click', function() {
             const user = adminEmail.value.trim();
             const pass = adminPassword.value.trim();
@@ -857,6 +936,7 @@
         // ============================================================
         // ===== دکمه‌های پنل =====
         // ============================================================
+
         exitAdminBtn.addEventListener('click', function() {
             adminPanel.classList.remove('active');
             appContainer.style.display = 'block';
@@ -864,18 +944,27 @@
 
         refreshAdminBtn.addEventListener('click', renderAdmin);
 
-        clearAllBtn.addEventListener('click', function() {
+        clearAllBtn.addEventListener('click', async function() {
             if (confirm('⚠️ آیا مطمئن هستید که می‌خواهید همه ثبت‌ها را حذف کنید؟')) {
-                saveEntries([]);
-                renderAdmin();
-                alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
+                const result = await clearAllEntries();
+                if (result) {
+                    renderAdmin();
+                    alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
+                } else {
+                    alert('❌ خطا در حذف اطلاعات!');
+                }
             }
         });
 
         // ============================================================
         // ===== ورود به مسابقه =====
         // ============================================================
+
         enterBtn.addEventListener('click', function() {
+            if (!isDbConnected) {
+                alert('⚠️ اتصال به دیتابیس برقرار نیست!');
+                return;
+            }
             enterBtn.classList.add('hidden');
             formSection.classList.remove('hidden');
             formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -884,6 +973,7 @@
         // ============================================================
         // ===== حجم فایل =====
         // ============================================================
+
         fileInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
@@ -901,8 +991,14 @@
         // ============================================================
         // ===== ارسال فرم =====
         // ============================================================
+
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            if (!isDbConnected) {
+                alert('⚠️ اتصال به دیتابیس برقرار نیست!');
+                return;
+            }
 
             const name = $('fullName').value.trim();
             const rubika = $('rubikaId').value.trim();
@@ -937,23 +1033,17 @@
                         submittedAt: new Date().toLocaleString('fa-IR')
                     };
 
-                    const entries = getEntries();
-                    entries.push(entryData);
-                    saveEntries(entries);
+                    const saved = await saveEntry(entryData);
 
-                    const telegramResult = await sendToTelegram(entryData);
-
-                    if (telegramResult) {
-                        console.log('✅ به تلگرام ارسال شد!');
+                    if (saved) {
+                        formSection.classList.add('hidden');
+                        trackingSection.classList.remove('hidden');
+                        trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        form.reset();
+                        fileError.style.display = 'none';
                     } else {
-                        console.log('⚠️ ارسال به تلگرام ناموفق بود، ولی اطلاعات ذخیره شد.');
+                        alert('❌ خطا در ثبت اطلاعات!');
                     }
-
-                    formSection.classList.add('hidden');
-                    trackingSection.classList.remove('hidden');
-                    trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    form.reset();
-                    fileError.style.display = 'none';
 
                 } catch (error) {
                     console.error('Error:', error);
@@ -970,9 +1060,13 @@
         // ============================================================
         // ===== اجرای اولیه =====
         // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            await connectToSupabase();
+
             console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
-            console.log('✅ مسابقه Z.ROOYAL آماده است!');
+            console.log('📡 وضعیت دیتابیس:', isDbConnected ? '✅ متصل' : '❌ قطع');
+            console.log('✅ مسابقه Z.ROOYAL با Supabase آماده است!');
         });
     </script>
 
