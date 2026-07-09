@@ -13,85 +13,33 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0a0a;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            direction: rtl;
-        }
-        .container {
-            max-width: 500px;
-            width: 100%;
-            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-            border-radius: 30px;
-            padding: 30px 20px;
-            border: 2px solid #d4af37;
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.08);
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-            padding-bottom: 20px;
-        }
-        .logo img {
-            max-width: 130px;
-            border-radius: 20px;
-            border: 2px solid #d4af37;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 15px; direction: rtl; }
+        .container { max-width: 500px; width: 100%; background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border-radius: 30px; padding: 30px 20px; border: 2px solid #d4af37; box-shadow: 0 0 60px rgba(212, 175, 55, 0.08); }
+        .logo { text-align: center; margin-bottom: 25px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); padding-bottom: 20px; }
+        .logo img { max-width: 130px; border-radius: 20px; border: 2px solid #d4af37; box-shadow: 0 0 30px rgba(212, 175, 55, 0.1); }
         .logo h1 { color: #d4af37; font-size: 24px; margin-top: 12px; letter-spacing: 1px; font-weight: 900; }
         .logo h1 span { color: #ffffff; }
         .logo p { color: #888; font-size: 13px; margin-top: 5px; }
         .logo .sub { color: #666; font-size: 12px; margin-top: 8px; border-top: 1px solid rgba(212, 175, 55, 0.1); padding-top: 10px; }
         .logo .sub .maker { color: #d4af37; font-weight: 700; }
         
-        .btn {
-            width: 100%; padding: 16px; border: none; border-radius: 60px; font-size: 18px;
-            font-weight: 900; cursor: pointer; transition: all 0.2s ease; touch-action: manipulation;
-            margin: 8px 0; background: linear-gradient(135deg, #d4af37, #b8860b); color: #0a0a0a; letter-spacing: 0.5px;
-        }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 60px; font-size: 18px; font-weight: 900; cursor: pointer; transition: all 0.2s ease; touch-action: manipulation; margin: 8px 0; background: linear-gradient(135deg, #d4af37, #b8860b); color: #0a0a0a; letter-spacing: 0.5px; }
         .btn:active { transform: scale(0.95); }
         .btn:disabled { opacity: 0.4; transform: none !important; cursor: not-allowed; }
         
-        .btn-admin {
-            position: fixed; top: 15px; right: 15px; padding: 8px 20px; font-size: 13px;
-            border-radius: 50px; border: none; background: linear-gradient(135deg, #d4af37, #b8860b);
-            color: #0a0a0a; font-weight: 900; cursor: pointer; z-index: 999; touch-action: manipulation;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
-        }
+        .btn-admin { position: fixed; top: 15px; right: 15px; padding: 8px 20px; font-size: 13px; border-radius: 50px; border: none; background: linear-gradient(135deg, #d4af37, #b8860b); color: #0a0a0a; font-weight: 900; cursor: pointer; z-index: 999; touch-action: manipulation; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2); }
         .btn-admin:active { transform: scale(0.9); }
         
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; color: #d4af37; font-weight: 700; font-size: 14px; margin-bottom: 6px; padding-right: 10px; border-right: 3px solid #d4af37; }
         .input-group label .hint { font-weight: 400; color: #666; font-size: 12px; }
-        .input-group input, .input-group textarea {
-            width: 100%; padding: 14px 16px; border: 2px solid rgba(255, 255, 255, 0.06); border-radius: 16px;
-            font-size: 15px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: rgba(255, 255, 255, 0.04); transition: 0.3s; color: #ffffff; direction: rtl;
-        }
+        .input-group input, .input-group textarea { width: 100%; padding: 14px 16px; border: 2px solid rgba(255, 255, 255, 0.06); border-radius: 16px; font-size: 15px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: rgba(255, 255, 255, 0.04); transition: 0.3s; color: #ffffff; direction: rtl; }
         .input-group input::placeholder, .input-group textarea::placeholder { color: #555; }
-        .input-group input:focus, .input-group textarea:focus {
-            border-color: #d4af37; outline: none; box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.06); background: rgba(255, 255, 255, 0.06);
-        }
+        .input-group input:focus, .input-group textarea:focus { border-color: #d4af37; outline: none; box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.06); background: rgba(255, 255, 255, 0.06); }
         .input-group textarea { resize: vertical; min-height: 80px; }
-        .input-group input[type="file"] {
-            padding: 12px 14px; border: 2px dashed rgba(212, 175, 55, 0.2); cursor: pointer; color: #888; font-size: 14px; direction: ltr;
-        }
-        .input-group input[type="file"]::file-selector-button {
-            background: linear-gradient(135deg, #d4af37, #b8860b); color: #0a0a0a; border: none; padding: 6px 20px;
-            border-radius: 30px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-left: 12px; font-size: 13px;
-        }
+        .input-group input[type="file"] { padding: 12px 14px; border: 2px dashed rgba(212, 175, 55, 0.2); cursor: pointer; color: #888; font-size: 14px; direction: ltr; }
+        .input-group input[type="file"]::file-selector-button { background: linear-gradient(135deg, #d4af37, #b8860b); color: #0a0a0a; border: none; padding: 6px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-left: 12px; font-size: 13px; }
         .file-error { color: #e74c3c; font-size: 12px; margin-top: 5px; display: none; }
         
         .message-box { display: none; text-align: center; padding: 20px 15px; border-radius: 20px; margin: 15px 0; }
@@ -102,18 +50,9 @@
         .message-warning { background: rgba(241, 196, 15, 0.1); border: 2px solid rgba(241, 196, 15, 0.2); color: #f1c40f; }
         .message-info { background: rgba(52, 152, 219, 0.1); border: 2px solid rgba(52, 152, 219, 0.2); color: #3498db; }
         
-        .tracking-code {
-            font-size: 32px; font-weight: 900; color: #d4af37; background: rgba(0, 0, 0, 0.4); display: inline-block;
-            padding: 12px 35px; border-radius: 60px; letter-spacing: 3px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(212, 175, 55, 0.2); margin: 10px 0; font-family: monospace; word-break: break-all;
-        }
+        .tracking-code { font-size: 32px; font-weight: 900; color: #d4af37; background: rgba(0, 0, 0, 0.4); display: inline-block; padding: 12px 35px; border-radius: 60px; letter-spacing: 3px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border: 2px solid rgba(212, 175, 55, 0.2); margin: 10px 0; font-family: monospace; word-break: break-all; }
         
-        /* ===== پنل ادمین ===== */
-        .admin-panel {
-            display: none; max-width: 800px; width: 100%; margin: 60px auto 20px;
-            background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border-radius: 30px; padding: 25px 20px;
-            border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-        }
+        .admin-panel { display: none; max-width: 800px; width: 100%; margin: 60px auto 20px; background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border-radius: 30px; padding: 25px 20px; border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); }
         .admin-panel.active { display: block; }
         .admin-panel .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(212, 175, 55, 0.1); padding-bottom: 15px; margin-bottom: 18px; gap: 10px; }
         .admin-panel .header h2 { color: #d4af37; font-size: 20px; font-weight: 900; }
@@ -121,6 +60,7 @@
         .admin-panel .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
         .admin-panel .actions button { padding: 8px 20px; border-radius: 50px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s; border: none; touch-action: manipulation; flex: 1; min-width: 70px; }
         .admin-panel .actions button:active { transform: scale(0.95); }
+        .admin-panel .actions button:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
         .admin-panel .btn-refresh { background: rgba(52, 152, 219, 0.15); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.2); }
         .admin-panel .btn-exit { background: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.2); }
         .admin-panel .btn-clear { background: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.2); }
@@ -132,90 +72,45 @@
         .admin-panel .entry-card .detail { color: #aaa; font-size: 13px; margin: 2px 0; }
         .admin-panel .entry-card .detail strong { color: #d4af37; }
         .admin-panel .entry-card .image-box { margin-top: 8px; padding: 8px 12px; background: rgba(0, 0, 0, 0.3); border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.08); font-size: 12px; color: #888; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        
-        /* استایل جدید عکس‌های پنل ادمین (قابل کلیک) */
-        .admin-panel .entry-card .image-box img {
-            max-width: 55px; max-height: 55px; border-radius: 10px; border: 2px solid rgba(212, 175, 55, 0.2);
-            object-fit: cover; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-        .admin-panel .entry-card .image-box img:hover {
-            transform: scale(1.15); border-color: #d4af37;
-        }
-        
+        .admin-panel .entry-card .image-box img { max-width: 55px; max-height: 55px; border-radius: 10px; border: 2px solid rgba(212, 175, 55, 0.2); object-fit: cover; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease; }
+        .admin-panel .entry-card .image-box img:hover { transform: scale(1.15); border-color: #d4af37; }
         .admin-panel .entry-card .time { color: #555; font-size: 11px; margin-top: 4px; }
         .admin-panel .empty { text-align: center; padding: 40px 15px; color: #555; }
         .admin-panel .empty .icon { font-size: 50px; display: block; margin-bottom: 10px; opacity: 0.3; }
         .admin-panel .empty h3 { color: #666; font-weight: 400; font-size: 16px; }
 
-        /* ===== مودال‌ها ===== */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            z-index: 9999; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s ease;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s ease; }
         .modal.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        
-        .modal-box {
-            background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border-radius: 30px; padding: 35px 30px;
-            max-width: 400px; width: 100%; border: 2px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8); position: relative;
-        }
+        .modal-box { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border-radius: 30px; padding: 35px 30px; max-width: 400px; width: 100%; border: 2px solid rgba(212, 175, 55, 0.3); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8); position: relative; }
         .modal-box h2 { color: #d4af37; text-align: center; margin-bottom: 25px; font-size: 24px; font-weight: 900; }
         .modal-box h2 span { color: #fff; }
         .modal-box .close { position: absolute; top: 12px; left: 18px; font-size: 28px; cursor: pointer; color: #666; transition: 0.3s; background: none; border: none; padding: 5px 10px; }
         .modal-box .close:active { transform: rotate(90deg); color: #d4af37; }
-        .modal-box input {
-            width: 100%; padding: 14px 18px; margin-bottom: 14px; border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px; font-size: 15px; background: rgba(255, 255, 255, 0.05); transition: 0.3s; color: #fff; direction: ltr;
-        }
+        .modal-box input { width: 100%; padding: 14px 18px; margin-bottom: 14px; border: 2px solid rgba(255, 255, 255, 0.08); border-radius: 16px; font-size: 15px; background: rgba(255, 255, 255, 0.05); transition: 0.3s; color: #fff; direction: ltr; }
         .modal-box input::placeholder { color: #666; }
         .modal-box input:focus { border-color: #d4af37; outline: none; box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1); background: rgba(255, 255, 255, 0.08); }
         .modal-box .btn-login { width: 100%; padding: 15px; background: linear-gradient(135deg, #d4af37, #b8860b); color: #0a0a0a; border: none; border-radius: 60px; font-size: 18px; font-weight: 900; cursor: pointer; transition: 0.3s; box-shadow: 0 6px 30px rgba(212, 175, 55, 0.2); margin-top: 5px; touch-action: manipulation; }
         .modal-box .btn-login:active { transform: scale(0.97); }
         .modal-box .error-msg { color: #e74c3c; font-size: 14px; text-align: center; margin-top: 12px; display: none; font-weight: 700; }
 
-        /* ===== مودال نمایش عکس (لایت‌باکس) ===== */
-        .lightbox {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); z-index: 99999; justify-content: center; align-items: center;
-            cursor: zoom-out; padding: 20px;
-        }
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 99999; justify-content: center; align-items: center; cursor: zoom-out; padding: 20px; }
         .lightbox.active { display: flex; }
-        .lightbox img {
-            max-width: 95%; max-height: 90vh; border-radius: 16px; border: 3px solid #d4af37;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); object-fit: contain;
-            animation: zoomIn 0.3s ease;
-        }
+        .lightbox img { max-width: 95%; max-height: 90vh; border-radius: 16px; border: 3px solid #d4af37; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); object-fit: contain; animation: zoomIn 0.3s ease; }
         @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .hidden { display: none !important; }
         
         @media (max-width: 480px) {
-            .container { padding: 20px 15px; }
-            .logo h1 { font-size: 20px; }
-            .logo img { max-width: 100px; }
-            .btn { font-size: 16px; padding: 14px; }
-            .btn-admin { padding: 6px 14px; font-size: 12px; top: 10px; right: 10px; }
-            .modal-box { padding: 25px 18px; }
-            .modal-box h2 { font-size: 20px; }
-            .admin-panel { padding: 18px 14px; }
-            .admin-panel .header h2 { font-size: 17px; }
-            .tracking-code { font-size: 24px; padding: 10px 20px; letter-spacing: 2px; }
-            .input-group input, .input-group textarea { padding: 12px 14px; font-size: 14px; }
-            .admin-panel .entry-card .name { font-size: 14px; }
+            .container { padding: 20px 15px; } .logo h1 { font-size: 20px; } .logo img { max-width: 100px; } .btn { font-size: 16px; padding: 14px; } .btn-admin { padding: 6px 14px; font-size: 12px; top: 10px; right: 10px; } .modal-box { padding: 25px 18px; } .modal-box h2 { font-size: 20px; } .admin-panel { padding: 18px 14px; } .admin-panel .header h2 { font-size: 17px; } .tracking-code { font-size: 24px; padding: 10px 20px; letter-spacing: 2px; } .input-group input, .input-group textarea { padding: 12px 14px; font-size: 14px; } .admin-panel .entry-card .name { font-size: 14px; }
         }
-        @media (pointer: coarse) {
-            .btn, .btn-admin, .modal-box .btn-login, .admin-panel .actions button { min-height: 48px; }
-            .input-group input, .input-group textarea { font-size: 16px; }
-        }
+        @media (pointer: coarse) { .btn, .btn-admin, .modal-box .btn-login, .admin-panel .actions button { min-height: 48px; } .input-group input, .input-group textarea { font-size: 16px; } }
     </style>
 </head>
 <body>
 
     <button class="btn-admin" id="adminLoginBtn">🔐 ورود ادمین</button>
 
-    <!-- مودال ورود -->
     <div class="modal" id="adminModal">
         <div class="modal-box">
             <button class="close" id="closeModalBtn">✕</button>
@@ -227,7 +122,6 @@
         </div>
     </div>
 
-    <!-- مودال نمایش عکس بزرگ -->
     <div class="lightbox" id="lightbox">
         <img src="" alt="تصویر بزرگ" id="lightboxImg">
     </div>
@@ -303,9 +197,6 @@
     </div>
 
     <script>
-        // ============================================================
-        // ===== تنظیمات و راه‌اندازی =====
-        // ============================================================
         const SUPABASE_URL = 'https://htlrmoghpvqvfdxeqhep.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0bHJtb2docHZxdmZkeGVxaGVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MDExNDksImV4cCI6MjA5OTE3NzE0OX0.nFZyZuEZ7Yyy5LXc3FkZVdHkb78mGXIt7s-JVkS4xnA';
 
@@ -313,59 +204,37 @@
         const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         const $ = id => document.getElementById(id);
-
-        // عناصر صفحات
-        const adminLoginBtn = $('adminLoginBtn'), adminModal = $('adminModal'), closeModalBtn = $('closeModalBtn');
-        const adminLoginSubmit = $('adminLoginSubmit'), adminEmail = $('adminEmail'), adminPassword = $('adminPassword'), loginError = $('loginError');
-        const adminPanel = $('adminPanel'), entriesContainer = $('entriesContainer'), entriesCount = $('entriesCount');
-        const refreshAdminBtn = $('refreshAdminBtn'), exitAdminBtn = $('exitAdminBtn'), clearAllBtn = $('clearAllBtn');
-        const enterBtn = $('enterBtn'), formSection = $('formSection'), form = $('contestForm'), submitBtn = $('submitBtn');
-        const trackingSection = $('trackingSection'), trackingCodeEl = $('trackingCode'), appContainer = $('appContainer');
+        const adminLoginBtn = $('adminLoginBtn'), adminModal = $('adminModal'), closeModalBtn = $('closeModalBtn'), adminLoginSubmit = $('adminLoginSubmit'), adminEmail = $('adminEmail'), adminPassword = $('adminPassword'), loginError = $('loginError');
+        const adminPanel = $('adminPanel'), entriesContainer = $('entriesContainer'), entriesCount = $('entriesCount'), refreshAdminBtn = $('refreshAdminBtn'), exitAdminBtn = $('exitAdminBtn'), clearAllBtn = $('clearAllBtn');
+        const enterBtn = $('enterBtn'), formSection = $('formSection'), form = $('contestForm'), submitBtn = $('submitBtn'), trackingSection = $('trackingSection'), trackingCodeEl = $('trackingCode'), appContainer = $('appContainer');
         const fileInput = $('editImage'), fileError = $('fileError'), statusBox = $('statusBox');
-        
-        // عناصر لایت‌باکس
         const lightbox = $('lightbox'), lightboxImg = $('lightboxImg');
 
         let isDbConnected = false;
 
-        // ============================================================
-        // ===== توابع کمکی =====
-        // ============================================================
         function generateTracking() { return 'RT-' + Math.floor(100000 + Math.random() * 900000); }
-        
-        function showStatus(icon, title, msg, type) {
-            statusBox.style.display = 'block'; statusBox.className = 'message-box';
-            if (type) statusBox.classList.add(type);
-            statusBox.querySelector('.icon').textContent = icon;
-            statusBox.querySelector('h3').textContent = title;
-            statusBox.querySelector('p').textContent = msg;
-        }
+        function showStatus(icon, title, msg, type) { statusBox.style.display = 'block'; statusBox.className = 'message-box'; if (type) statusBox.classList.add(type); statusBox.querySelector('.icon').textContent = icon; statusBox.querySelector('h3').textContent = title; statusBox.querySelector('p').textContent = msg; }
 
-        // تابع فشرده‌سازی عکس (برای آپلود سریع)
         function compressImage(file, maxWidth = 1200, quality = 0.7) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const img = new Image();
-                    img.src = e.target.result;
+                    const img = new Image(); img.src = e.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        let width = img.width; let height = img.height;
+                        let width = img.width, height = img.height;
                         if (width > maxWidth) { height = (height * maxWidth) / width; width = maxWidth; }
                         canvas.width = width; canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        canvas.toBlob((blob) => { if (blob) resolve(blob); else reject(new Error('خطا در فشرده‌سازی')); }, 'image/jpeg', quality);
+                        canvas.toBlob((blob) => { if (blob) resolve(blob); else reject(new Error('خطا')); }, 'image/jpeg', quality);
                     };
-                    img.onerror = () => reject(new Error('عکس نامعتبر است'));
+                    img.onerror = () => reject(new Error('عکس نامعتبر'));
                 };
                 reader.readAsDataURL(file);
             });
         }
 
-        // ============================================================
-        // ===== اتصال مخفیانه =====
-        // ============================================================
         async function connectToSupabase() {
             try {
                 const { error } = await db.from('entries').select('*').limit(1);
@@ -374,15 +243,12 @@
             } catch (error) {
                 isDbConnected = false;
                 if (error.message.includes('permission denied')) showStatus('❌', 'خطا در دسترسی!', 'تنظیمات RLS را چک کنید.', 'message-warning');
-                else if (error.message.includes('Failed to fetch')) showStatus('❌', 'مشکل در اینترنت!', 'اتصال خود را بررسی کنید.', 'message-warning');
+                else if (error.message.includes('Failed to fetch')) showStatus('❌', 'مشکل در اینترنت!', 'فیلترشکن خود را روشن کنید.', 'message-warning');
             }
         }
 
-        // ============================================================
-        // ===== توابع دیتابیس =====
-        // ============================================================
         async function getEntries() {
-            try { const { data, error } = await db.from('entries').select('*').order('submitted_at', { ascending: false }); if (error) throw error; return data || []; }
+            try { const { data, error } = await db.from('entries').select('*').order('submitted_at', { ascending: false }).limit(1000); if (error) throw error; return data || []; }
             catch (error) { console.error(error); return []; }
         }
 
@@ -396,62 +262,23 @@
             catch (error) { console.error(error); return false; }
         }
 
-        // ============================================================
-        // ===== پنل ادمین =====
-        // ============================================================
         async function renderAdmin() {
             try {
                 entriesContainer.innerHTML = `<div style="text-align:center;padding:30px;color:#888;">⏳ در حال بارگذاری...</div>`;
                 const entries = await getEntries();
-                if (!entries || entries.length === 0) {
-                    entriesContainer.innerHTML = `<div class="empty"><span class="icon">📭</span><h3>هنوز هیچ ادیتی ثبت نشده است</h3></div>`;
-                    entriesCount.textContent = '۰ ثبت'; return;
-                }
+                if (!entries || entries.length === 0) { entriesContainer.innerHTML = `<div class="empty"><span class="icon">📭</span><h3>هنوز هیچ ادیتی ثبت نشده است</h3></div>`; entriesCount.textContent = '۰ ثبت'; return; }
                 entriesCount.textContent = entries.length + ' ثبت';
                 let html = '<div class="entries">';
                 entries.forEach(e => {
-                    html += `
-                        <div class="entry-card">
-                            <div class="top">
-                                <span class="name">👤 ${e.full_name || 'نامشخص'}</span>
-                                <span class="track">${e.tracking_code || 'بدون کد'}</span>
-                            </div>
-                            <div class="detail"><strong>🆔 آیدی:</strong> ${e.rubika_id || 'ندارد'}</div>
-                            <div class="detail"><strong>📝 توضیحات:</strong> ${e.description || 'بدون توضیح'}</div>
-                            ${e.image_data ? `<div class="image-box">
-                                <span>🖼️ فایل: 📄 ${e.file_name || 'عکس'}</span>
-                                <img src="${e.image_data}" alt="ادیت" loading="lazy">
-                            </div>` : ''}
-                            <div class="time">⏱ ${e.submitted_at || 'نامشخص'}</div>
-                        </div>`;
+                    html += `<div class="entry-card"><div class="top"><span class="name">👤 ${e.full_name || 'نامشخص'}</span><span class="track">${e.tracking_code || 'بدون کد'}</span></div><div class="detail"><strong>🆔 آیدی:</strong> ${e.rubika_id || 'ندارد'}</div><div class="detail"><strong>📝 توضیحات:</strong> ${e.description || 'بدون توضیح'}</div>${e.image_data ? `<div class="image-box"><span>🖼️ فایل: 📄 ${e.file_name || 'عکس'}</span><img src="${e.image_data}" alt="ادیت" loading="lazy"></div>` : ''}<div class="time">⏱ ${e.submitted_at || 'نامشخص'}</div></div>`;
                 });
-                html += '</div>';
-                entriesContainer.innerHTML = html;
-            } catch (error) {
-                entriesContainer.innerHTML = `<div class="empty"><span class="icon">⚠️</span><h3>خطا در بارگذاری</h3></div>`;
-            }
+                html += '</div>'; entriesContainer.innerHTML = html;
+            } catch (error) { entriesContainer.innerHTML = `<div class="empty"><span class="icon">⚠️</span><h3>خطا در بارگذاری</h3></div>`; }
         }
 
-        // ============================================================
-        // ===== لاجیک لایت‌باکس (باز شدن عکس بزرگ) =====
-        // ============================================================
-        // با استفاده از Event Delegation روی کل کانتینر گوش میدیم
-        entriesContainer.addEventListener('click', function(e) {
-            // اگر کاربر روی عکس کلیک کرد
-            if (e.target.tagName === 'IMG' && e.target.closest('.image-box')) {
-                lightboxImg.src = e.target.src; // لینک عکس رو میدیم به مودال
-                lightbox.classList.add('active'); // مودال رو باز میکنیم
-            }
-        });
+        entriesContainer.addEventListener('click', function(e) { if (e.target.tagName === 'IMG' && e.target.closest('.image-box')) { lightboxImg.src = e.target.src; lightbox.classList.add('active'); } });
+        lightbox.addEventListener('click', function() { lightbox.classList.remove('active'); });
 
-        // بستن لایت‌باکس با کلیک روی خود عکس یا اطرافش
-        lightbox.addEventListener('click', function() {
-            lightbox.classList.remove('active');
-        });
-
-        // ============================================================
-        // ===== مودال و لاگین =====
-        // ============================================================
         function openModal() { adminModal.classList.add('active'); loginError.style.display = 'none'; adminEmail.value = ''; adminPassword.value = ''; setTimeout(() => adminEmail.focus(), 300); }
         function closeModalFn() { adminModal.classList.remove('active'); }
 
@@ -461,93 +288,71 @@
         document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModalFn(); lightbox.classList.remove('active'); } });
 
         adminLoginSubmit.addEventListener('click', function() {
-            if (adminEmail.value.trim() === 'ShKiLLeR' && adminPassword.value.trim() === 'shayan54608189') {
-                closeModalFn(); adminPanel.classList.add('active'); appContainer.style.display = 'none'; renderAdmin();
-            } else {
-                loginError.textContent = '❌ نام کاربری یا رمز عبور اشتباه است!'; loginError.style.display = 'block';
-                setTimeout(() => loginError.style.display = 'none', 3000);
-            }
+            if (adminEmail.value.trim() === 'ShKiLLeR' && adminPassword.value.trim() === 'shayan54608189') { closeModalFn(); adminPanel.classList.add('active'); appContainer.style.display = 'none'; renderAdmin(); }
+            else { loginError.textContent = '❌ نام کاربری یا رمز عبور اشتباه است!'; loginError.style.display = 'block'; setTimeout(() => loginError.style.display = 'none', 3000); }
         });
         adminEmail.addEventListener('keypress', e => { if (e.key === 'Enter') adminLoginSubmit.click(); });
         adminPassword.addEventListener('keypress', e => { if (e.key === 'Enter') adminLoginSubmit.click(); });
 
-        // ============================================================
-        // ===== دکمه‌های پنل =====
-        // ============================================================
         exitAdminBtn.addEventListener('click', function() { adminPanel.classList.remove('active'); appContainer.style.display = 'block'; });
         refreshAdminBtn.addEventListener('click', renderAdmin);
+        
         clearAllBtn.addEventListener('click', async function() {
-            if (confirm('⚠️ آیا مطمئن هستید که می‌خواهید همه ثبت‌ها را حذف کنید؟')) {
-                if (await clearAllEntries()) { renderAdmin(); alert('✅ همه ثبت‌ها با موفقیت حذف شدند!'); }
-                else { alert('❌ خطا در حذف اطلاعات!'); }
+            if (confirm('⚠️ آیا مطمئن هستید که می‌خواهید تمام ثبت‌نام‌ها و عکس‌ها را برای همیشه پاک کنید؟')) {
+                submitBtn.disabled = true; clearAllBtn.disabled = true; clearAllBtn.textContent = '⏳ در حال پاک‌سازی...';
+                try {
+                    const entries = await getEntries();
+                    const fileNames = [];
+                    entries.forEach(e => { if (e.image_data) { const parts = e.image_data.split('/'); fileNames.push(parts[parts.length - 1]); } });
+                    
+                    if (fileNames.length > 0) {
+                        const chunkSize = 100;
+                        for (let i = 0; i < fileNames.length; i += chunkSize) {
+                            const chunk = fileNames.slice(i, i + chunkSize);
+                            await db.storage.from('تصاویر مسابقه').remove(chunk);
+                            await new Promise(resolve => setTimeout(resolve, 500)); 
+                        }
+                    }
+                    const result = await clearAllEntries();
+                    if (result) { renderAdmin(); alert('✅ تمام اطلاعات و عکس‌ها با موفقیت پاک شدند!'); }
+                    else { alert('❌ خطا در پاک کردن اطلاعات دیتابیس!'); }
+                } catch (error) { console.error('Error:', error); alert('❌ خطایی در پاکسازی رخ داد!'); }
+                finally { clearAllBtn.disabled = false; clearAllBtn.textContent = '🗑️ پاک کردن همه'; submitBtn.disabled = false; }
             }
         });
 
-        // ============================================================
-        // ===== ورود به مسابقه و ارسال =====
-        // ============================================================
-        enterBtn.addEventListener('click', function() {
-            if (!isDbConnected) { alert('⚠️ اتصال به دیتابیس برقرار نیست!'); return; }
-            enterBtn.classList.add('hidden'); formSection.classList.remove('hidden');
-            formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
-        fileInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) { fileError.style.display = 'block'; this.value = ''; submitBtn.disabled = true; }
-                else { fileError.style.display = 'none'; submitBtn.disabled = false; }
-            }
-        });
+        enterBtn.addEventListener('click', function() { if (!isDbConnected) { alert('⚠️ اتصال به دیتابیس برقرار نیست!'); return; } enterBtn.classList.add('hidden'); formSection.classList.remove('hidden'); formSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        
+        fileInput.addEventListener('change', function() { const file = this.files[0]; if (file) { if (file.size > 5 * 1024 * 1024) { fileError.style.display = 'block'; this.value = ''; submitBtn.disabled = true; } else { fileError.style.display = 'none'; submitBtn.disabled = false; } } });
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!isDbConnected) { alert('⚠️ اتصال به دیتابیس برقرار نیست!'); return; }
-
             const name = $('fullName').value.trim(), rubika = $('rubikaId').value.trim(), desc = $('editDescription').value.trim();
             if (!name || !rubika || !desc || fileInput.files.length === 0) { alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.'); return; }
             if (fileInput.files[0].size > 5 * 1024 * 1024) { alert('❌ حجم فایل بیشتر از ۵ مگابایت است!'); return; }
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ در حال فشرده‌سازی عکس...';
-
-            const tracking = generateTracking();
-            trackingCodeEl.textContent = tracking;
-            const file = fileInput.files[0];
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${tracking}_${Date.now()}.${fileExt}`;
+            submitBtn.disabled = true; submitBtn.textContent = '⏳ در حال فشرده‌سازی عکس...';
+            const tracking = generateTracking(); trackingCodeEl.textContent = tracking;
+            const file = fileInput.files[0]; const fileExt = file.name.split('.').pop(); const fileName = `${tracking}_${Date.now()}.${fileExt}`;
 
             try {
-                // 1. فشرده سازی
                 const compressedFile = await compressImage(file);
                 submitBtn.textContent = '⏳ در حال آپلود عکس...';
-
-                // 2. آپلود
                 const { error: uploadError } = await db.storage.from('تصاویر مسابقه').upload(fileName, compressedFile);
                 if (uploadError) throw uploadError;
-
-                // 3. لینک
+                
                 const { data: urlData } = db.storage.from('تصاویر مسابقه').getPublicUrl(fileName);
                 submitBtn.textContent = '⏳ در حال ثبت اطلاعات...';
-
-                // 4. ذخیره در دیتابیس
+                
                 const saved = await saveEntry({ fullName: name, rubikaId: rubika, description: desc, trackingCode: tracking, fileName: file.name, imageData: urlData.publicUrl, submittedAt: new Date().toLocaleString('fa-IR') });
-
-                if (saved) {
-                    formSection.classList.add('hidden'); trackingSection.classList.remove('hidden');
-                    trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    form.reset(); fileError.style.display = 'none';
-                } else { alert('❌ خطا در ثبت اطلاعات!'); }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ خطا در آپلود عکس! آیا پوشه تصاویر مسابقه درست ساخته شده است؟');
-            } finally {
-                submitBtn.disabled = false; submitBtn.textContent = '✦ ارسال ادیت ✦';
-            }
+                if (saved) { formSection.classList.add('hidden'); trackingSection.classList.remove('hidden'); trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); form.reset(); fileError.style.display = 'none'; }
+                else { alert('❌ خطا در ثبت اطلاعات!'); }
+            } catch (error) { console.error('Error:', error); alert('❌ خطا در آپلود عکس! آیا پوشه تصاویر مسابقه درست ساخته شده است؟'); }
+            finally { submitBtn.disabled = false; submitBtn.textContent = '✦ ارسال ادیت ✦'; }
         });
 
-        // اجرای اولیه
         document.addEventListener('DOMContentLoaded', connectToSupabase);
     </script>
 </body>
-</html>
+        </html>
