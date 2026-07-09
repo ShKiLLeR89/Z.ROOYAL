@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z.ROOYAL مسابقه ادیت </title>
+
+    <!-- ===== کتابخانه Supabase ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+
+    <style>
+        /* ===== همه استایل‌های قبلی ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            padding: 20px;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+        }
+
+        .admin-login-btn {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #0a0a0a;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 900;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .admin-login-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 45px rgba(212, 175, 55, 0.35);
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: modalFadeIn 0.4s ease;
+        }
+
+        .admin-modal.active {
+            display: flex;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .admin-modal-box {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 30px;
+            padding: 45px 40px;
+            max-width: 440px;
+            width: 90%;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .admin-modal-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), transparent, rgba(212, 175, 55, 0.3));
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .admin-modal-box h2 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 26px;
+            font-weight: 900;
+        }
+
+        .admin-modal-box h2 span {
+            color: #ffffff;
+        }
+
+        .admin-modal-box .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            transition: 0.3s;
+            background: none;
+            border: none;
+        }
+
+        .admin-modal-box .close-modal:hover {
+            transform: rotate(90deg);
+            color: #d4af37;
+        }
+
+        .admin-modal-box input {
+            width: 100%;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            font-size: 15px;
+            font-family: 'Vazirmatn', sans-serif;
+            background: rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            color: #ffffff;
+            direction: ltr;
+        }
+
+        .admin-modal-box input::placeholder {
+            color: #666;
+        }
+
+        .admin-modal-box input:focus {
+            border-color: #d4af37;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-modal-box .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 900;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.2);
+            margin-top: 8px;
+        }
+
+        .admin-modal-box .btn-login:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.35);
+        }
+
+        .admin-modal-box .error-msg {
+            color: #e74c3c;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 14px;
+            display: none;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 30px;
+            padding: 45px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo img {
+            max-width: 160px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+            transition: 0.4s;
+            border: 2px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .logo img:hover {
+            transform: scale(1.03);
+        }
+
+        .logo-text {
+            font-size: 15px;
+            color: #888;
+            margin-top: 12px;
+        }
+
+        .logo-text .english {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 600;
+            color: #d4af37;
+            font-size: 17px;
+        }
+
+        .logo-text .maker {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 900;
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.08);
+            padding: 4px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .enter-btn-wrapper {
+            text-align: center;
+            margin: 30px 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-enter {
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #0a0a0a;
+            border: none;
+            padding: 18px 65px;
+            font-size: 20px;
+            font-weight: 900;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 35px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Vazirmatn', sans-serif;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-enter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .btn-enter:hover::after {
+            opacity: 1;
+        }
+
+        .btn-enter:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.35);
+        }
+
+        .full-capacity-message {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid rgba(231, 76, 60, 0.2);
+            border-radius: 20px;
+            color: #e74c3c;
+            margin: 20px 0;
+        }
+
+        .full-capacity-message .icon {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .full-capacity-message h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .full-capacity-message p {
+            color: #888;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeSlide 0.5s ease forwards;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 8px;
+            font-size: 15px;
+            padding-right: 10px;
+            border-right: 3px solid #d4af37;
+        }
+
+        .form-group label .limit-hint {
+            font-weight: 400;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            font-size: 15px;
+            font-family: 'Vazirmatn', sans-serif;
+            background: rgba(255, 255, 255, 0.04);
+            transition: 0.3s;
+            color: #ffffff;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #555;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #d4af37;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.06);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .form-group input[type="file"] {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(212, 175, 55, 0.2);
+            cursor: pointer;
+            color: #888;
+        }
+
+        .form-group input[type="file"]::file-selector-button {
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #0a0a0a;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 15px;
+        }
+
+        .form-group input[type="file"]::file-selector-button:hover {
+            transform: scale(1.02);
+        }
+
+        .file-error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 17px;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 60px;
+            font-size: 20px;
+            font-weight: 900;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.15);
+            margin-top: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .timeout-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid rgba(231, 76, 60, 0.2);
+            border-radius: 16px;
+            color: #e74c3c;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        .timeout-message .icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .tracking-section {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 40px 30px;
+            margin-top: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            animation: fadeSlide 0.6s ease forwards;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tracking-section .icon-big {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .tracking-section h3 {
+            color: #ffffff;
+            margin: 8px 0 12px;
+            font-size: 22px;
+        }
+
+        .tracking-code {
+            font-size: 38px;
+            font-weight: 900;
+            color: #d4af37;
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            padding: 14px 45px;
+            border-radius: 60px;
+            letter-spacing: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            margin: 15px 0;
+            font-family: 'Segoe UI', monospace;
+        }
+
+        .tracking-message {
+            font-size: 17px;
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        .tracking-message strong {
+            color: #d4af37;
+            font-size: 19px;
+        }
+
+        .tracking-message .sub {
+            color: #666;
+            font-size: 14px;
+            margin-top: 12px;
+            display: block;
+        }
+
+        .admin-panel {
+            display: none;
+            max-width: 1200px;
+            width: 100%;
+            margin: 30px auto;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: fadeSlide 0.5s ease;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+        }
+
+        .admin-panel .panel-header h2 {
+            color: #d4af37;
+            font-size: 26px;
+            font-weight: 900;
+        }
+
+        .admin-panel .panel-header .badge {
+            font-size: 14px;
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            padding: 6px 22px;
+            border-radius: 30px;
+            font-weight: 700;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .admin-panel .panel-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .admin-panel .panel-actions button {
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .admin-panel .btn-refresh {
+            background: rgba(52, 152, 219, 0.15);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .admin-panel .btn-refresh:hover {
+            background: rgba(52, 152, 219, 0.25);
+        }
+
+        .admin-panel .btn-exit {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .admin-panel .btn-exit:hover {
+            background: rgba(231, 76, 60, 0.25);
+        }
+
+        .admin-panel .btn-clear {
+            background: rgba(241, 196, 15, 0.15);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.2);
+        }
+
+        .admin-panel .btn-clear:hover {
+            background: rgba(241, 196, 15, 0.25);
+        }
+
+        .admin-panel .entries-grid {
+            display: grid;
+            gap: 18px;
+        }
+
+        .admin-panel .entry-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 22px 26px;
+            transition: 0.3s;
+            border-right: 4px solid #d4af37;
+        }
+
+        .admin-panel .entry-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(212, 175, 55, 0.15);
+            transform: translateX(-4px);
+        }
+
+        .admin-panel .entry-card .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .admin-panel .entry-card .entry-name {
+            font-size: 19px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .admin-panel .entry-card .entry-tracking {
+            font-weight: 700;
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.08);
+            padding: 4px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            font-size: 13px;
+            font-family: 'Segoe UI', monospace;
+            letter-spacing: 1px;
+        }
+
+        .admin-panel .entry-card .entry-detail {
+            color: #aaa;
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        .admin-panel .entry-card .entry-detail strong {
+            color: #d4af37;
+        }
+
+        .admin-panel .entry-card .entry-image {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-panel .entry-card .entry-image img {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 10px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            object-fit: cover;
+        }
+
+        .admin-panel .entry-card .entry-time {
+            color: #555;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .admin-panel .empty-state {
+            text-align: center;
+            padding: 70px 20px;
+            color: #555;
+        }
+
+        .admin-panel .empty-state .icon {
+            font-size: 64px;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .admin-panel .empty-state h3 {
+            color: #666;
+            font-weight: 400;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .container {
+                padding: 28px 20px;
+                border-radius: 20px;
+            }
+            .admin-login-btn {
+                padding: 10px 20px;
+                font-size: 12px;
+                top: 15px;
+                right: 15px;
+            }
+            .logo img {
+                max-width: 120px;
+            }
+            .logo-text .english {
+                font-size: 14px;
+            }
+            .logo-text .maker {
+                font-size: 12px;
+                padding: 3px 12px;
+            }
+            .btn-enter {
+                padding: 15px 40px;
+                font-size: 17px;
+            }
+            .admin-modal-box {
+                padding: 32px 24px;
+            }
+            .admin-modal-box h2 {
+                font-size: 22px;
+            }
+            .admin-panel {
+                padding: 22px 16px;
+            }
+            .admin-panel .panel-header h2 {
+                font-size: 20px;
+            }
+            .admin-panel .entry-card {
+                padding: 16px 18px;
+            }
+            .admin-panel .entry-card .entry-name {
+                font-size: 16px;
+            }
+            .tracking-code {
+                font-size: 28px;
+                padding: 12px 28px;
+                letter-spacing: 2px;
+            }
+            .form-group input,
+            .form-group textarea {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+            .admin-panel .panel-actions button {
+                padding: 8px 18px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 20px 14px;
+            }
+            .btn-enter {
+                padding: 13px 30px;
+                font-size: 15px;
+            }
+            .admin-login-btn {
+                padding: 8px 16px;
+                font-size: 11px;
+                top: 12px;
+                right: 12px;
+            }
+            .tracking-code {
+                font-size: 22px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== دکمه ورود ادمین ===== -->
+    <button class="admin-login-btn" id="adminLoginBtn">🔐 ورود ادمین</button>
+
+    <!-- ===== مودال ورود ادمین ===== -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-box">
+            <button class="close-modal" id="closeModalBtn">✕</button>
+            <h2>👑 <span>ورود</span> به پنل</h2>
+            <input type="text" id="adminEmail" placeholder="نام کاربری">
+            <input type="password" id="adminPassword" placeholder="رمز عبور">
+            <button class="btn-login" id="adminLoginSubmit">ورود</button>
+            <div class="error-msg" id="loginError">❌ نام کاربری یا رمز عبور اشتباه است!</div>
+        </div>
+    </div>
+
+    <!-- ===== صفحه اصلی ===== -->
+    <div class="container" id="appContainer">
+
+        <div class="logo-section">
+            <div class="logo">
+                <img src="https://cdn.imgurl.ir/uploads/d4212_IMG_20260705_145704_411_.png" alt="لوگو مسابقه روبیکا">
+            </div>
+            <div class="logo-text">
+                <span class="english">Our authenticity is your trust and satisfaction</span><br>
+                <span class="maker">✦ Maker : ShKiLLeR ✦</span>
+            </div>
+        </div>
+
+        <!-- ===== پیام تکمیل ظرفیت ===== -->
+        <div class="full-capacity-message" id="fullCapacityMessage">
+            <span class="icon">🚫</span>
+            <h3>ظرفیت مسابقه تکمیل شد!</h3>
+            <p>متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است.<br>شما نمی‌توانید ادیت ارسال کنید.</p>
+        </div>
+
+        <div class="enter-btn-wrapper" id="enterBtnWrapper">
+            <button class="btn-enter" id="enterBtn">✦ ورود به مسابقه ✦</button>
+        </div>
+
+        <div class="form-section" id="formSection">
+            <form id="contestForm">
+                <div class="form-group">
+                    <label>👤 نام و فامیل</label>
+                    <input type="text" id="fullName" placeholder="مثال: علی رضایی" required>
+                </div>
+                <div class="form-group">
+                    <label>🆔 آیدی روبیکا</label>
+                    <input type="text" id="rubikaId" placeholder="مثال: @Ali_Rezaei" required>
+                </div>
+                <div class="form-group">
+                    <label>🖼️ عکس ادیت <span class="limit-hint">(حداکثر ۵ مگابایت)</span></label>
+                    <input type="file" id="editImage" accept="image/*" required>
+                    <div class="file-error" id="fileError">❌ حجم فایل بیشتر از ۵ مگابایت است!</div>
+                </div>
+                <div class="form-group">
+                    <label>📝 توضیحات ادیت</label>
+                    <textarea id="editDescription" placeholder="درباره ادیت خود توضیح دهید..." required></textarea>
+                </div>
+
+                <div class="timeout-message" id="timeoutMessage">
+                    <span class="icon">⏰</span>
+                    زمان ثبت‌نام به پایان رسیده است!<br>
+                    <span style="font-size:14px;color:#888;font-weight:400;">جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب</span>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">✦ ارسال ادیت ✦</button>
+            </form>
+        </div>
+
+        <div class="tracking-section" id="trackingSection">
+            <span class="icon-big">✅</span>
+            <h3>ادیت شما با موفقیت ثبت شد</h3>
+            <div class="tracking-code" id="trackingCode">RT-8247</div>
+            <div class="tracking-message">
+                <strong>تا شنبه</strong> نتیجه اعلام می‌شود 🏆
+                <span class="sub">✦ کد رهگیری خود را یادداشت کنید ✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== پنل ادمین ===== -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="panel-header">
+            <h2>📋 مدیریت مسابقه</h2>
+            <span class="badge" id="entriesCount">۰ ثبت</span>
+        </div>
+        <div class="panel-actions">
+            <button class="btn-refresh" id="refreshAdminBtn">🔄 بروزرسانی</button>
+            <button class="btn-exit" id="exitAdminBtn">🚪 خروج</button>
+            <button class="btn-clear" id="clearAllBtn">🗑️ پاک کردن همه</button>
+        </div>
+        <div id="entriesContainer">
+            <div class="empty-state">
+                <span class="icon">📭</span>
+                <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js">
+    </script>
+    <script>
+        // ============================================================
+        // ===== تنظیمات Supabase (با کلیدهای شما) =====
+        // ============================================================
+
+        const SUPABASE_CONFIG = {
+            URL: 'https://htlrmoghpvqvfdxeqhep.supabase.co',
+            ANON_KEY: 'sb_publishable_B8JAs-qleUFK94Z_qe5jmQ_Fgr_MzqT'
+        };
+
+        // ============================================================
+        // ===== محدودیت‌های مسابقه =====
+        // ============================================================
+
+        const MAX_CAPACITY = 100;
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        const END_DATE = new Date('2026-07-10T23:59:59');
+        const END_DATE_PERSIAN = 'جمعه ۱۹ تیر ۱۴۰۵، ساعت ۱۲ شب';
+
+        // ============================================================
+        // ===== Salt و هش =====
+        // ============================================================
+
+        const SALT = 'MySuperSecretSalt@2026#ShKiLLeR#RubicaContest';
+
+        function hashWithSalt(input) {
+            return CryptoJS.SHA256(SALT + input).toString();
+        }
+
+        const HASHED_USERNAME = hashWithSalt('ShKiLLeR');
+        const HASHED_PASSWORD = hashWithSalt('shayan54608189');
+
+        // ============================================================
+        // ===== راه‌اندازی Supabase =====
+        // ============================================================
+
+        const supabase = supabase.createClient(
+            SUPABASE_CONFIG.URL,
+            SUPABASE_CONFIG.ANON_KEY
+        );
+
+        // ============================================================
+        // ===== عناصر صفحه =====
+        // ============================================================
+
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminModal = document.getElementById('adminModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const adminLoginSubmit = document.getElementById('adminLoginSubmit');
+        const adminEmail = document.getElementById('adminEmail');
+        const adminPassword = document.getElementById('adminPassword');
+        const loginError = document.getElementById('loginError');
+
+        const adminPanel = document.getElementById('adminPanel');
+        const entriesContainer = document.getElementById('entriesContainer');
+        const entriesCount = document.getElementById('entriesCount');
+        const refreshAdminBtn = document.getElementById('refreshAdminBtn');
+        const exitAdminBtn = document.getElementById('exitAdminBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+
+        const enterBtn = document.getElementById('enterBtn');
+        const enterWrapper = document.getElementById('enterBtnWrapper');
+        const formSection = document.getElementById('formSection');
+        const form = document.getElementById('contestForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const timeoutMessage = document.getElementById('timeoutMessage');
+        const trackingSection = document.getElementById('trackingSection');
+        const trackingCodeEl = document.getElementById('trackingCode');
+        const appContainer = document.getElementById('appContainer');
+
+        const fullCapacityMessage = document.getElementById('fullCapacityMessage');
+        const fileInput = document.getElementById('editImage');
+        const fileError = document.getElementById('fileError');
+
+        // ============================================================
+        // ===== توابع کمکی =====
+        // ============================================================
+
+        function isContestExpired() {
+            const now = new Date();
+            return now > END_DATE;
+        }
+
+        function generateTracking() {
+            const randomNum = Math.floor(100000 + Math.random() * 900000);
+            return `RT-${randomNum}`;
+        }
+
+        function getFileSizeMB(bytes) {
+            return (bytes / (1024 * 1024)).toFixed(2);
+        }
+
+        // ============================================================
+        // ===== توابع ارتباط با Supabase =====
+        // ============================================================
+
+        async function getEntriesCount() {
+            try {
+                const { count, error } = await supabase
+                    .from('entries')
+                    .select('*', { count: 'exact', head: true });
+
+                if (error) throw error;
+                return count || 0;
+            } catch (error) {
+                console.error('❌ خطا در دریافت تعداد:', error);
+                return 0;
+            }
+        }
+
+        async function getEntriesFromSupabase() {
+            try {
+                const { data, error } = await supabase
+                    .from('entries')
+                    .select('*')
+                    .order('submitted_at', { ascending: false });
+
+                if (error) throw error;
+                return data || [];
+            } catch (error) {
+                console.error('❌ خطا در دریافت:', error);
+                return [];
+            }
+        }
+
+        async function saveToSupabase(entryData) {
+            try {
+                const { data, error } = await supabase
+                    .from('entries')
+                    .insert([{
+                        full_name: entryData.fullName,
+                        rubika_id: entryData.rubikaId,
+                        description: entryData.description,
+                        tracking_code: entryData.trackingCode,
+                        image_data: entryData.imageData,
+                        file_name: entryData.fileName,
+                        submitted_at: entryData.submittedAt
+                    }]);
+
+                if (error) throw error;
+                return true;
+            } catch (error) {
+                console.error('❌ خطا در ذخیره:', error);
+                return false;
+            }
+        }
+
+        async function clearSupabase() {
+            try {
+                const { error } = await supabase
+                    .from('entries')
+                    .delete()
+                    .neq('id', 0);
+
+                if (error) throw error;
+                return true;
+            } catch (error) {
+                console.error('❌ خطا در پاک کردن:', error);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // ===== بروزرسانی وضعیت صفحه =====
+        // ============================================================
+
+        async function updatePageStatus() {
+            const count = await getEntriesCount();
+            const isFull = count >= MAX_CAPACITY;
+            const isExpired = isContestExpired();
+
+            if (isFull) {
+                fullCapacityMessage.style.display = 'block';
+                enterBtn.style.display = 'none';
+                formSection.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.textContent = '🚫 ظرفیت تکمیل شد';
+            } else {
+                fullCapacityMessage.style.display = 'none';
+                enterBtn.style.display = 'inline-block';
+            }
+
+            if (isExpired && !isFull) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏰ زمان ثبت‌نام به پایان رسیده';
+                timeoutMessage.style.display = 'block';
+            } else if (!isFull && !isExpired) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✦ ارسال ادیت ✦';
+                timeoutMessage.style.display = 'none';
+            }
+
+            if (adminPanel.classList.contains('active')) {
+                await renderAdminPanel();
+            }
+
+            return count;
+        }
+
+        // ============================================================
+        // ===== نمایش اطلاعات در پنل ادمین =====
+        // ============================================================
+
+        async function renderAdminPanel() {
+            try {
+                entriesContainer.innerHTML = `
+                            <div style="text-align:center;padding:40px;color:#888;">
+                                <span style="font-size:30px;">⏳</span>
+                                <h3>در حال بارگذاری...</h3>
+                            </div>
+                        `;
+
+                const entries = await getEntriesFromSupabase();
+
+                if (!entries || entries.length === 0) {
+                    entriesContainer.innerHTML = `
+                                <div class="empty-state">
+                                    <span class="icon">📭</span>
+                                    <h3>هنوز هیچ ادیتی ثبت نشده است</h3>
+                                </div>
+                            `;
+                    entriesCount.textContent = '۰ ثبت';
+                    return;
+                }
+
+                entriesCount.textContent = `${entries.length} / ${MAX_CAPACITY} ثبت`;
+
+                let html = '<div class="entries-grid">';
+                entries.forEach((entry) => {
+                    html += `
+                                <div class="entry-card">
+                                    <div class="entry-header">
+                                        <span class="entry-name">👤 ${entry.full_name || 'نامشخص'}</span>
+                                        <span class="entry-tracking">${entry.tracking_code || 'بدون کد'}</span>
+                                    </div>
+                                    <div class="entry-detail"><strong>🆔 آیدی:</strong> ${entry.rubika_id || 'ندارد'}</div>
+                                    <div class="entry-detail"><strong>📝 توضیحات:</strong> ${entry.description || 'بدون توضیح'}</div>
+                                    <div class="entry-image">
+                                        <span>🖼️ فایل:</span>
+                                        ${entry.file_name ? `📄 ${entry.file_name}` : 'فایلی انتخاب نشده'}
+                                        ${entry.image_data ? `<img src="${entry.image_data}" alt="ادیت">` : ''}
+                                    </div>
+                                    <div class="entry-time">⏱ ${entry.submitted_at || 'نامشخص'}</div>
+                                </div>
+                            `;
+                });
+                html += '</div>';
+                entriesContainer.innerHTML = html;
+
+            } catch (error) {
+                console.error('❌ خطا:', error);
+                entriesContainer.innerHTML = `
+                            <div class="empty-state">
+                                <span class="icon">⚠️</span>
+                                <h3>خطا در بارگذاری اطلاعات</h3>
+                                <p style="color:#888;font-size:14px;">لطفاً دوباره تلاش کنید</p>
+                            </div>
+                        `;
+            }
+        }
+
+        // ============================================================
+        // ===== مدیریت مودال ورود ادمین =====
+        // ============================================================
+
+        function openModal() {
+            adminModal.classList.add('active');
+            loginError.style.display = 'none';
+            adminEmail.value = '';
+            adminPassword.value = '';
+            adminEmail.focus();
+        }
+
+        function closeModal() {
+            adminModal.classList.remove('active');
+        }
+
+        adminLoginBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        adminModal.addEventListener('click', function(e) {
+            if (e.target === adminModal) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (adminModal.classList.contains('active')) closeModal();
+            }
+        });
+
+        // ============================================================
+        // ===== لاگین ادمین =====
+        // ============================================================
+
+        adminLoginSubmit.addEventListener('click', function() {
+            const email = adminEmail.value.trim();
+            const password = adminPassword.value.trim();
+
+            const hashedEmail = hashWithSalt(email);
+            const hashedPassword = hashWithSalt(password);
+
+            if (hashedEmail === HASHED_USERNAME && hashedPassword === HASHED_PASSWORD) {
+                closeModal();
+                adminPanel.classList.add('active');
+                renderAdminPanel();
+                appContainer.style.display = 'none';
+            } else {
+                loginError.style.display = 'block';
+                setTimeout(() => {
+                    loginError.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        adminEmail.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') adminLoginSubmit.click();
+        });
+        adminPassword.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') adminLoginSubmit.click();
+        });
+
+        // ============================================================
+        // ===== دکمه‌های پنل ادمین =====
+        // ============================================================
+
+        exitAdminBtn.addEventListener('click', function() {
+            adminPanel.classList.remove('active');
+            appContainer.style.display = 'block';
+            updatePageStatus();
+        });
+
+        refreshAdminBtn.addEventListener('click', renderAdminPanel);
+
+        clearAllBtn.addEventListener('click', async function() {
+            if (confirm('⚠️ آیا مطمئن هستید که می‌خواهید همه ثبت‌ها را حذف کنید؟')) {
+                const result = await clearSupabase();
+                if (result) {
+                    renderAdminPanel();
+                    updatePageStatus();
+                    alert('✅ همه ثبت‌ها با موفقیت حذف شدند!');
+                } else {
+                    alert('❌ خطا در حذف اطلاعات!');
+                }
+            }
+        });
+
+        // ============================================================
+        // ===== ورود به مسابقه =====
+        // ============================================================
+
+        enterBtn.addEventListener('click', async function() {
+            const count = await getEntriesCount();
+
+            if (count >= MAX_CAPACITY) {
+                alert('🚫 متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است!');
+                updatePageStatus();
+                return;
+            }
+
+            if (isContestExpired()) {
+                alert('⏰ متاسفانه زمان ثبت‌نام به پایان رسیده است!');
+                updatePageStatus();
+                return;
+            }
+
+            enterWrapper.style.display = 'none';
+            formSection.style.display = 'block';
+            updatePageStatus();
+            formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // ============================================================
+        // ===== بررسی حجم فایل =====
+        // ============================================================
+
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const sizeMB = getFileSizeMB(file.size);
+                if (file.size > MAX_FILE_SIZE) {
+                    fileError.style.display = 'block';
+                    this.value = '';
+                    submitBtn.disabled = true;
+                } else {
+                    fileError.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+
+        // ============================================================
+        // ===== ارسال فرم =====
+        // ============================================================
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const count = await getEntriesCount();
+            if (count >= MAX_CAPACITY) {
+                alert('🚫 متاسفانه ظرفیت ۱۰۰ نفر تکمیل شده است!');
+                updatePageStatus();
+                return;
+            }
+
+            if (isContestExpired()) {
+                alert('⏰ متاسفانه زمان ثبت‌نام به پایان رسیده است!');
+                updatePageStatus();
+                return;
+            }
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const rubikaId = document.getElementById('rubikaId').value.trim();
+            const fileInput = document.getElementById('editImage');
+            const description = document.getElementById('editDescription').value.trim();
+
+            if (fileInput.files.length > 0 && fileInput.files[0].size > MAX_FILE_SIZE) {
+                alert('❌ حجم فایل بیشتر از ۵ مگابایت است!');
+                return;
+            }
+
+            if (!fullName || !rubikaId || !description || fileInput.files.length === 0) {
+                alert('لطفاً تمام فیلدها را پر کنید و عکس را انتخاب کنید.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ در حال ارسال...';
+
+            const tracking = generateTracking();
+            trackingCodeEl.textContent = tracking;
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                const entryData = {
+                    fullName: fullName,
+                    rubikaId: rubikaId,
+                    description: description,
+                    trackingCode: tracking,
+                    fileName: fileInput.files[0] ? fileInput.files[0].name : 'no-file',
+                    imageData: event.target.result,
+                    submittedAt: new Date().toLocaleString('fa-IR')
+                };
+
+                const saved = await saveToSupabase(entryData);
+
+                if (saved) {
+                    formSection.style.display = 'none';
+                    trackingSection.style.display = 'block';
+                    trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    form.reset();
+                    fileError.style.display = 'none';
+                    updatePageStatus();
+                } else {
+                    alert('❌ خطا در ثبت اطلاعات! لطفاً دوباره تلاش کنید.');
+                }
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✦ ارسال ادیت ✦';
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        });
+
+        // ============================================================
+        // ===== بررسی خودکار وضعیت =====
+        // ============================================================
+
+        setInterval(function() {
+            if (formSection.style.display === 'block') {
+                updatePageStatus();
+            }
+        }, 10000);
+
+        // ============================================================
+        // ===== اجرای اولیه =====
+        // ============================================================
+
+        updatePageStatus();
+
+        console.log('🔐 ورود ادمین: ShKiLLeR / shayan54608189');
+        console.log('📋 تنظیمات Supabase:');
+        console.log('   URL:', SUPABASE_CONFIG.URL);
+        console.log('   ANON_KEY:', SUPABASE_CONFIG.ANON_KEY);
+        console.log(`👥 ظرفیت: ${MAX_CAPACITY} نفر`);
+        console.log(`⏰ زمان پایان: ${END_DATE_PERSIAN}`);
+        console.log('✅ همه چیز آماده است! 🚀');
+    </script>
+
+</body>
+</html>
