@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <!-- شتاب‌دهنده‌های اینترنت -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://htlrmoghpvqvfdxeqhep.supabase.co">
     <link rel="preconnect" href="https://htlrmoghpvqvfdxeqhep.supabase.co" crossorigin>
@@ -305,11 +304,12 @@
                     const fileNames = [];
                     entries.forEach(e => { if (e.image_data) { const parts = e.image_data.split('/'); fileNames.push(parts[parts.length - 1]); } });
                     
+                    // پاک کردن عکس‌ها از پوشه انگلیسی
                     if (fileNames.length > 0) {
                         const chunkSize = 100;
                         for (let i = 0; i < fileNames.length; i += chunkSize) {
                             const chunk = fileNames.slice(i, i + chunkSize);
-                            await db.storage.from('تصاویر مسابقه').remove(chunk);
+                            await db.storage.from('contest-images').remove(chunk);
                             await new Promise(resolve => setTimeout(resolve, 500)); 
                         }
                     }
@@ -334,25 +334,36 @@
 
             submitBtn.disabled = true; submitBtn.textContent = '⏳ در حال فشرده‌سازی عکس...';
             const tracking = generateTracking(); trackingCodeEl.textContent = tracking;
-            const file = fileInput.files[0]; const fileExt = file.name.split('.').pop(); const fileName = `${tracking}_${Date.now()}.${fileExt}`;
+            const file = fileInput.files[0]; 
+            const fileName = `${tracking}_${Date.now()}.jpg`;
 
             try {
                 const compressedFile = await compressImage(file);
                 submitBtn.textContent = '⏳ در حال آپلود عکس...';
-                const { error: uploadError } = await db.storage.from('تصاویر مسابقه').upload(fileName, compressedFile);
+                
+                // ارسال به پوشه انگلیسی
+                const { error: uploadError } = await db.storage.from('contest-images').upload(fileName, compressedFile);
                 if (uploadError) throw uploadError;
                 
-                const { data: urlData } = db.storage.from('تصاویر مسابقه').getPublicUrl(fileName);
+                const { data: urlData } = db.storage.from('contest-images').getPublicUrl(fileName);
                 submitBtn.textContent = '⏳ در حال ثبت اطلاعات...';
                 
                 const saved = await saveEntry({ fullName: name, rubikaId: rubika, description: desc, trackingCode: tracking, fileName: file.name, imageData: urlData.publicUrl, submittedAt: new Date().toLocaleString('fa-IR') });
                 if (saved) { formSection.classList.add('hidden'); trackingSection.classList.remove('hidden'); trackingSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); form.reset(); fileError.style.display = 'none'; }
                 else { alert('❌ خطا در ثبت اطلاعات!'); }
-            } catch (error) { console.error('Error:', error); alert('❌ خطا در آپلود عکس! آیا پوشه تصاویر مسابقه درست ساخته شده است؟'); }
+            } catch (error) { 
+                console.error('Error:', error); 
+                let errorMsg = 'خطا در ارسال! ';
+                if(error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) errorMsg += 'فیلترشکن خاموش است یا اینترنت قطع شده.';
+                else if(error.message.includes('Bucket not found') || error.message.includes('not found')) errorMsg += 'پوشه contest-images در سوپابیس وجود ندارد.';
+                else if(error.message.includes('row-level security') || error.message.includes('policy')) errorMsg += 'دسترسی آپلود بسته است. تنظیمات Policy را چک کنید.';
+                else errorMsg += error.message;
+                alert('❌ ' + errorMsg); 
+            }
             finally { submitBtn.disabled = false; submitBtn.textContent = '✦ ارسال ادیت ✦'; }
         });
 
         document.addEventListener('DOMContentLoaded', connectToSupabase);
     </script>
 </body>
-        </html>
+</html>
